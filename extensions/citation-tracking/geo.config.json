@@ -1,0 +1,170 @@
+{
+  "subject": "hsbc",
+  "market": "Singapore",
+  "title": "HSBC Singapore — AI visibility tracker",
+  "brands": [
+    {
+      "id": "hsbc",
+      "name": "HSBC Singapore",
+      "tier": "international",
+      "colour": "#E8112D",
+      "pattern": "\\bHSBC\\b"
+    },
+    {
+      "id": "dbs",
+      "name": "DBS",
+      "tier": "local",
+      "colour": "#D1443C",
+      "pattern": "\\bDBS\\b|\\bPOSB\\b"
+    },
+    {
+      "id": "ocbc",
+      "name": "OCBC",
+      "tier": "local",
+      "colour": "#C9722F",
+      "pattern": "\\bOCBC\\b|Oversea-Chinese Banking"
+    },
+    {
+      "id": "uob",
+      "name": "UOB",
+      "tier": "local",
+      "colour": "#3F7FC1",
+      "pattern": "\\bUOB\\b|United Overseas Bank"
+    },
+    {
+      "id": "scb",
+      "name": "Standard Chartered",
+      "tier": "international",
+      "colour": "#2E9E8F",
+      "pattern": "Standard\\s*Chartered|\\bStanChart\\b"
+    },
+    {
+      "id": "citi",
+      "name": "Citibank Singapore",
+      "tier": "international",
+      "colour": "#4B6FC4",
+      "pattern": "\\bCiti(?:bank|group)?\\b"
+    },
+    {
+      "id": "maybank",
+      "name": "Maybank Singapore",
+      "tier": "international",
+      "colour": "#B0912F",
+      "pattern": "\\bMaybank\\b"
+    },
+    {
+      "id": "boc",
+      "name": "Bank of China Singapore",
+      "tier": "international",
+      "colour": "#8A5FA8",
+      "pattern": "Bank of China|\\bBOC\\b"
+    },
+    {
+      "id": "cimb",
+      "name": "CIMB Singapore",
+      "tier": "international",
+      "colour": "#5F8A6A",
+      "pattern": "\\bCIMB\\b"
+    }
+  ],
+  "prompts": [
+    {
+      "id": "p01",
+      "intent": "Acquisition · expat",
+      "q": "best bank in Singapore for expats"
+    },
+    {
+      "id": "p02",
+      "intent": "Product · FX",
+      "q": "which bank has the best multi-currency account in Singapore"
+    },
+    {
+      "id": "p03",
+      "intent": "Comparison · premier",
+      "q": "HSBC Premier vs DBS Treasures, which is better"
+    },
+    {
+      "id": "p04",
+      "intent": "Product · priority",
+      "q": "best priority banking in Singapore and the minimum balance required"
+    },
+    {
+      "id": "p05",
+      "intent": "Onboarding · non-resident",
+      "q": "how do I open a Singapore bank account as a foreigner"
+    },
+    {
+      "id": "p06",
+      "intent": "Product · cross-border lending",
+      "q": "best bank for an overseas property loan from Singapore"
+    },
+    {
+      "id": "p07",
+      "intent": "Product · remittance",
+      "q": "cheapest way to send money overseas from a Singapore bank"
+    },
+    {
+      "id": "p08",
+      "intent": "Product · cards",
+      "q": "best credit card for travel in Singapore"
+    },
+    {
+      "id": "p09",
+      "intent": "Product · wealth",
+      "q": "which Singapore bank is best for wealth management"
+    },
+    {
+      "id": "p10",
+      "intent": "Acquisition · outbound",
+      "q": "best global account for someone relocating from Singapore to the UK"
+    }
+  ],
+  "instruction": "Answer as you normally would for someone based in Singapore. Name specific banks and, where relevant, specific named products. Keep it under 200 words.",
+  "engines": [
+    {
+      "id": "gemini",
+      "name": "Gemini",
+      "colour": "#4285F4",
+      "secret": "GEMINI_API_KEY",
+      "model": "gemini-2.5-flash",
+      "grounded": true,
+      "cost": "free tier",
+      "minDelayMs": 7000,
+      "notes": "Free. google_search grounding. Rate limit ~10 req/min."
+    },
+    {
+      "id": "claude",
+      "name": "Claude",
+      "colour": "#C0693F",
+      "secret": "ANTHROPIC_API_KEY",
+      "model": "claude-haiku-4-5-20251001",
+      "grounded": true,
+      "cost": "paid: tokens + per-search",
+      "minDelayMs": 2000,
+      "maxSearches": 3,
+      "notes": "web_search_20250305 server tool. Cap searches with maxSearches."
+    },
+    {
+      "id": "chatgpt",
+      "name": "ChatGPT",
+      "colour": "#12A37F",
+      "secret": "OPENAI_API_KEY",
+      "model": "gpt-5.6",
+      "grounded": true,
+      "cost": "paid: tokens + per-search",
+      "minDelayMs": 2000,
+      "notes": "Responses API /v1/responses with the web_search tool. Chat Completions rejects this tool."
+    },
+    {
+      "id": "perplexity",
+      "name": "Perplexity",
+      "colour": "#22909E",
+      "secret": "PERPLEXITY_API_KEY",
+      "model": "sonar",
+      "grounded": true,
+      "cost": "paid, cheapest of the three",
+      "minDelayMs": 1500,
+      "notes": "Sonar always searches; grounded flag is informational."
+    }
+  ]
+}
