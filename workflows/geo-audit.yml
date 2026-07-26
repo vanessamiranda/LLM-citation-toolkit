@@ -1,0 +1,55 @@
+# Place at repo root: .github/workflows/geo-audit.yml
+# GitHub requires workflows live here, not inside the extension folder.
+# Everything it touches, however, stays inside extensions/citation-tracking.
+
+name: Citation tracking audit
+
+on:
+  schedule:
+    # Mondays 01:00 UTC = 09:00 Singapore. Keep the day and hour fixed:
+    # snapshots taken on different weekdays add noise you cannot separate
+    # from real movement.
+    - cron: "0 1 * * 1"
+  workflow_dispatch: {}
+
+# Scoped to the extension so this never fights the existing Python/Astro CI.
+permissions:
+  contents: write
+
+concurrency:
+  group: citation-tracking-audit
+  cancel-in-progress: false
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Run audit
+        working-directory: extensions/citation-tracking
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          PERPLEXITY_API_KEY: ${{ secrets.PERPLEXITY_API_KEY }}
+        run: node scripts/audit.mjs
+
+      - name: Commit snapshot
+        run: |
+          git config user.name  "citation-tracking-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          # Stage only the extension's data directory. Nothing else in the
+          # fork is ever touched, so upstream syncs stay clean.
+          git add extensions/citation-tracking/data/
+          if git diff --staged --quiet; then
+            echo "No change in results, nothing to commit."
+          else
+            git commit -m "chore(citation-tracking): snapshot $(date -u +%Y-%m-%d)"
+            git push
+          fi
