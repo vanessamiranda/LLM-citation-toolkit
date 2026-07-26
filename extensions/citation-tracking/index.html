@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>HSBC Singapore — AI visibility tracker</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Generative Engine Optimisation tracker: brand citation share inside AI-generated answers.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#0C1119; --panel:#141C28; --panel2:#1A2431; --rule:#26313F;
+    --text:#E7ECF3; --muted:#8494A8; --dim:#5B6B7E; --subject:#E8112D;
+    --good:#3FBF7F; --warn:#E0A32E; --bad:#E05A4B;
+    --mono:'IBM Plex Mono',ui-monospace,monospace;
+    --sans:'IBM Plex Sans',system-ui,sans-serif;
+    --disp:'Space Grotesk',system-ui,sans-serif;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--ink);color:var(--text);font-family:var(--sans);font-size:14px;line-height:1.5;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:1180px;margin:0 auto;padding:0 20px 64px}
+  a{color:inherit}
+
+  header.mast{border-bottom:1px solid var(--rule);padding:26px 0 18px;display:flex;flex-wrap:wrap;gap:18px;align-items:flex-end;justify-content:space-between}
+  .mast h1{font-family:var(--disp);font-weight:700;font-size:26px;letter-spacing:-.02em;margin:0}
+  .eyebrow{font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--dim);margin-bottom:6px}
+  .mast .sub{color:var(--muted);font-size:13px;margin-top:4px;max-width:62ch}
+  .asof{font-family:var(--mono);font-size:11px;color:var(--dim);text-align:right;line-height:1.8}
+
+  nav.tabs{display:flex;gap:2px;border-bottom:1px solid var(--rule);overflow-x:auto}
+  nav.tabs button{background:none;border:0;border-bottom:2px solid transparent;color:var(--muted);font-family:var(--sans);font-weight:500;font-size:13px;padding:13px 15px;cursor:pointer;white-space:nowrap}
+  nav.tabs button:hover{color:var(--text)}
+  nav.tabs button[aria-selected="true"]{color:var(--text);border-bottom-color:var(--subject)}
+  nav.tabs button:focus-visible{outline:2px solid #4285F4;outline-offset:-2px}
+
+  section.view{display:none;padding-top:26px}
+  section.view.on{display:block}
+  h2.sec{font-family:var(--disp);font-size:16px;font-weight:600;margin:0 0 3px}
+  p.note{color:var(--muted);font-size:12.5px;margin:0 0 16px;max-width:74ch}
+
+  .panel{background:var(--panel);border:1px solid var(--rule);border-radius:3px;padding:18px}
+  .grid{display:grid;gap:14px}
+  .g4{grid-template-columns:repeat(4,1fr)}
+  .g2{grid-template-columns:1.35fr 1fr}
+  @media(max-width:900px){.g4{grid-template-columns:repeat(2,1fr)}.g2{grid-template-columns:1fr}}
+  @media(max-width:520px){.g4{grid-template-columns:1fr}}
+
+  .kpi .lab{font-family:var(--mono);font-size:10px;letter-spacing:.13em;text-transform:uppercase;color:var(--dim)}
+  .kpi .val{font-family:var(--disp);font-size:34px;font-weight:700;letter-spacing:-.03em;margin-top:8px;line-height:1}
+  .kpi .val small{font-size:15px;font-weight:400;color:var(--muted);letter-spacing:0}
+  .kpi .delta{font-family:var(--mono);font-size:11.5px;margin-top:7px}
+  .up{color:var(--good)}.down{color:var(--bad)}.flat{color:var(--muted)}
+
+  .ribbon-row{display:grid;grid-template-columns:104px 1fr;gap:12px;align-items:center;margin-bottom:9px}
+  .ribbon-lab{font-family:var(--mono);font-size:11px;color:var(--muted);display:flex;align-items:center;gap:7px}
+  .dot{width:7px;height:7px;border-radius:50%;flex:0 0 auto;display:inline-block}
+  .ribbon{position:relative;height:26px;display:flex;border-radius:2px;overflow:hidden;background:var(--panel2)}
+  .seg{height:100%;transition:opacity .15s}
+  .seg.subject{box-shadow:inset 0 0 0 1px rgba(255,255,255,.35)}
+  .seg:hover{opacity:.72}
+  .anchor{position:absolute;top:-5px;bottom:-5px;width:1px;background:var(--subject);opacity:.9;pointer-events:none}
+  .anchor::after{content:'';position:absolute;top:-3px;left:-2.5px;width:6px;height:6px;background:var(--subject);border-radius:50%}
+  .legend{display:flex;flex-wrap:wrap;gap:12px;margin-top:14px;padding-top:13px;border-top:1px solid var(--rule)}
+  .legend span{font-family:var(--mono);font-size:10.5px;color:var(--muted);display:flex;align-items:center;gap:6px}
+  .swatch{width:9px;height:9px;border-radius:1px;display:inline-block}
+
+  table{width:100%;border-collapse:collapse;font-size:13px}
+  th{font-family:var(--mono);font-size:10px;letter-spacing:.11em;text-transform:uppercase;color:var(--dim);text-align:left;font-weight:500;padding:0 10px 9px;border-bottom:1px solid var(--rule)}
+  th.num,td.num{text-align:right;font-family:var(--mono)}
+  td{padding:10px;border-bottom:1px solid rgba(38,49,63,.55);vertical-align:top}
+  tr.subject td{background:rgba(232,17,45,.07)}
+  tr.subject td:first-child{box-shadow:inset 2px 0 0 var(--subject)}
+  .bankname{font-weight:500}
+  .tier{font-family:var(--mono);font-size:9.5px;letter-spacing:.09em;text-transform:uppercase;color:var(--dim);margin-left:7px}
+  .bar{height:5px;border-radius:3px;display:inline-block;vertical-align:middle}
+
+  .scroll{overflow-x:auto}
+  td.cell{padding:5px;text-align:center}
+  .chip{display:inline-block;min-width:26px;padding:3px 7px;border-radius:2px;font-family:var(--mono);font-size:11px;background:var(--panel2);color:var(--muted)}
+  .chip.r1{background:rgba(232,17,45,.9);color:#fff;font-weight:500}
+  .chip.r2{background:rgba(232,17,45,.55);color:#fff}
+  .chip.r3{background:rgba(232,17,45,.3);color:var(--text)}
+  .chip.rn{background:rgba(232,17,45,.15);color:var(--muted)}
+  .chip.miss{color:#3A4757}
+  .chip.na{color:#2F3A48;background:transparent;border:1px dashed var(--rule)}
+  .qtext{font-size:12.5px;max-width:330px}
+
+  button.act{font-family:var(--sans);font-size:12.5px;font-weight:500;padding:8px 14px;border-radius:2px;border:1px solid var(--rule);background:var(--panel2);color:var(--text);cursor:pointer}
+  button.act:hover{border-color:var(--dim)}
+  button.act.primary{background:var(--subject);border-color:var(--subject);color:#fff}
+  button.act:focus-visible{outline:2px solid #4285F4;outline-offset:2px}
+  select{font-family:var(--sans);font-size:12.5px;padding:8px 10px;background:var(--panel2);color:var(--text);border:1px solid var(--rule);border-radius:2px}
+  .toolbar{display:flex;flex-wrap:wrap;gap:9px;align-items:center;margin-bottom:16px}
+
+  .status{font-family:var(--mono);font-size:11.5px;color:var(--muted)}
+  .es-row{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:18px}
+  .es{font-family:var(--mono);font-size:10.5px;padding:6px 10px;border:1px solid var(--rule);border-radius:2px;display:flex;align-items:center;gap:7px;color:var(--muted)}
+  .es b{color:var(--text);font-weight:500}
+  .es .live{color:var(--good)}
+  .es .off{color:var(--dim)}
+  .es .fail{color:var(--bad)}
+
+  .answer{margin-top:9px;background:var(--panel2);border-left:2px solid var(--rule);padding:11px 13px;font-size:12.5px;color:var(--muted);max-height:200px;overflow:auto;white-space:pre-wrap}
+  .srcs{margin-top:7px;font-family:var(--mono);font-size:10.5px;color:var(--dim);word-break:break-all}
+  .srcs a{color:var(--muted)}
+
+  code{font-family:var(--mono);font-size:11.5px;background:var(--panel2);padding:1px 5px;border-radius:2px}
+  pre{background:var(--panel2);border:1px solid var(--rule);border-radius:3px;padding:13px;overflow-x:auto;font-family:var(--mono);font-size:11.5px;color:var(--text)}
+
+  /* empty / error state */
+  .setup{max-width:74ch}
+  .setup h2{font-family:var(--disp);font-size:19px;margin:0 0 8px}
+  .setup ol{padding-left:20px;color:var(--muted);font-size:13px}
+  .setup li{margin-bottom:11px}
+  .setup strong{color:var(--text);font-weight:500}
+
+  /* report */
+  .report{background:#fff;color:#14181F;padding:38px;border-radius:3px}
+  .report h3{font-family:var(--disp);font-size:21px;margin:0 0 4px;color:#0C1119}
+  .report .rmeta{font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:#6C7889;border-bottom:1px solid #DDE2E9;padding-bottom:12px;margin-bottom:20px}
+  .report h4{font-family:var(--disp);font-size:13px;margin:24px 0 8px;color:#0C1119}
+  .report table{font-size:12px}
+  .report th{color:#6C7889;border-bottom:1px solid #C9D0DA}
+  .report td{border-bottom:1px solid #EBEEF2;color:#232A35}
+  .report tr.subject td{background:#FDECEE}
+  .report ul{margin:8px 0 0;padding-left:19px;color:#232A35}
+  .report li{margin-bottom:5px}
+  .report .foot{margin-top:26px;padding-top:12px;border-top:1px solid #DDE2E9;font-size:10.5px;color:#6C7889;font-family:var(--mono);line-height:1.75}
+
+  @media print{
+    body{background:#fff}
+    .wrap{max-width:none;padding:0}
+    header.mast,nav.tabs,.toolbar,.noprint{display:none!important}
+    section.view{display:none!important}
+    section.view.on{display:block!important;padding:0}
+    .report{padding:0}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="mast">
+    <div>
+      <div class="eyebrow">Generative Engine Optimisation · Singapore retail &amp; premier banking</div>
+      <h1>HSBC Singapore — AI visibility tracker</h1>
+      <div class="sub">Does the answer name us? Every figure on this page comes from a live API call recorded by a scheduled GitHub Action. Nothing is modelled.</div>
+    </div>
+    <div class="asof"><div id="asof">Loading…</div><div id="scope"></div></div>
+  </header>
+
+  <div id="app"></div>
+</div>
+
+<script type="module">
+import { computeScores, WEIGHTS } from './scripts/score.mjs';
+
+const $ = s => document.querySelector(s);
+const fmt1 = n => n.toFixed(1);
+const pct = n => (n * 100).toFixed(0) + '%';
+const esc = s => String(s).replace(/[<>&]/g, c => ({ '<': '&lt;', '>': '&gt;', '&': '&amp;' }[c]));
+
+let cfg, data, history = [], BRAND, ENG, S;
+
+/* ------------------------------------------------------------------- loading */
+async function boot() {
+  try {
+    cfg = await (await fetch('config/geo.config.json', { cache: 'no-store' })).json();
+  } catch (err) {
+    return renderSetup('config-missing', err);
+  }
+  try {
+    data = await (await fetch('data/latest.json', { cache: 'no-store' })).json();
+  } catch (err) {
+    return renderSetup('no-data', err);
+  }
+  try {
+    history = await (await fetch('data/history.json', { cache: 'no-store' })).json();
+  } catch { history = []; }
+
+  BRAND = Object.fromEntries(cfg.brands.map(b => [b.id, b]));
+  ENG = Object.fromEntries(data.engines.map(e => [e.id, e]));
+  S = computeScores(data.records, cfg.brands, data.promptCount, data.activeEngineIds);
+
+  $('#asof').textContent = 'Snapshot ' + data.generatedAt.slice(0, 10);
+  $('#scope').textContent =
+    `${data.promptCount} prompts · ${data.activeEngineIds.length} live engine${data.activeEngineIds.length > 1 ? 's' : ''} · ${cfg.brands.length} brands`;
+
+  renderApp();
+}
+
+function renderSetup(kind, err) {
+  const isFile = location.protocol === 'file:';
+  $('#asof').textContent = 'No snapshot yet';
+  $('#app').innerHTML = `<section class="view on"><div class="panel setup">
+    <h2>${kind === 'config-missing' ? 'Configuration not found' : 'No audit data yet'}</h2>
+    <p class="note">${isFile
+      ? 'You have opened this file directly from disk. Browsers block <code>fetch</code> on <code>file://</code> URLs, so the dashboard cannot read its own data files. Serve it over HTTP instead.'
+      : `The page loaded but <code>data/latest.json</code> is not there yet. That is the expected state before the first audit runs. <span class="status">${esc(err?.message ?? '')}</span>`}</p>
+    <ol>
+      <li><strong>Get a free Gemini API key</strong> from Google AI Studio. The free tier covers this workload comfortably: ten prompts a week against a limit measured in hundreds of requests a day.</li>
+      <li><strong>Add it as a repository secret</strong> named <code>GEMINI_API_KEY</code> under Settings, Secrets and variables, Actions. Never put a key in a file in the repo.</li>
+      <li><strong>Run the workflow.</strong> Actions tab, GEO audit, Run workflow. It queries the engines, commits <code>data/latest.json</code>, and this page picks it up on reload.</li>
+      <li><strong>Enable Pages.</strong> Settings, Pages, deploy from <code>main</code> branch, root. Then use the Pages URL, not the local file.</li>
+      <li><strong>Locally</strong>, run a server rather than opening the file:
+        <pre>python3 -m http.server 8080
+# then open http://localhost:8080</pre></li>
+    </ol>
+    <p class="note" style="margin-top:16px">Adding <code>ANTHROPIC_API_KEY</code>, <code>OPENAI_API_KEY</code> or <code>PERPLEXITY_API_KEY</code> switches those engines on too. Each is optional, and any engine without a key is reported as off rather than filled in with an estimate.</p>
+  </div></section>`;
+}
+
+/* --------------------------------------------------------------------- shell */
+function renderApp() {
+  $('#app').innerHTML = `
+  <nav class="tabs" role="tablist">
+    <button role="tab" aria-selected="true" data-v="dash">Live GEO dashboard</button>
+    <button role="tab" aria-selected="false" data-v="cite">AI citation tracking</button>
+    <button role="tab" aria-selected="false" data-v="bench">Competitor benchmarking</button>
+    <button role="tab" aria-selected="false" data-v="report">Executive reporting</button>
+  </nav>
+
+  <section class="view on" id="v-dash">
+    <div class="es-row" id="engineState"></div>
+    <div class="grid g4" id="kpis"></div>
+    <div class="grid g2" style="margin-top:14px">
+      <div class="panel">
+        <h2 class="sec">Share of citations by engine</h2>
+        <p class="note">Each bar is one engine's citations split by brand. The red line marks where HSBC's segment ends, so positional consistency across engines reads at a glance.</p>
+        <div id="ribbons"></div><div class="legend" id="ribbonLegend"></div>
+      </div>
+      <div class="panel">
+        <h2 class="sec">GEO score history</h2>
+        <p class="note" id="trendNote"></p>
+        <div class="toolbar" style="margin-bottom:10px"><select id="trendPick"></select></div>
+        <div id="trend"></div>
+      </div>
+    </div>
+    <div class="panel" style="margin-top:14px">
+      <h2 class="sec">Score components</h2>
+      <p class="note">Weights: ${pct(WEIGHTS.frequency)} frequency, ${pct(WEIGHTS.prominence)} prominence, ${pct(WEIGHTS.shareOfVoice)} share of voice, ${pct(WEIGHTS.topTwo)} top-two rate. Defined in <code>scripts/score.mjs</code>.</p>
+      <div id="compTable"></div>
+    </div>
+  </section>
+
+  <section class="view" id="v-cite">
+    <h2 class="sec">Prompt-level citation matrix</h2>
+    <p class="note">Cell value is HSBC's position in that engine's answer. A dash means HSBC was not named at all, and those are the recoverable gaps. A dotted cell means that engine is not connected.</p>
+    <div class="toolbar"><select id="engFilter"></select></div>
+    <div class="panel scroll"><div id="matrix"></div></div>
+    <div class="panel" style="margin-top:14px">
+      <h2 class="sec">Answer detail</h2>
+      <p class="note">The recorded answer text and, for grounded engines, the source URLs the engine drew on. This is the evidence layer: every citation on this page can be checked by hand.</p>
+      <div class="toolbar"><select id="promptPick"></select></div>
+      <div id="promptDetail"></div>
+    </div>
+  </section>
+
+  <section class="view" id="v-bench">
+    <h2 class="sec">Competitor benchmarking</h2>
+    <p class="note">Ranked by GEO score across all live engines.</p>
+    <div class="toolbar"><select id="tierFilter">
+      <option value="all">All brands</option>
+      <option value="local">Local banks only</option>
+      <option value="international">International banks only</option>
+    </select></div>
+    <div class="panel"><div id="benchTable"></div></div>
+    <div class="panel" style="margin-top:14px">
+      <h2 class="sec">Head-to-head gap</h2>
+      <p class="note">Prompts where a competitor is cited and HSBC is not, or is cited lower. Shortest route to score movement.</p>
+      <div class="toolbar"><select id="gapPick"></select></div>
+      <div id="gapTable"></div>
+    </div>
+  </section>
+
+  <section class="view" id="v-report">
+    <div class="toolbar noprint">
+      <button class="act primary" id="printBtn">Save as PDF</button>
+      <span class="status">Opens the print dialog. Choose Save as PDF as the destination.</span>
+    </div>
+    <div class="report" id="reportBody"></div>
+  </section>`;
+
+  const others = cfg.brands.filter(b => b.id !== cfg.subject);
+  $('#trendPick').innerHTML = others.map(b => `<option value="${b.id}">Compare with ${b.name}</option>`).join('')
+    + `<option value="${cfg.subject}">HSBC only</option>`;
+  $('#gapPick').innerHTML = others.map(b => `<option value="${b.id}">${b.name}</option>`).join('');
+  $('#engFilter').innerHTML = `<option value="all">All engines</option>`
+    + cfg.engines.map(e => `<option value="${e.id}">${e.name} only</option>`).join('');
+  $('#promptPick').innerHTML = cfg.prompts.map(p => `<option value="${p.id}">${esc(p.q)}</option>`).join('');
+
+  ['trendPick', 'engFilter', 'promptPick', 'tierFilter', 'gapPick'].forEach(id =>
+    $('#' + id).addEventListener('change', paint));
+  document.querySelectorAll('nav.tabs button').forEach(b => b.addEventListener('click', () => {
+    document.querySelectorAll('nav.tabs button').forEach(x => x.setAttribute('aria-selected', 'false'));
+    b.setAttribute('aria-selected', 'true');
+    document.querySelectorAll('section.view').forEach(s => s.classList.remove('on'));
+    $('#v-' + b.dataset.v).classList.add('on');
+  }));
+  $('#printBtn').addEventListener('click', () => window.print());
+
+  paint();
+}
+
+/* ------------------------------------------------------------------ helpers */
+const rec = (pid, eid) => data.records.find(r => r.promptId === pid && r.engineId === eid);
+function rankOf(pid, eid, brandId = cfg.subject) {
+  const r = rec(pid, eid);
+  if (!r) return undefined;                     // engine not connected / prompt failed
+  const i = r.cited.indexOf(brandId);
+  return i < 0 ? null : i + 1;                  // null = answered but not cited
+}
+const liveEngines = () => cfg.engines.filter(e => data.activeEngineIds.includes(e.id));
+
+/* -------------------------------------------------------------------- paint */
+function paint() {
+  paintEngines(); paintKpis(); paintRibbons(); paintTrend(); paintComp();
+  paintMatrix(); paintDetail(); paintBench(); paintGap(); paintReport();
+}
+
+function paintEngines() {
+  $('#engineState').innerHTML = cfg.engines.map(e => {
+    const st = ENG[e.id];
+    const on = data.activeEngineIds.includes(e.id);
+    const cls = on ? 'live' : (st?.failed ? 'fail' : 'off');
+    const label = on
+      ? `live · ${st.prompts}/${data.promptCount} prompts${st.failed ? `, ${st.failed} failed` : ''}`
+      : `off · ${st?.reason ?? 'not connected'}`;
+    return `<div class="es"><span class="dot" style="background:${e.colour}"></span>
+      <b>${e.name}</b><span class="${cls}">${esc(label)}</span></div>`;
+  }).join('');
+}
+
+function paintKpis() {
+  const h = S.find(x => x.id === cfg.subject);
+  const leader = S[0];
+  const prev = history.length > 1 ? history[history.length - 2] : null;
+  const d = prev ? h.score - (prev.scores[cfg.subject] ?? h.score) : null;
+
+  const absent = cfg.prompts.filter(p => liveEngines().every(e => rankOf(p.id, e.id) === null)).length;
+  const partial = cfg.prompts.filter(p =>
+    liveEngines().some(e => rankOf(p.id, e.id) === null) &&
+    liveEngines().some(e => (rankOf(p.id, e.id) ?? 0) > 0)).length;
+
+  const cards = [
+    { lab: 'HSBC GEO score', val: fmt1(h.score), unit: '/100',
+      d: d === null ? 'First snapshot, no trend yet' : `${d >= 0 ? '▲' : '▼'} ${fmt1(Math.abs(d))} vs ${prev.date}`,
+      cls: d === null ? 'flat' : d >= 0 ? 'up' : 'down' },
+    { lab: 'Rank in set', val: '#' + h.rank, unit: 'of ' + S.length,
+      d: h.rank === 1 ? 'Leading the set' : `${fmt1(leader.score - h.score)} behind ${leader.name}`,
+      cls: h.rank === 1 ? 'up' : 'flat' },
+    { lab: 'Citation frequency', val: pct(h.frequency), unit: '',
+      d: `${h.hits} of ${data.promptCount * data.activeEngineIds.length} answer slots`, cls: 'flat' },
+    { lab: 'Coverage gaps', val: String(absent + partial), unit: 'prompts',
+      d: `${absent} absent everywhere · ${partial} partial`, cls: absent ? 'down' : 'flat' }
+  ];
+  $('#kpis').innerHTML = cards.map(c => `<div class="panel kpi">
+    <div class="lab">${c.lab}</div>
+    <div class="val">${c.val}<small> ${c.unit}</small></div>
+    <div class="delta ${c.cls}">${c.d}</div></div>`).join('');
+}
+
+function paintRibbons() {
+  $('#ribbons').innerHTML = liveEngines().map(e => {
+    const counts = {};
+    for (const p of cfg.prompts) (rec(p.id, e.id)?.cited ?? []).forEach(id => counts[id] = (counts[id] || 0) + 1);
+    const total = Object.values(counts).reduce((a, b) => a + b, 0);
+    if (!total) return `<div class="ribbon-row"><div class="ribbon-lab">
+      <span class="dot" style="background:${e.colour}"></span>${e.name}</div>
+      <div class="ribbon"></div></div>`;
+    const order = cfg.brands.filter(b => counts[b.id])
+      .sort((a, b) => a.id === cfg.subject ? -1 : b.id === cfg.subject ? 1 : counts[b.id] - counts[a.id]);
+    let cum = 0, anchor = 0;
+    const segs = order.map(b => {
+      const w = counts[b.id] / total * 100; cum += w;
+      if (b.id === cfg.subject) anchor = cum;
+      return `<div class="seg ${b.id === cfg.subject ? 'subject' : ''}" style="width:${w}%;background:${b.colour}"
+        title="${b.name}: ${counts[b.id]} citations, ${w.toFixed(1)}%"></div>`;
+    }).join('');
+    return `<div class="ribbon-row"><div class="ribbon-lab">
+      <span class="dot" style="background:${e.colour}"></span>${e.name}</div>
+      <div class="ribbon">${segs}<div class="anchor" style="left:${anchor}%"></div></div></div>`;
+  }).join('');
+  $('#ribbonLegend').innerHTML = cfg.brands.map(b =>
+    `<span><i class="swatch" style="background:${b.colour}"></i>${b.name}</span>`).join('');
+}
+
+function paintTrend() {
+  const other = $('#trendPick').value;
+  const note = $('#trendNote');
+  if (history.length < 2) {
+    note.textContent = 'Needs at least two snapshots. The scheduled audit runs every Monday, so the first trend line appears next week.';
+    $('#trend').innerHTML = `<p class="status">${history.length} snapshot recorded.</p>`;
+    return;
+  }
+  note.textContent = `${history.length} weekly snapshots, oldest ${history[0].date}.`;
+  const ids = other === cfg.subject ? [cfg.subject] : [cfg.subject, other];
+  const series = ids.map(id => ({ b: BRAND[id], pts: history.map(h => h.scores[id] ?? null) }));
+
+  const W = 440, H = 190, PADL = 30, PADB = 24;
+  const all = series.flatMap(s => s.pts).filter(v => v !== null);
+  const lo = Math.min(...all) - 4, hi = Math.max(...all) + 4;
+  const n = history.length;
+  const x = i => PADL + (n === 1 ? 0 : i * ((W - PADL - 8) / (n - 1)));
+  const y = v => H - PADB - ((v - lo) / (hi - lo || 1)) * (H - PADB - 10);
+
+  const grid = [0, .25, .5, .75, 1].map(f => {
+    const v = lo + f * (hi - lo);
+    return `<line x1="${PADL}" x2="${W - 8}" y1="${y(v)}" y2="${y(v)}" stroke="#26313F"/>
+      <text x="${PADL - 6}" y="${y(v) + 3.5}" fill="#5B6B7E" font-size="9" font-family="monospace" text-anchor="end">${v.toFixed(0)}</text>`;
+  }).join('');
+  const lines = series.map(s => {
+    const d = s.pts.map((v, i) => v === null ? '' : `${i ? 'L' : 'M'}${x(i)},${y(v)}`).join(' ').trim();
+    const dots = s.pts.map((v, i) => v === null ? '' :
+      `<circle cx="${x(i)}" cy="${y(v)}" r="${i === n - 1 ? 3.2 : 1.8}" fill="${s.b.colour}"/>`).join('');
+    return `<path d="${d}" fill="none" stroke="${s.b.colour}" stroke-width="1.8"/>${dots}`;
+  }).join('');
+  const ticks = [0, Math.floor((n - 1) / 2), n - 1].filter((v, i, a) => a.indexOf(v) === i)
+    .map(i => `<text x="${x(i)}" y="${H - 8}" fill="#5B6B7E" font-size="9" font-family="monospace"
+      text-anchor="${i === 0 ? 'start' : i === n - 1 ? 'end' : 'middle'}">${history[i].date.slice(5)}</text>`).join('');
+
+  $('#trend').innerHTML = `<svg viewBox="0 0 ${W} ${H}" width="100%" role="img"
+    aria-label="GEO score by snapshot date">${grid}${lines}${ticks}</svg>
+    <div class="legend" style="margin-top:6px">${series.map(s =>
+      `<span><i class="swatch" style="background:${s.b.colour}"></i>${s.b.name}</span>`).join('')}</div>`;
+}
+
+function paintComp() {
+  $('#compTable').innerHTML = `<table><thead><tr><th>Brand</th>
+    <th class="num">Frequency</th><th class="num">Prominence</th><th class="num">Share of voice</th>
+    <th class="num">Top-two rate</th><th class="num">GEO score</th></tr></thead><tbody>${
+    S.map(r => `<tr class="${r.id === cfg.subject ? 'subject' : ''}">
+      <td><span class="bankname">${r.name}</span></td>
+      <td class="num">${pct(r.frequency)}</td><td class="num">${r.prominence.toFixed(2)}</td>
+      <td class="num">${pct(r.shareOfVoice)}</td><td class="num">${pct(r.topTwo)}</td>
+      <td class="num" style="font-weight:600">${fmt1(r.score)}</td></tr>`).join('')
+  }</tbody></table>`;
+}
+
+function paintMatrix() {
+  const f = $('#engFilter').value;
+  const cols = cfg.engines.filter(e => f === 'all' || e.id === f);
+  $('#matrix').innerHTML = `<table><thead><tr><th>Prompt</th><th>Intent</th>
+    ${cols.map(e => `<th class="num" style="text-align:center">${e.name}</th>`).join('')}</tr></thead><tbody>${
+    cfg.prompts.map(p => `<tr>
+      <td class="qtext">${esc(p.q)}</td>
+      <td style="color:#5B6B7E;font-family:var(--mono);font-size:10.5px">${p.intent}</td>
+      ${cols.map(e => {
+        const r = rankOf(p.id, e.id);
+        if (r === undefined) return `<td class="cell"><span class="chip na" title="${e.name} not connected">n/a</span></td>`;
+        const cls = r === null ? 'miss' : r === 1 ? 'r1' : r === 2 ? 'r2' : r === 3 ? 'r3' : 'rn';
+        return `<td class="cell"><span class="chip ${cls}" title="${e.name}: ${r === null ? 'answered, HSBC not named' : 'position ' + r}">${r === null ? '—' : r}</span></td>`;
+      }).join('')}</tr>`).join('')
+  }</tbody></table>
+  <div class="legend">
+    <span><i class="swatch" style="background:rgba(232,17,45,.9)"></i>Position 1</span>
+    <span><i class="swatch" style="background:rgba(232,17,45,.55)"></i>Position 2</span>
+    <span><i class="swatch" style="background:rgba(232,17,45,.3)"></i>Position 3</span>
+    <span><i class="swatch" style="background:rgba(232,17,45,.15)"></i>Position 4+</span>
+    <span><i class="swatch" style="background:#3A4757"></i>Not named</span>
+    <span><i class="swatch" style="border:1px dashed #26313F"></i>Engine off</span></div>`;
+}
+
+function paintDetail() {
+  const pid = $('#promptPick').value;
+  const p = cfg.prompts.find(x => x.id === pid);
+  let html = `<div style="font-family:var(--mono);font-size:11px;color:#5B6B7E;margin-bottom:12px">${p.intent}</div>`;
+  for (const e of cfg.engines) {
+    const r = rec(pid, e.id);
+    html += `<div style="margin-bottom:18px">
+      <div class="ribbon-lab" style="margin-bottom:7px">
+        <span class="dot" style="background:${e.colour}"></span>${e.name}
+        ${r ? '' : '<span style="color:#5B6B7E;font-size:10px">not connected</span>'}</div>`;
+    if (!r) { html += `</div>`; continue; }
+    html += `<div style="display:flex;flex-wrap:wrap;gap:6px">${
+      r.cited.length ? r.cited.map((id, i) => `<span class="chip ${id === cfg.subject ? 'r1' : ''}">${i + 1}. ${BRAND[id]?.name ?? id}</span>`).join('')
+        : '<span class="status">No brands named in this answer.</span>'}</div>
+      <div class="answer">${esc(r.answer)}</div>
+      ${r.sources?.length ? `<div class="srcs">Sources: ${r.sources.map(u =>
+        `<a href="${esc(u)}" target="_blank" rel="noopener">${esc(u.replace(/^https?:\/\//, '').slice(0, 60))}</a>`).join(' · ')}</div>` : ''}
+      </div>`;
+  }
+  $('#promptDetail').innerHTML = html;
+}
+
+function paintBench() {
+  const f = $('#tierFilter').value;
+  const rows = S.filter(r => f === 'all' || r.tier === f);
+  const max = Math.max(...rows.map(r => r.score)) || 1;
+  $('#benchTable').innerHTML = `<table><thead><tr><th class="num">#</th><th>Brand</th>
+    <th class="num">Cited</th><th class="num">Avg position</th><th class="num">Share of voice</th>
+    <th class="num">GEO score</th><th style="width:24%">vs leader</th></tr></thead><tbody>${
+    rows.map(r => `<tr class="${r.id === cfg.subject ? 'subject' : ''}">
+      <td class="num" style="color:#5B6B7E">${r.rank}</td>
+      <td><span class="bankname">${r.name}</span><span class="tier">${r.tier}</span></td>
+      <td class="num">${r.hits}</td>
+      <td class="num">${r.avgPosition ? r.avgPosition.toFixed(1) : '—'}</td>
+      <td class="num">${pct(r.shareOfVoice)}</td>
+      <td class="num" style="font-weight:600">${fmt1(r.score)}</td>
+      <td><span class="bar" style="width:${r.score / max * 100}%;background:${r.colour}"></span></td>
+    </tr>`).join('')
+  }</tbody></table>`;
+}
+
+function paintGap() {
+  const cid = $('#gapPick').value;
+  const rows = [];
+  for (const p of cfg.prompts) for (const e of liveEngines()) {
+    const r = rec(p.id, e.id); if (!r) continue;
+    const ci = r.cited.indexOf(cid), hi = r.cited.indexOf(cfg.subject);
+    if (ci > -1 && (hi < 0 || ci < hi)) rows.push({ p, e, ci: ci + 1, hi: hi < 0 ? null : hi + 1 });
+  }
+  if (!rows.length) {
+    $('#gapTable').innerHTML = `<p class="status" style="color:var(--good)">HSBC matches or beats ${BRAND[cid].name} on every prompt and live engine in this snapshot.</p>`;
+    return;
+  }
+  $('#gapTable').innerHTML = `<table><thead><tr><th>Prompt</th><th>Engine</th>
+    <th class="num">${BRAND[cid].name}</th><th class="num">HSBC</th><th>Gap</th></tr></thead><tbody>${
+    rows.map(r => `<tr><td class="qtext">${esc(r.p.q)}</td>
+      <td><span class="dot" style="background:${r.e.colour};margin-right:6px"></span>${r.e.name}</td>
+      <td class="num">${r.ci}</td>
+      <td class="num" style="color:${r.hi ? 'var(--text)' : 'var(--bad)'}">${r.hi ?? '—'}</td>
+      <td style="font-family:var(--mono);font-size:11px;color:${r.hi ? 'var(--warn)' : 'var(--bad)'}">${r.hi ? 'outranked' : 'absent'}</td>
+    </tr>`).join('')
+  }</tbody></table>`;
+}
+
+function paintReport() {
+  const h = S.find(x => x.id === cfg.subject), leader = S[0];
+  const prev = history.length > 1 ? history[history.length - 2] : null;
+  const d = prev ? h.score - (prev.scores[cfg.subject] ?? h.score) : null;
+  const absent = cfg.prompts.filter(p => liveEngines().every(e => rankOf(p.id, e.id) === null));
+  const byEngine = liveEngines().map(e => ({
+    e, hits: cfg.prompts.filter(p => (rankOf(p.id, e.id) ?? 0) > 0).length
+  })).sort((a, b) => a.hits - b.hits);
+  const locals = S.filter(r => r.tier === 'local');
+  const intls = S.filter(r => r.tier === 'international' && r.id !== cfg.subject);
+  const grounded = liveEngines().filter(e => e.grounded).map(e => e.name);
+
+  $('#reportBody').innerHTML = `
+    <h3>AI visibility review — HSBC Singapore</h3>
+    <div class="rmeta">Generative Engine Optimisation · snapshot ${data.generatedAt.slice(0, 10)} ·
+      ${data.promptCount} prompts × ${data.activeEngineIds.length} live engine${data.activeEngineIds.length > 1 ? 's' : ''} × ${cfg.brands.length} brands</div>
+
+    <h4>Headline</h4>
+    <p>HSBC Singapore scores <strong>${fmt1(h.score)}/100</strong> and ranks
+      <strong>#${h.rank} of ${S.length}</strong> in the Singapore competitive set${
+      d === null ? '. This is the first snapshot, so there is no trend to read yet' :
+      `, ${d >= 0 ? 'up' : 'down'} ${fmt1(Math.abs(d))} points since ${prev.date}`}.
+      ${h.rank === 1 ? 'HSBC currently leads the set.' : `${leader.name} leads on ${fmt1(leader.score)}.`}
+      The brand appears in ${h.hits} of ${data.promptCount * data.activeEngineIds.length} available answer slots
+      (${pct(h.frequency)}), and ${pct(h.topTwo)} of those citations land in the first two positions.</p>
+
+    <h4>Where HSBC stands</h4>
+    <table><thead><tr><th class="num">#</th><th>Brand</th><th>Set</th>
+      <th class="num">Cited</th><th class="num">SOV</th><th class="num">Score</th></tr></thead><tbody>${
+      S.map(r => `<tr class="${r.id === cfg.subject ? 'subject' : ''}"><td class="num">${r.rank}</td>
+        <td>${r.name}</td><td>${r.tier}</td><td class="num">${r.hits}</td>
+        <td class="num">${pct(r.shareOfVoice)}</td>
+        <td class="num"><strong>${fmt1(r.score)}</strong></td></tr>`).join('')
+    }</tbody></table>
+
+    <h4>What the data says</h4>
+    <ul>
+      <li>The three local incumbents average ${fmt1(locals.reduce((a, b) => a + b.score, 0) / (locals.length || 1))}
+        against ${fmt1(intls.reduce((a, b) => a + b.score, 0) / (intls.length || 1))} for the other international banks.
+        ${locals.reduce((a, b) => a + b.score, 0) / (locals.length || 1) > intls.reduce((a, b) => a + b.score, 0) / (intls.length || 1)
+          ? 'The domestic three, not the cross-border peers, are the binding constraint on share of voice, which is where content effort should go.'
+          : 'The cross-border peers are competing harder for these answers than the domestic banks.'}</li>
+      ${byEngine.length > 1 ? `<li>Weakest engine is <strong>${byEngine[0].e.name}</strong>, citing HSBC on
+        ${byEngine[0].hits} of ${data.promptCount} prompts, against ${byEngine[byEngine.length - 1].hits}
+        for <strong>${byEngine[byEngine.length - 1].e.name}</strong>. Variance this wide across engines points to a
+        retrieval and source problem rather than a brand problem.</li>` : ''}
+      <li>${absent.length
+        ? `${absent.length} prompt${absent.length > 1 ? 's carry' : ' carries'} no HSBC citation on any live engine: ${absent.map(p => `"${p.q}"`).join('; ')}.`
+        : 'HSBC is cited on at least one live engine for every prompt in the set.'}</li>
+    </ul>
+
+    <h4>Recommended next moves</h4>
+    <ul>
+      <li>Publish a directly comparative, figure-bearing page for each absent prompt. Answer engines cite pages that
+        state eligibility, fees and thresholds as extractable facts, not pages that describe benefits.</li>
+      ${byEngine.length > 1 ? `<li>Close the ${byEngine[0].e.name} gap first. It is the largest single addressable block of missing citations here.</li>` : ''}
+      <li>Add structured data and a plain-language FAQ block to the priority and premier product pages, which are the
+        pages competitors are being pulled from on comparison prompts.</li>
+      <li>Read the trend, not the snapshot. Answer engines are non-deterministic and their indexes refresh on their own
+        cycles, so week-to-week movement under a couple of points is noise.</li>
+    </ul>
+
+    <div class="foot">
+      Method: GEO score = ${pct(WEIGHTS.frequency)} citation frequency + ${pct(WEIGHTS.prominence)} answer prominence
+      + ${pct(WEIGHTS.shareOfVoice)} normalised share of voice + ${pct(WEIGHTS.topTwo)} top-two recommendation rate.
+      Citations extracted by first mention of a brand in the answer text.<br>
+      Provenance: every figure derives from a live API call recorded on ${data.generatedAt.slice(0, 10)}
+      against ${liveEngines().map(e => `${e.name} (${e.model})`).join(', ')}.
+      ${grounded.length ? `${grounded.join(' and ')} ${grounded.length > 1 ? 'were' : 'was'} search-grounded, so ${grounded.length > 1 ? 'those' : 'that'} result${grounded.length > 1 ? 's reflect' : ' reflects'} live retrieval. ` : ''}
+      ${liveEngines().filter(e => !e.grounded).length ? `${liveEngines().filter(e => !e.grounded).map(e => e.name).join(' and ')} answered without search grounding, so ${liveEngines().filter(e => !e.grounded).length > 1 ? 'those measure' : 'that measures'} the model's internalised brand knowledge rather than retrieval. Read the two as different signals. ` : ''}
+      ${cfg.engines.filter(e => !data.activeEngineIds.includes(e.id)).length
+        ? `Not connected in this snapshot: ${cfg.engines.filter(e => !data.activeEngineIds.includes(e.id)).map(e => e.name).join(', ')}. No estimate has been substituted for them.`
+        : ''}
+    </div>`;
+}
+
+boot();
+</script>
+</body>
+</html>
