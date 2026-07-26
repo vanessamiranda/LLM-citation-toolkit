@@ -4,24 +4,24 @@
 
 ### The open-source **Answer Engine Optimization (AEO)** & **Generative Engine Optimization (GEO)** toolkit.
 
-#### Audit, optimize, and track whether **ChatGPT, Perplexity, Gemini, Claude, and Google AI Overviews** can crawl, understand, and **cite** your website.
+#### Audit, optimize, and track whether **ChatGPT, Perplexity, Gemini, Claude, and Google AI Overviews** can crawl, understand, and **cite** website.
 
-[![PyPI](https://img.shields.io/pypi/v/geo-optimizer-skill?style=flat-square&color=3b82f6)](https://pypi.org/project/geo-optimizer-skill/)
-[![Python 3.9+](https://img.shields.io/badge/python-3.9+-3776ab?style=flat-square&logo=python&logoColor=white)](https://python.org)
-[![CI](https://github.com/auriti-labs/geo-optimizer-skill/actions/workflows/ci.yml/badge.svg)](https://github.com/auriti-labs/geo-optimizer-skill/actions)
-[![codecov](https://codecov.io/gh/Auriti-Labs/geo-optimizer-skill/branch/main/graph/badge.svg)](https://app.codecov.io/gh/Auriti-Labs/geo-optimizer-skill)
-[![Tests](https://img.shields.io/badge/tests-1720%20passed-22c55e?style=flat-square)](https://github.com/Auriti-Labs/geo-optimizer-skill/actions/workflows/ci.yml)
-[![License: MIT](https://img.shields.io/badge/license-MIT-22c55e?style=flat-square)](LICENSE)
-[![MCP Compatible](https://img.shields.io/badge/MCP-compatible-8b5cf6?style=flat-square)](https://modelcontextprotocol.io)
-[![Buy Me a Coffee](https://img.shields.io/badge/Buy%20Me%20a%20Coffee-support-FFDD00?style=flat-square&logo=buymeacoffee&logoColor=000000)](https://buymeacoffee.com/auritidesign)
+# Attribution Notice
 
-**One command scores your site 0–100 on AI-search readiness, tells you exactly what to fix, and checks whether AI engines actually cite you.**
+This project is derived from the GEO Optimizer Skill developed by
+Auriti Labs and distributed under the MIT License.
 
-[Quick Start](#quick-start) · [Live Demo](https://geoready.dev) · [Pricing](https://geoready.dev/pricing) · [Sign Up](https://app.geoready.dev/signup) · [Documentation](https://auriti-labs.github.io/geo-optimizer-skill/) · [Changelog](CHANGELOG.md)
+Original project:
+https://github.com/Auriti-Labs/geo-optimizer-skill
 
-<img src="assets/demo.gif" alt="geo audit demo — AI visibility score 0-100 with prioritized fixes in one command" width="800"/>
+Original copyright and licence notices are retained in accordance
+with the MIT License.
 
-**16 CLI commands** · **8 scoring categories** · **47 research-backed methods** · **7 output formats** · **1,720 tests** · academic foundation ([KDD 2024](https://arxiv.org/abs/2311.09735), [ICLR 2026](https://arxiv.org/abs/2510.11438)) · runs in CI/CD, as a [Python library](#python-api), an [MCP server](#mcp-server), or an [Astro integration](#astro-integration)
+Modifications and additional modules created by Vanessa Miranda are
+also distributed under the MIT License unless otherwise stated.
+
+This project is an independent fork and is not affiliated with or endorsed by Auriti Labs.
+
 
 </div>
 
