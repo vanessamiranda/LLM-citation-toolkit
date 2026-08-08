@@ -1,0 +1,47 @@
+{
+  "generatedAt": null,
+  "opportunities": [
+    {
+      "promptId": "p03",
+      "topic": "Premier Banking",
+      "customerIntent": "Compare HSBC Premier with competitor priority banking offers",
+      "hsbcUrl": null,
+      "competitorUrls": [],
+      "customerDemandSignals": [],
+      "hsbcContent": [],
+      "competitorContent": [],
+      "contentGaps": [],
+      "structuralGaps": [],
+      "recommendedActions": [],
+      "leadObjective": "Generate qualified Premier or wealth enquiries"
+    },
+    {
+      "promptId": "p04",
+      "topic": "Priority Banking",
+      "customerIntent": "Find the best priority banking option in Singapore",
+      "hsbcUrl": null,
+      "competitorUrls": [],
+      "customerDemandSignals": [],
+      "hsbcContent": [],
+      "competitorContent": [],
+      "contentGaps": [],
+      "structuralGaps": [],
+      "recommendedActions": [],
+      "leadObjective": "Generate qualified Premier or wealth enquiries"
+    },
+    {
+      "promptId": "p09",
+      "topic": "Wealth Management",
+      "customerIntent": "Choose a bank for wealth management in Singapore",
+      "hsbcUrl": null,
+      "competitorUrls": [],
+      "customerDemandSignals": [],
+      "hsbcContent": [],
+      "competitorContent": [],
+      "contentGaps": [],
+      "structuralGaps": [],
+      "recommendedActions": [],
+      "leadObjective": "Generate qualified wealth management enquiries"
+    }
+  ]
+}
