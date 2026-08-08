@@ -1,10 +1,10 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<title>HSBC Singapore — AI visibility tracker</title>
+<title>AI Visibility & Growth Intelligence — Singapore Banking Sector</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="Generative Engine Optimisation tracker: brand citation share inside AI-generated answers.">
+<meta name="description" content="Public-data intelligence for Singapore banking, benchmarking AI visibility across ChatGPT, Claude, Gemini and Perplexity with a deeper commercial focus on wealth, premier and affluent customer journeys.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -142,9 +142,15 @@
 <div class="wrap">
   <header class="mast">
     <div>
-      <div class="eyebrow">Generative Engine Optimisation · Singapore retail &amp; premier banking</div>
-      <h1>HSBC Singapore — AI visibility tracker</h1>
-      <div class="sub">Does the answer name us? Every figure on this page comes from a live API call recorded by a scheduled GitHub Action. Nothing is modelled.</div>
+      <div class="eyebrow">AI Search · Competitive Intelligence · Wealth &amp; Customer Acquisition</div>
+      <h1>AI Visibility &amp; Growth Intelligence — Singapore Banking</h1>
+      <div class="sub">Public-data intelligence showing how banks perform across ChatGPT, Claude, Gemini and Perplexity, which competitors win visibility, and where content opportunities could strengthen customer acquisition — with deeper analysis across wealth, premier and affluent banking journeys.</div>
+      <div style="display:flex;flex-wrap:wrap;gap:7px;margin-top:10px">
+        <span class="es"><span class="dot" style="background:var(--good)"></span><b>Observed AI responses</b></span>
+        <span class="es"><span class="dot" style="background:var(--good)"></span><b>Public cited sources</b></span>
+        <span class="es"><span class="dot" style="background:var(--warn)"></span><b>Snapshot-based analysis</b></span>
+        <span class="es"><b>All banking segments · wealth-focused commercial lens</b></span>
+      </div>
     </div>
     <div class="asof"><div id="asof">Loading…</div><div id="scope"></div></div>
   </header>
@@ -200,7 +206,7 @@ function renderSetup(kind, err) {
     <ol>
       <li><strong>Get a free Gemini API key</strong> from Google AI Studio. The free tier covers this workload comfortably: ten prompts a week against a limit measured in hundreds of requests a day.</li>
       <li><strong>Add it as a repository secret</strong> named <code>GEMINI_API_KEY</code> under Settings, Secrets and variables, Actions. Never put a key in a file in the repo.</li>
-      <li><strong>Run the workflow.</strong> Actions tab, GEO audit, Run workflow. It queries the engines, commits <code>data/latest.json</code>, and this page picks it up on reload.</li>
+      <li><strong>Run the workflow.</strong> Actions tab, Citation tracking audit, Run workflow. It queries the engines, commits <code>data/latest.json</code>, and this page picks it up on reload.</li>
       <li><strong>Enable Pages.</strong> Settings, Pages, deploy from <code>main</code> branch, root. Then use the Pages URL, not the local file.</li>
       <li><strong>Locally</strong>, run a server rather than opening the file:
         <pre>python3 -m http.server 8080
@@ -214,10 +220,11 @@ function renderSetup(kind, err) {
 function renderApp() {
   $('#app').innerHTML = `
   <nav class="tabs" role="tablist">
-    <button role="tab" aria-selected="true" data-v="dash">Live GEO dashboard</button>
-    <button role="tab" aria-selected="false" data-v="cite">AI citation tracking</button>
-    <button role="tab" aria-selected="false" data-v="bench">Competitor benchmarking</button>
-    <button role="tab" aria-selected="false" data-v="report">Executive reporting</button>
+    <button role="tab" aria-selected="true" data-v="dash">AI Visibility</button>
+    <button role="tab" aria-selected="false" data-v="cite">AI Search Evidence</button>
+    <button role="tab" aria-selected="false" data-v="bench">Competitive Intelligence</button>
+    <button role="tab" aria-selected="false" data-v="plan">Growth Opportunities</button>
+    <button role="tab" aria-selected="false" data-v="report">Executive Brief</button>
   </nav>
 
   <section class="view on" id="v-dash">
@@ -225,29 +232,42 @@ function renderApp() {
     <div class="grid g4" id="kpis"></div>
     <div class="grid g2" style="margin-top:14px">
       <div class="panel">
-        <h2 class="sec">Share of citations by engine</h2>
-        <p class="note">Each bar is one engine's citations split by brand. The red line marks where HSBC's segment ends, so positional consistency across engines reads at a glance.</p>
+        <h2 class="sec">AI share of visibility by engine</h2>
+        <p class="note">Observed brand visibility across each connected AI engine. The highlighted segment shows the configured focus bank; use the split to see who is winning recommendation share by engine.</p>
         <div id="ribbons"></div><div class="legend" id="ribbonLegend"></div>
       </div>
       <div class="panel">
-        <h2 class="sec">GEO score history</h2>
+        <h2 class="sec">AI visibility trend</h2>
         <p class="note" id="trendNote"></p>
         <div class="toolbar" style="margin-bottom:10px"><select id="trendPick"></select></div>
         <div id="trend"></div>
       </div>
     </div>
     <div class="panel" style="margin-top:14px">
-      <h2 class="sec">Score components</h2>
+      <h2 class="sec">Visibility score drivers</h2>
       <p class="note">Weights: ${pct(WEIGHTS.frequency)} frequency, ${pct(WEIGHTS.prominence)} prominence, ${pct(WEIGHTS.shareOfVoice)} share of voice, ${pct(WEIGHTS.topTwo)} top-two rate. Defined in <code>scripts/score.mjs</code>.</p>
       <div id="compTable"></div>
     </div>
   </section>
 
   <section class="view" id="v-cite">
-    <h2 class="sec">Prompt-level citation matrix</h2>
-    <p class="note">Cell value is HSBC's position in that engine's answer. A dash means HSBC was not named at all, and those are the recoverable gaps. A dotted cell means that engine is not connected.</p>
+    <h2 class="sec">Prompt-level AI recommendation matrix</h2>
+    <p class="note">Cell value is the focus bank&#39;s position in that engine&#39;s answer. A dash means it was not named; those are addressable visibility gaps. A dotted cell means that engine is not connected.</p>
     <div class="toolbar"><select id="engFilter"></select></div>
     <div class="panel scroll"><div id="matrix"></div></div>
+
+    <div class="panel" style="margin-top:14px">
+      <h2 class="sec">Public sources influencing AI answers</h2>
+      <p class="note">Observed public URLs cited by search-grounded AI engines, grouped by domain. This shows whether visibility is being shaped by bank-owned content, competitor-owned content or third-party publishers.</p>
+      <div class="toolbar"><select id="srcFilter">
+        <option value="all">All sources</option>
+        <option value="own">Our own site only</option>
+        <option value="competitor">Competitor sites only</option>
+        <option value="third">Third-party sites only</option>
+      </select></div>
+      <div class="scroll"><div id="srcTable"></div></div>
+    </div>
+
     <div class="panel" style="margin-top:14px">
       <h2 class="sec">Answer detail</h2>
       <p class="note">The recorded answer text and, for grounded engines, the source URLs the engine drew on. This is the evidence layer: every citation on this page can be checked by hand.</p>
@@ -257,20 +277,42 @@ function renderApp() {
   </section>
 
   <section class="view" id="v-bench">
-    <h2 class="sec">Competitor benchmarking</h2>
-    <p class="note">Ranked by GEO score across all live engines.</p>
+    <h2 class="sec">Singapore banking competitive benchmark</h2>
+    <p class="note">All configured Singapore banking brands ranked on observed AI visibility across connected engines. Wealth, premier and affluent journeys are treated as the priority commercial lens, not the only coverage area.</p>
     <div class="toolbar"><select id="tierFilter">
-      <option value="all">All brands</option>
+      <option value="all">All Singapore banks</option>
       <option value="local">Local banks only</option>
       <option value="international">International banks only</option>
     </select></div>
     <div class="panel"><div id="benchTable"></div></div>
+
     <div class="panel" style="margin-top:14px">
-      <h2 class="sec">Head-to-head gap</h2>
-      <p class="note">Prompts where a competitor is cited and HSBC is not, or is cited lower. Shortest route to score movement.</p>
+      <h2 class="sec">Commercial intent leadership</h2>
+      <p class="note">Prompts grouped by customer intent. This shows where the focus bank leads, where competitors own the answer, and which journeys deserve deeper investigation. Wealth, premier and affluent intents should be prioritised when commercial value is higher.</p>
+      <div id="segTable"></div>
+    </div>
+
+    <div class="panel" style="margin-top:14px">
+      <h2 class="sec">Head-to-head visibility gap</h2>
+      <p class="note">Prompts where a selected competitor is cited ahead of the focus bank. These are the clearest observable gaps to investigate for content, discoverability and acquisition opportunity.</p>
       <div class="toolbar"><select id="gapPick"></select></div>
       <div id="gapTable"></div>
     </div>
+  </section>
+
+  <section class="view" id="v-plan">
+    <h2 class="sec">Growth opportunities</h2>
+    <p class="note">Priority opportunities derived from observed AI answers and cited public sources. Each card shows where the focus bank is losing visibility, who is taking the slot, and whether the answer space is open, mixed or competitor-owned. Wealth, premier and affluent journeys receive the strongest commercial emphasis.</p>
+    <div class="toolbar">
+      <select id="planFilter">
+        <option value="all">All gaps</option>
+        <option value="absent">Absent everywhere only</option>
+        <option value="partial">Partial coverage only</option>
+        <option value="weak">Cited but low only</option>
+      </select>
+      <span class="status" id="planCount"></span>
+    </div>
+    <div id="planCards"></div>
   </section>
 
   <section class="view" id="v-report">
@@ -283,13 +325,13 @@ function renderApp() {
 
   const others = cfg.brands.filter(b => b.id !== cfg.subject);
   $('#trendPick').innerHTML = others.map(b => `<option value="${b.id}">Compare with ${b.name}</option>`).join('')
-    + `<option value="${cfg.subject}">HSBC only</option>`;
+    + `<option value="${cfg.subject}">${esc(BRAND[cfg.subject]?.name ?? cfg.subject)} only</option>`;
   $('#gapPick').innerHTML = others.map(b => `<option value="${b.id}">${b.name}</option>`).join('');
   $('#engFilter').innerHTML = `<option value="all">All engines</option>`
     + cfg.engines.map(e => `<option value="${e.id}">${e.name} only</option>`).join('');
   $('#promptPick').innerHTML = cfg.prompts.map(p => `<option value="${p.id}">${esc(p.q)}</option>`).join('');
 
-  ['trendPick', 'engFilter', 'promptPick', 'tierFilter', 'gapPick'].forEach(id =>
+  ['trendPick', 'engFilter', 'promptPick', 'tierFilter', 'gapPick', 'srcFilter', 'planFilter'].forEach(id =>
     $('#' + id).addEventListener('change', paint));
   document.querySelectorAll('nav.tabs button').forEach(b => b.addEventListener('click', () => {
     document.querySelectorAll('nav.tabs button').forEach(x => x.setAttribute('aria-selected', 'false'));
@@ -315,7 +357,346 @@ const liveEngines = () => cfg.engines.filter(e => data.activeEngineIds.includes(
 /* -------------------------------------------------------------------- paint */
 function paint() {
   paintEngines(); paintKpis(); paintRibbons(); paintTrend(); paintComp();
-  paintMatrix(); paintDetail(); paintBench(); paintGap(); paintReport();
+  paintMatrix(); paintSources(); paintDetail();
+  paintBench(); paintSegments(); paintGap(); paintPlan(); paintReport();
+}
+
+/* ------------------------------------------------------------- action plan
+   Assembles one brief per losing prompt. Every field is read from recorded
+   answers or recorded source URLs. Nothing here is generated prose.
+
+   Severity  = how much of the answer surface we are losing.
+   Winnability = who currently owns the pages the engines drew on. Losing a
+   query to a comparison site is a different fight from losing it to a
+   competitor's own product page, and the second is much harder.
+------------------------------------------------------------------------- */
+
+const SEVERITY = {
+  absent:  { weight: 100, label: 'Absent everywhere',  colour: 'var(--bad)' },
+  partial: { weight: 60,  label: 'Partial coverage',   colour: 'var(--warn)' },
+  weak:    { weight: 30,  label: 'Cited but low',      colour: 'var(--warn)' }
+};
+const WINNABILITY = {
+  open:      { bonus: 25, label: 'Open field',   note: 'Engines are leaning on third-party pages, so no competitor owns this answer yet.' },
+  mixed:     { bonus: 15, label: 'Mixed',        note: 'Sources are split between competitor pages and third parties.' },
+  contested: { bonus: 5,  label: 'Contested',    note: "A competitor's own pages are supplying this answer. Harder to displace." },
+  unknown:   { bonus: 10, label: 'Unattributed', note: 'No source URLs recorded, so the engine answered from training data rather than retrieval. Content changes move this slowly, if at all.' }
+};
+
+function buildPlan() {
+  const engines = liveEngines();
+  if (!engines.length) return [];
+
+  return cfg.prompts.map(p => {
+    const missing = [], low = [], strong = [];
+    for (const e of engines) {
+      const r = rankOf(p.id, e.id);
+      if (r === undefined) continue;          // engine not connected
+      if (r === null) missing.push(e);
+      else if (r >= 4) low.push({ e, r });
+      else strong.push({ e, r });
+    }
+    const answered = missing.length + low.length + strong.length;
+    if (!answered) return null;
+
+    let severity = null;
+    if (missing.length === answered) severity = 'absent';
+    else if (missing.length) severity = 'partial';
+    else if (low.length) severity = 'weak';
+    if (!severity) return null;               // cited well everywhere, nothing to do
+
+    // Who took the slot instead, tallied across the engines we lost.
+    const rivals = {};
+    for (const e of [...missing, ...low.map(x => x.e)]) {
+      const r = rec(p.id, e.id);
+      if (!r) continue;
+      r.cited.slice(0, 3).forEach((id, i) => {
+        if (id === cfg.subject) return;
+        rivals[id] = (rivals[id] || 0) + (3 - i);
+      });
+    }
+    const topRivals = Object.entries(rivals).sort((a, b) => b[1] - a[1]).slice(0, 3).map(([id]) => id);
+
+    // Which pages fed the answers for this prompt.
+    const srcs = [];
+    for (const e of engines) {
+      const r = rec(p.id, e.id);
+      (r?.sources ?? []).forEach(u => {
+        const host = hostOf(u);
+        if (host) srcs.push({ url: u, host, owner: ownerOf(host) });
+      });
+    }
+    const comp = srcs.filter(s => s.owner && s.owner !== cfg.subject).length;
+    const third = srcs.filter(s => !s.owner).length;
+
+    let winnability;
+    if (!srcs.length) winnability = 'unknown';
+    else if (third / srcs.length >= 0.5) winnability = 'open';
+    else if (comp / srcs.length >= 0.5) winnability = 'contested';
+    else winnability = 'mixed';
+
+    return {
+      p, severity, winnability, missing, low, strong, answered, topRivals,
+      srcs: srcs.filter((s, i, a) => a.findIndex(x => x.host === s.host) === i).slice(0, 5),
+      priority: SEVERITY[severity].weight + WINNABILITY[winnability].bonus
+    };
+  }).filter(Boolean).sort((a, b) => b.priority - a.priority);
+}
+
+function paintPlan() {
+  const all = buildPlan();
+  const f = $('#planFilter').value;
+  const rows = f === 'all' ? all : all.filter(r => r.severity === f);
+
+  const counts = all.reduce((a, r) => { a[r.severity] = (a[r.severity] || 0) + 1; return a; }, {});
+  $('#planCount').textContent = all.length
+    ? `${all.length} of ${cfg.prompts.length} prompts need work · ${counts.absent || 0} absent, ${counts.partial || 0} partial, ${counts.weak || 0} low`
+    : '';
+
+  if (!liveEngines().length) {
+    $('#planCards').innerHTML = `<div class="panel"><p class="status">No live engine, so there is nothing to plan against.</p></div>`;
+    return;
+  }
+  if (!rows.length) {
+    $('#planCards').innerHTML = `<div class="panel"><p class="status" style="color:var(--good)">${
+      all.length ? 'No gaps match this filter.'
+      : `${BRAND[cfg.subject]?.name ?? cfg.subject} is cited in the top three on every prompt and every live engine in this snapshot. Nothing to action.`}</p></div>`;
+    return;
+  }
+
+  $('#planCards').innerHTML = rows.map((r, i) => {
+    const sev = SEVERITY[r.severity], win = WINNABILITY[r.winnability];
+    const rivalChips = r.topRivals.length
+      ? r.topRivals.map(id => `<span class="chip" style="background:var(--panel2)">
+          <span class="dot" style="background:${BRAND[id]?.colour ?? 'var(--dim)'};margin-right:5px"></span>${esc(BRAND[id]?.name ?? id)}</span>`).join(' ')
+      : '<span class="status">No competitor named either. The engines answered without recommending any bank.</span>';
+
+    const engineLines = [
+      r.missing.length ? `<span style="color:var(--bad)">not named</span> on ${r.missing.map(e => e.name).join(', ')}` : '',
+      r.low.length ? `<span style="color:var(--warn)">position ${r.low.map(x => x.r).join(', ')}</span> on ${r.low.map(x => x.e.name).join(', ')}` : '',
+      r.strong.length ? `<span style="color:var(--good)">position ${r.strong.map(x => x.r).join(', ')}</span> on ${r.strong.map(x => x.e.name).join(', ')}` : ''
+    ].filter(Boolean).join(' · ');
+
+    const srcList = r.srcs.length
+      ? r.srcs.map(s => {
+          const tag = s.owner === cfg.subject ? 'ours' : s.owner ? esc(BRAND[s.owner]?.name ?? s.owner) : 'third party';
+          const colour = s.owner === cfg.subject ? BRAND[cfg.subject].colour : s.owner ? 'var(--warn)' : 'var(--dim)';
+          return `<div style="margin-bottom:5px"><span class="dot" style="background:${colour};margin-right:7px"></span>
+            <a href="${esc(s.url)}" target="_blank" rel="noopener" style="color:var(--muted);font-family:var(--mono);font-size:11.5px">${esc(s.host)}</a>
+            <span style="color:#5B6B7E;font-family:var(--mono);font-size:10.5px"> · ${tag}</span></div>`;
+        }).join('')
+      : `<p class="status" style="margin:0">No source URLs recorded for this prompt.</p>`;
+
+    return `<div class="panel" style="margin-bottom:14px;border-left:3px solid ${sev.colour}">
+      <div style="display:flex;flex-wrap:wrap;gap:10px;align-items:baseline;justify-content:space-between">
+        <div style="font-family:var(--disp);font-size:15px;font-weight:600;max-width:62ch">${i + 1}. ${esc(r.p.q)}</div>
+        <div style="font-family:var(--mono);font-size:10px;letter-spacing:.11em;text-transform:uppercase;color:${sev.colour}">${sev.label}</div>
+      </div>
+      <div style="font-family:var(--mono);font-size:10.5px;color:#5B6B7E;margin-top:5px">${esc(r.p.intent)}</div>
+
+      <div class="grid g2" style="margin-top:16px;gap:20px">
+        <div>
+          <div class="kpi"><div class="lab">Where we stand</div></div>
+          <div style="font-family:var(--mono);font-size:11.5px;margin-top:7px;color:var(--muted);line-height:1.8">${engineLines}</div>
+
+          <div class="kpi" style="margin-top:16px"><div class="lab">Who took the slot</div></div>
+          <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:8px">${rivalChips}</div>
+        </div>
+        <div>
+          <div class="kpi"><div class="lab">Pages the engines drew on</div></div>
+          <div style="margin-top:9px">${srcList}</div>
+          <div style="margin-top:12px;padding-top:11px;border-top:1px solid var(--rule)">
+            <span style="font-family:var(--mono);font-size:10px;letter-spacing:.11em;text-transform:uppercase;color:var(--dim)">Winnability</span>
+            <div style="font-family:var(--mono);font-size:11.5px;color:var(--text);margin-top:5px">${win.label}</div>
+            <div style="font-size:12px;color:var(--muted);margin-top:4px">${win.note}</div>
+          </div>
+        </div>
+      </div>
+    </div>`;
+  }).join('') + `
+    <details class="src" style="border-top:0">
+      <summary>How this order is decided</summary>
+      <div>Priority = severity + winnability. Severity is ${SEVERITY.absent.weight} for absent on every live engine,
+      ${SEVERITY.partial.weight} for absent on some, ${SEVERITY.weak.weight} for cited below position three.
+      Winnability adds ${WINNABILITY.open.bonus} when third-party pages supply most of the sources,
+      ${WINNABILITY.mixed.bonus} when sources are split, ${WINNABILITY.unknown.bonus} when no sources were recorded,
+      and ${WINNABILITY.contested.bonus} when a competitor's own pages dominate. The weights are a judgement call, set once
+      in <code>index.html</code>. This ranks where to look first; it does not tell you what to publish.</div>
+    </details>`;
+}
+
+/* ---------------------------------------------------------------- sources
+   Which sites did the engines actually draw on? Classified by owner, because
+   "a competitor's own page was cited" and "a comparison site was cited" are
+   different problems with different fixes.
+------------------------------------------------------------------------- */
+
+/* Domain fragments that identify a brand's own web property. Extend as needed. */
+const BRAND_DOMAINS = {
+  hsbc:    ['hsbc'],
+  dbs:     ['dbs.com', 'posb'],
+  ocbc:    ['ocbc'],
+  uob:     ['uob'],
+  scb:     ['sc.com', 'standardchartered'],
+  citi:    ['citibank', 'citi.com', 'citigroup'],
+  maybank: ['maybank'],
+  boc:     ['bankofchina', 'boc.cn'],
+  cimb:    ['cimb']
+};
+
+function hostOf(url) {
+  try { return new URL(url).hostname.replace(/^www\./, ''); }
+  catch { return null; }
+}
+function ownerOf(host) {
+  for (const [id, frags] of Object.entries(BRAND_DOMAINS)) {
+    if (frags.some(f => host.includes(f))) return id;
+  }
+  return null;
+}
+
+function paintSources() {
+  const filter = $('#srcFilter').value;
+  const tally = new Map();
+
+  for (const r of data.records) {
+    if (!data.activeEngineIds.includes(r.engineId)) continue;
+    for (const url of (r.sources ?? [])) {
+      const host = hostOf(url);
+      if (!host) continue;
+      if (!tally.has(host)) {
+        tally.set(host, { host, owner: ownerOf(host), hits: 0, prompts: new Set(), engines: new Set() });
+      }
+      const t = tally.get(host);
+      t.hits += 1;
+      t.prompts.add(r.promptId);
+      t.engines.add(r.engineId);
+    }
+  }
+
+  let rows = [...tally.values()].sort((a, b) => b.prompts.size - a.prompts.size || b.hits - a.hits);
+
+  const klass = r =>
+    r.owner === cfg.subject ? 'own' : r.owner ? 'competitor' : 'third';
+  if (filter !== 'all') rows = rows.filter(r => klass(r) === filter);
+
+  if (!rows.length) {
+    const anyGrounded = data.engines.some(e => e.groundingVerified);
+    $('#srcTable').innerHTML = `<p class="status">${anyGrounded
+      ? 'No sources match this filter.'
+      : 'No source URLs recorded. The live engines answered without search grounding, so there is nothing to attribute. Set <code>grounded: true</code> for an engine that supports it and re-run.'}</p>`;
+    return;
+  }
+
+  // Headline split, computed before the filter is applied.
+  const all = [...tally.values()];
+  const split = { own: 0, competitor: 0, third: 0 };
+  all.forEach(r => { split[klass(r)] += r.hits; });
+  const total = split.own + split.competitor + split.third || 1;
+
+  $('#srcTable').innerHTML = `
+    <div class="legend" style="margin-top:0;margin-bottom:14px;padding-top:0;border-top:0">
+      <span><i class="swatch" style="background:${BRAND[cfg.subject].colour}"></i>Our site ${pct(split.own / total)}</span>
+      <span><i class="swatch" style="background:var(--warn)"></i>Competitor sites ${pct(split.competitor / total)}</span>
+      <span><i class="swatch" style="background:var(--dim)"></i>Third-party ${pct(split.third / total)}</span>
+    </div>
+    <table><thead><tr>
+      <th>Domain</th><th>Owner</th>
+      <th class="num">Prompts</th><th class="num">Citations</th><th class="num">Engines</th>
+    </tr></thead><tbody>${
+      rows.map(r => {
+        const k = klass(r);
+        const label = k === 'own' ? 'Ours'
+          : k === 'competitor' ? BRAND[r.owner].name
+          : 'Third party';
+        const colour = k === 'own' ? BRAND[cfg.subject].colour
+          : k === 'competitor' ? (BRAND[r.owner]?.colour ?? 'var(--warn)')
+          : 'var(--dim)';
+        return `<tr class="${k === 'own' ? 'subject' : ''}">
+          <td style="font-family:var(--mono);font-size:12px">${esc(r.host)}</td>
+          <td><span class="dot" style="background:${colour};margin-right:6px"></span>${esc(label)}</td>
+          <td class="num">${r.prompts.size}</td>
+          <td class="num">${r.hits}</td>
+          <td class="num" style="color:#5B6B7E">${r.engines.size}</td>
+        </tr>`;
+      }).join('')
+    }</tbody></table>`;
+}
+
+/* --------------------------------------------------------------- segments
+   Prompts carry an intent like "Acquisition · expat". The part before the
+   separator is the customer segment; group on that and compare.
+------------------------------------------------------------------------- */
+const segmentOf = p => (p.intent || 'Unclassified').split('·')[0].trim();
+
+function paintSegments() {
+  const engines = liveEngines();
+  if (!engines.length) { $('#segTable').innerHTML = ''; return; }
+
+  const segs = new Map();
+  for (const p of cfg.prompts) {
+    const s = segmentOf(p);
+    if (!segs.has(s)) segs.set(s, { name: s, prompts: [], counts: {}, subjHits: 0, subjPos: 0, slots: 0 });
+    segs.get(s).prompts.push(p);
+  }
+
+  for (const seg of segs.values()) {
+    for (const p of seg.prompts) for (const e of engines) {
+      const r = rec(p.id, e.id);
+      if (!r) continue;
+      seg.slots += 1;
+      r.cited.forEach((id, i) => {
+        seg.counts[id] = (seg.counts[id] || 0) + 1;
+        if (id === cfg.subject) { seg.subjHits += 1; seg.subjPos += i + 1; }
+      });
+    }
+  }
+
+  const rows = [...segs.values()].map(seg => {
+    const ranked = Object.entries(seg.counts).sort((a, b) => b[1] - a[1]);
+    const topCount = ranked.length ? ranked[0][1] : 0;
+    const leaders = ranked.filter(([, c]) => c === topCount).map(([id]) => id);
+    const subjCount = seg.counts[cfg.subject] || 0;
+    const weLead = leaders.includes(cfg.subject);
+    const outright = weLead && leaders.length === 1;
+    return {
+      ...seg,
+      leaders, topCount, subjCount, weLead, outright,
+      rate: seg.slots ? seg.subjHits / seg.slots : 0,
+      avgPos: seg.subjHits ? seg.subjPos / seg.subjHits : null,
+      gap: topCount - subjCount
+    };
+  }).sort((a, b) => b.rate - a.rate);
+
+  $('#segTable').innerHTML = `<table><thead><tr>
+    <th>Segment</th><th class="num">Prompts</th>
+    <th class="num">Focus bank cited</th><th class="num">Avg position</th>
+    <th>Leads this segment</th><th>Verdict</th>
+  </tr></thead><tbody>${
+    rows.map(r => {
+      const verdict = r.outright ? 'Dominates'
+        : r.weLead ? 'Tied lead'
+        : r.subjCount ? `Behind by ${r.gap}`
+        : 'Absent';
+      const colour = r.outright ? 'var(--good)'
+        : r.weLead ? 'var(--warn)'
+        : r.subjCount ? 'var(--warn)' : 'var(--bad)';
+      const leadNames = r.topCount
+        ? r.leaders.map(id => BRAND[id]?.name ?? id).join(', ')
+        : 'nobody cited';
+      return `<tr class="${r.outright ? 'subject' : ''}">
+        <td><span class="bankname">${esc(r.name)}</span></td>
+        <td class="num">${r.prompts.length}</td>
+        <td class="num">${pct(r.rate)}</td>
+        <td class="num">${r.avgPos ? r.avgPos.toFixed(1) : '—'}</td>
+        <td>${r.leaders.map(id =>
+            `<span class="dot" style="background:${BRAND[id]?.colour ?? 'var(--dim)'};margin-right:5px"></span>`
+          ).join('')}${esc(leadNames)}</td>
+        <td style="font-family:var(--mono);font-size:11.5px;color:${colour}">${verdict}</td>
+      </tr>`;
+    }).join('')
+  }</tbody></table>
+  <p class="note" style="margin-top:12px;margin-bottom:0">Verdict compares raw citation counts within the segment, so a two-prompt segment is far less reliable than a four-prompt one. "Tied lead" means the focus bank matches the leader rather than beating it.</p>`;
 }
 
 function paintEngines() {
@@ -343,15 +724,15 @@ function paintKpis() {
     liveEngines().some(e => (rankOf(p.id, e.id) ?? 0) > 0)).length;
 
   const cards = [
-    { lab: 'HSBC GEO score', val: fmt1(h.score), unit: '/100',
+    { lab: 'AI visibility score', val: fmt1(h.score), unit: '/100',
       d: d === null ? 'First snapshot, no trend yet' : `${d >= 0 ? '▲' : '▼'} ${fmt1(Math.abs(d))} vs ${prev.date}`,
       cls: d === null ? 'flat' : d >= 0 ? 'up' : 'down' },
-    { lab: 'Rank in set', val: '#' + h.rank, unit: 'of ' + S.length,
+    { lab: 'Competitive rank', val: '#' + h.rank, unit: 'of ' + S.length,
       d: h.rank === 1 ? 'Leading the set' : `${fmt1(leader.score - h.score)} behind ${leader.name}`,
       cls: h.rank === 1 ? 'up' : 'flat' },
-    { lab: 'Citation frequency', val: pct(h.frequency), unit: '',
+    { lab: 'AI recommendation rate', val: pct(h.frequency), unit: '',
       d: `${h.hits} of ${data.promptCount * data.activeEngineIds.length} answer slots`, cls: 'flat' },
-    { lab: 'Coverage gaps', val: String(absent + partial), unit: 'prompts',
+    { lab: 'Growth gaps', val: String(absent + partial), unit: 'prompts',
       d: `${absent} absent everywhere · ${partial} partial`, cls: absent ? 'down' : 'flat' }
   ];
   $('#kpis').innerHTML = cards.map(c => `<div class="panel kpi">
@@ -420,7 +801,7 @@ function paintTrend() {
       text-anchor="${i === 0 ? 'start' : i === n - 1 ? 'end' : 'middle'}">${history[i].date.slice(5)}</text>`).join('');
 
   $('#trend').innerHTML = `<svg viewBox="0 0 ${W} ${H}" width="100%" role="img"
-    aria-label="GEO score by snapshot date">${grid}${lines}${ticks}</svg>
+    aria-label="AI visibility score by snapshot date">${grid}${lines}${ticks}</svg>
     <div class="legend" style="margin-top:6px">${series.map(s =>
       `<span><i class="swatch" style="background:${s.b.colour}"></i>${s.b.name}</span>`).join('')}</div>`;
 }
@@ -428,7 +809,7 @@ function paintTrend() {
 function paintComp() {
   $('#compTable').innerHTML = `<table><thead><tr><th>Brand</th>
     <th class="num">Frequency</th><th class="num">Prominence</th><th class="num">Share of voice</th>
-    <th class="num">Top-two rate</th><th class="num">GEO score</th></tr></thead><tbody>${
+    <th class="num">Top-two rate</th><th class="num">AI visibility score</th></tr></thead><tbody>${
     S.map(r => `<tr class="${r.id === cfg.subject ? 'subject' : ''}">
       <td><span class="bankname">${r.name}</span></td>
       <td class="num">${pct(r.frequency)}</td><td class="num">${r.prominence.toFixed(2)}</td>
@@ -489,7 +870,7 @@ function paintBench() {
   const max = Math.max(...rows.map(r => r.score)) || 1;
   $('#benchTable').innerHTML = `<table><thead><tr><th class="num">#</th><th>Brand</th>
     <th class="num">Cited</th><th class="num">Avg position</th><th class="num">Share of voice</th>
-    <th class="num">GEO score</th><th style="width:24%">vs leader</th></tr></thead><tbody>${
+    <th class="num">AI visibility score</th><th style="width:24%">vs leader</th></tr></thead><tbody>${
     rows.map(r => `<tr class="${r.id === cfg.subject ? 'subject' : ''}">
       <td class="num" style="color:#5B6B7E">${r.rank}</td>
       <td><span class="bankname">${r.name}</span><span class="tier">${r.tier}</span></td>
@@ -511,11 +892,11 @@ function paintGap() {
     if (ci > -1 && (hi < 0 || ci < hi)) rows.push({ p, e, ci: ci + 1, hi: hi < 0 ? null : hi + 1 });
   }
   if (!rows.length) {
-    $('#gapTable').innerHTML = `<p class="status" style="color:var(--good)">HSBC matches or beats ${BRAND[cid].name} on every prompt and live engine in this snapshot.</p>`;
+    $('#gapTable').innerHTML = `<p class="status" style="color:var(--good)">${BRAND[cfg.subject]?.name ?? cfg.subject} matches or beats ${BRAND[cid].name} on every prompt and live engine in this snapshot.</p>`;
     return;
   }
   $('#gapTable').innerHTML = `<table><thead><tr><th>Prompt</th><th>Engine</th>
-    <th class="num">${BRAND[cid].name}</th><th class="num">HSBC</th><th>Gap</th></tr></thead><tbody>${
+    <th class="num">${BRAND[cid].name}</th><th class="num">Focus bank</th><th>Gap</th></tr></thead><tbody>${
     rows.map(r => `<tr><td class="qtext">${esc(r.p.q)}</td>
       <td><span class="dot" style="background:${r.e.colour};margin-right:6px"></span>${r.e.name}</td>
       <td class="num">${r.ci}</td>
@@ -526,77 +907,130 @@ function paintGap() {
 }
 
 function paintReport() {
-  const h = S.find(x => x.id === cfg.subject), leader = S[0];
+  const focus = S.find(x => x.id === cfg.subject);
+  const leader = S[0];
+  const focusName = BRAND[cfg.subject]?.name ?? cfg.subject;
   const prev = history.length > 1 ? history[history.length - 2] : null;
-  const d = prev ? h.score - (prev.scores[cfg.subject] ?? h.score) : null;
-  const absent = cfg.prompts.filter(p => liveEngines().every(e => rankOf(p.id, e.id) === null));
+  const d = prev ? focus.score - (prev.scores[cfg.subject] ?? focus.score) : null;
+
+  const absent = cfg.prompts.filter(p =>
+    liveEngines().every(e => rankOf(p.id, e.id) === null)
+  );
+
   const byEngine = liveEngines().map(e => ({
-    e, hits: cfg.prompts.filter(p => (rankOf(p.id, e.id) ?? 0) > 0).length
+    e,
+    hits: cfg.prompts.filter(p => (rankOf(p.id, e.id) ?? 0) > 0).length
   })).sort((a, b) => a.hits - b.hits);
-  const locals = S.filter(r => r.tier === 'local');
-  const intls = S.filter(r => r.tier === 'international' && r.id !== cfg.subject);
+
+  const intentRows = [];
+  const grouped = new Map();
+
+  for (const p of cfg.prompts) {
+    const intent = segmentOf(p);
+    if (!grouped.has(intent)) grouped.set(intent, []);
+    grouped.get(intent).push(p);
+  }
+
+  for (const [intent, prompts] of grouped.entries()) {
+    const counts = {};
+    let slots = 0;
+    for (const p of prompts) for (const e of liveEngines()) {
+      const r = rec(p.id, e.id);
+      if (!r) continue;
+      slots += 1;
+      r.cited.forEach(id => counts[id] = (counts[id] || 0) + 1);
+    }
+    const ranked = Object.entries(counts).sort((a, b) => b[1] - a[1]);
+    const leaderId = ranked[0]?.[0] ?? null;
+    const leaderCount = ranked[0]?.[1] ?? 0;
+    const focusCount = counts[cfg.subject] || 0;
+    const wealthPriority = /wealth|premier|priority|private|affluent/i.test(intent);
+    intentRows.push({
+      intent,
+      prompts: prompts.length,
+      leaderId,
+      leaderCount,
+      focusCount,
+      slots,
+      wealthPriority
+    });
+  }
+
+  intentRows.sort((a, b) =>
+    Number(b.wealthPriority) - Number(a.wealthPriority) ||
+    b.slots - a.slots
+  );
+
   const grounded = liveEngines().filter(e => e.grounded).map(e => e.name);
+  const weakest = byEngine[0];
+  const strongest = byEngine[byEngine.length - 1];
 
   $('#reportBody').innerHTML = `
-    <h3>AI visibility review — HSBC Singapore</h3>
-    <div class="rmeta">Generative Engine Optimisation · snapshot ${data.generatedAt.slice(0, 10)} ·
-      ${data.promptCount} prompts × ${data.activeEngineIds.length} live engine${data.activeEngineIds.length > 1 ? 's' : ''} × ${cfg.brands.length} brands</div>
+    <h3>AI Visibility &amp; Growth Intelligence — Singapore Banking</h3>
+    <div class="rmeta">Public-data snapshot · ${data.generatedAt.slice(0, 10)} ·
+      ${data.promptCount} prompts × ${data.activeEngineIds.length} connected engine${data.activeEngineIds.length > 1 ? 's' : ''} × ${cfg.brands.length} banks ·
+      all banking segments with a wealth, premier &amp; affluent commercial focus</div>
 
-    <h4>Headline</h4>
-    <p>HSBC Singapore scores <strong>${fmt1(h.score)}/100</strong> and ranks
-      <strong>#${h.rank} of ${S.length}</strong> in the Singapore competitive set${
-      d === null ? '. This is the first snapshot, so there is no trend to read yet' :
-      `, ${d >= 0 ? 'up' : 'down'} ${fmt1(Math.abs(d))} points since ${prev.date}`}.
-      ${h.rank === 1 ? 'HSBC currently leads the set.' : `${leader.name} leads on ${fmt1(leader.score)}.`}
-      The brand appears in ${h.hits} of ${data.promptCount * data.activeEngineIds.length} available answer slots
-      (${pct(h.frequency)}), and ${pct(h.topTwo)} of those citations land in the first two positions.</p>
+    <h4>Commercial position</h4>
+    <p><strong>${esc(focusName)}</strong> scores <strong>${fmt1(focus.score)}/100</strong> for AI visibility and ranks
+      <strong>#${focus.rank} of ${S.length}</strong> across the configured Singapore banking set${
+      d === null ? '. This is the first snapshot, so there is no trend to read yet'
+      : `, ${d >= 0 ? 'up' : 'down'} ${fmt1(Math.abs(d))} points since ${prev.date}`}.
+      ${focus.rank === 1
+        ? `${esc(focusName)} currently leads the set.`
+        : `${esc(leader.name)} leads on ${fmt1(leader.score)}.`}
+      The focus bank appears in ${focus.hits} of ${data.promptCount * data.activeEngineIds.length} available answer slots
+      (${pct(focus.frequency)}), with ${pct(focus.topTwo)} of its citations landing in the first two positions.</p>
 
-    <h4>Where HSBC stands</h4>
-    <table><thead><tr><th class="num">#</th><th>Brand</th><th>Set</th>
-      <th class="num">Cited</th><th class="num">SOV</th><th class="num">Score</th></tr></thead><tbody>${
-      S.map(r => `<tr class="${r.id === cfg.subject ? 'subject' : ''}"><td class="num">${r.rank}</td>
-        <td>${r.name}</td><td>${r.tier}</td><td class="num">${r.hits}</td>
-        <td class="num">${pct(r.shareOfVoice)}</td>
+    <h4>Competitive position</h4>
+    <table><thead><tr><th class="num">#</th><th>Bank</th><th>Set</th>
+      <th class="num">Cited</th><th class="num">SOV</th><th class="num">AI visibility</th></tr></thead><tbody>${
+      S.map(r => `<tr class="${r.id === cfg.subject ? 'subject' : ''}">
+        <td class="num">${r.rank}</td><td>${esc(r.name)}</td><td>${esc(r.tier)}</td>
+        <td class="num">${r.hits}</td><td class="num">${pct(r.shareOfVoice)}</td>
         <td class="num"><strong>${fmt1(r.score)}</strong></td></tr>`).join('')
     }</tbody></table>
 
-    <h4>What the data says</h4>
+    <h4>Commercial intent leadership</h4>
+    <table><thead><tr><th>Intent</th><th>Commercial lens</th>
+      <th class="num">Prompts</th><th>Leader</th><th class="num">Focus-bank citations</th></tr></thead><tbody>${
+      intentRows.map(r => `<tr>
+        <td>${esc(r.intent)}</td>
+        <td>${r.wealthPriority ? '<strong>Wealth priority</strong>' : 'All banking'}</td>
+        <td class="num">${r.prompts}</td>
+        <td>${r.leaderId ? esc(BRAND[r.leaderId]?.name ?? r.leaderId) : 'No bank cited'}</td>
+        <td class="num">${r.focusCount}</td>
+      </tr>`).join('')
+    }</tbody></table>
+
+    <h4>Commercial interpretation</h4>
     <ul>
-      <li>The three local incumbents average ${fmt1(locals.reduce((a, b) => a + b.score, 0) / (locals.length || 1))}
-        against ${fmt1(intls.reduce((a, b) => a + b.score, 0) / (intls.length || 1))} for the other international banks.
-        ${locals.reduce((a, b) => a + b.score, 0) / (locals.length || 1) > intls.reduce((a, b) => a + b.score, 0) / (intls.length || 1)
-          ? 'The domestic three, not the cross-border peers, are the binding constraint on share of voice, which is where content effort should go.'
-          : 'The cross-border peers are competing harder for these answers than the domestic banks.'}</li>
-      ${byEngine.length > 1 ? `<li>Weakest engine is <strong>${byEngine[0].e.name}</strong>, citing HSBC on
-        ${byEngine[0].hits} of ${data.promptCount} prompts, against ${byEngine[byEngine.length - 1].hits}
-        for <strong>${byEngine[byEngine.length - 1].e.name}</strong>. Variance this wide across engines points to a
-        retrieval and source problem rather than a brand problem.</li>` : ''}
+      ${weakest && strongest && byEngine.length > 1 ? `<li><strong>${esc(weakest.e.name)}</strong> is currently the weakest engine for ${esc(focusName)}, citing it on
+        ${weakest.hits} of ${data.promptCount} prompts versus ${strongest.hits} on <strong>${esc(strongest.e.name)}</strong>. This engine variance is a signal to investigate retrieval, source coverage and answer structure rather than assuming one universal AI ranking.</li>` : ''}
       <li>${absent.length
-        ? `${absent.length} prompt${absent.length > 1 ? 's carry' : ' carries'} no HSBC citation on any live engine: ${absent.map(p => `"${p.q}"`).join('; ')}.`
-        : 'HSBC is cited on at least one live engine for every prompt in the set.'}</li>
+        ? `${absent.length} prompt${absent.length > 1 ? 's show' : ' shows'} no ${esc(focusName)} citation on any connected engine: ${absent.map(p => `"${esc(p.q)}"`).join('; ')}.`
+        : `${esc(focusName)} is cited on at least one connected engine for every prompt in the set.`}</li>
+      <li>The platform covers the full banking journey, while wealth, premier, priority, private-bank and affluent intents are treated as the primary commercial lens for higher-value customer acquisition.</li>
     </ul>
 
-    <h4>Recommended next moves</h4>
+    <h4>Priority growth actions</h4>
     <ul>
-      <li>Publish a directly comparative, figure-bearing page for each absent prompt. Answer engines cite pages that
-        state eligibility, fees and thresholds as extractable facts, not pages that describe benefits.</li>
-      ${byEngine.length > 1 ? `<li>Close the ${byEngine[0].e.name} gap first. It is the largest single addressable block of missing citations here.</li>` : ''}
-      <li>Add structured data and a plain-language FAQ block to the priority and premier product pages, which are the
-        pages competitors are being pulled from on comparison prompts.</li>
-      <li>Read the trend, not the snapshot. Answer engines are non-deterministic and their indexes refresh on their own
-        cycles, so week-to-week movement under a couple of points is noise.</li>
+      <li>Start with high-value wealth, premier and affluent prompts where the focus bank is absent or consistently outranked.</li>
+      <li>Use the public source evidence to identify whether the winning answer is being shaped by a competitor-owned page or by a third-party publisher; the content response is different for each.</li>
+      <li>Run the content-analysis layer before recommending specific page changes. Any claim about missing FAQs, eligibility, fees, comparison content or conversion paths should be supported by the live page evidence rather than assumed.</li>
+      <li>Read trends across repeated snapshots rather than treating one AI response as a stable market position.</li>
     </ul>
 
     <div class="foot">
-      Method: GEO score = ${pct(WEIGHTS.frequency)} citation frequency + ${pct(WEIGHTS.prominence)} answer prominence
+      Method: AI visibility score = ${pct(WEIGHTS.frequency)} citation frequency + ${pct(WEIGHTS.prominence)} answer prominence
       + ${pct(WEIGHTS.shareOfVoice)} normalised share of voice + ${pct(WEIGHTS.topTwo)} top-two recommendation rate.
-      Citations extracted by first mention of a brand in the answer text.<br>
-      Provenance: every figure derives from a live API call recorded on ${data.generatedAt.slice(0, 10)}
-      against ${liveEngines().map(e => `${e.name} (${e.model})`).join(', ')}.
-      ${grounded.length ? `${grounded.join(' and ')} ${grounded.length > 1 ? 'were' : 'was'} search-grounded, so ${grounded.length > 1 ? 'those' : 'that'} result${grounded.length > 1 ? 's reflect' : ' reflects'} live retrieval. ` : ''}
-      ${liveEngines().filter(e => !e.grounded).length ? `${liveEngines().filter(e => !e.grounded).map(e => e.name).join(' and ')} answered without search grounding, so ${liveEngines().filter(e => !e.grounded).length > 1 ? 'those measure' : 'that measures'} the model's internalised brand knowledge rather than retrieval. Read the two as different signals. ` : ''}
+      Brand citations are extracted from observed AI answers.<br>
+      Provenance: visibility figures derive from API responses recorded on ${data.generatedAt.slice(0, 10)}
+      across ${liveEngines().map(e => `${e.name} (${e.model})`).join(', ')}.
+      ${grounded.length ? `${grounded.join(' and ')} ${grounded.length > 1 ? 'were' : 'was'} search-grounded, so ${grounded.length > 1 ? 'those results reflect' : 'that result reflects'} live retrieval. ` : ''}
+      ${liveEngines().filter(e => !e.grounded).length ? `${liveEngines().filter(e => !e.grounded).map(e => e.name).join(' and ')} answered without search grounding, so ${liveEngines().filter(e => !e.grounded).length > 1 ? 'those results measure' : 'that result measures'} model-internalised brand knowledge rather than live retrieval. ` : ''}
       ${cfg.engines.filter(e => !data.activeEngineIds.includes(e.id)).length
-        ? `Not connected in this snapshot: ${cfg.engines.filter(e => !data.activeEngineIds.includes(e.id)).map(e => e.name).join(', ')}. No estimate has been substituted for them.`
+        ? `Not connected in this snapshot: ${cfg.engines.filter(e => !data.activeEngineIds.includes(e.id)).map(e => e.name).join(', ')}. No estimate has been substituted.`
         : ''}
     </div>`;
 }
