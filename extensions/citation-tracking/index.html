@@ -92,6 +92,10 @@
   button.act:focus-visible{outline:2px solid #4285F4;outline-offset:2px}
   select{font-family:var(--sans);font-size:12.5px;padding:8px 10px;background:var(--panel2);color:var(--text);border:1px solid var(--rule);border-radius:2px}
   .toolbar{display:flex;flex-wrap:wrap;gap:9px;align-items:center;margin-bottom:16px}
+  .gap-compare-toolbar{display:flex;align-items:center;gap:12px;margin:18px 0 22px;flex-wrap:wrap}
+  .gap-compare-toolbar label{color:var(--muted);font-size:13px}
+  .gap-compare-toolbar label strong{color:var(--text);font-weight:600}
+  .gap-compare-toolbar select{min-width:220px}
 
   .status{font-family:var(--mono);font-size:11.5px;color:var(--muted)}
   .es-row{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:18px}
@@ -299,8 +303,13 @@ function renderApp() {
 
     <div class="panel" style="margin-top:14px">
       <h2 class="sec">Competitive Visibility Gap</h2>
-      <p class="note">Prompts where a selected competitor is cited ahead of the selected bank. These are the clearest observable gaps to investigate for content, discoverability and acquisition opportunity.</p>
-      <div class="toolbar"><select id="gapPick"></select></div>
+      <p class="note">Select a competitor to see the prompts where that bank is cited ahead of the selected bank. These are the clearest observable gaps to investigate for content, discoverability and acquisition opportunity.</p>
+      <div class="toolbar gap-compare-toolbar">
+        <label for="gapPick">
+          Compare <strong id="gapSubject">Selected Bank</strong> with
+        </label>
+        <select id="gapPick" aria-label="Select competitor bank"></select>
+      </div>
       <div id="gapTable"></div>
     </div>
   </section>
@@ -328,10 +337,19 @@ function renderApp() {
     <div class="report" id="reportBody"></div>
   </section>`;
 
+  const subjectBank = cfg.brands.find(b => b.id === cfg.subject);
   const others = cfg.brands.filter(b => b.id !== cfg.subject);
-  $('#trendPick').innerHTML = others.map(b => `<option value="${b.id}">Compare with ${b.name}</option>`).join('')
-    + `<option value="${cfg.subject}">${esc(BRAND[cfg.subject]?.name ?? cfg.subject)} only</option>`;
-  $('#gapPick').innerHTML = others.map(b => `<option value="${b.id}">${b.name}</option>`).join('');
+
+  $('#trendPick').innerHTML = others
+    .map(b => `<option value="${b.id}">Benchmark against ${esc(b.name)}</option>`)
+    .join('')
+    + `<option value="${cfg.subject}">${esc(subjectBank?.name ?? cfg.subject)} only</option>`;
+
+  $('#gapSubject').textContent = subjectBank?.name ?? cfg.subject;
+
+  $('#gapPick').innerHTML = others
+    .map(b => `<option value="${b.id}">${esc(b.name)}</option>`)
+    .join('');
   $('#engFilter').innerHTML = `<option value="all">All engines</option>`
     + cfg.engines.map(e => `<option value="${e.id}">${e.name} only</option>`).join('');
   $('#promptPick').innerHTML = cfg.prompts.map(p => `<option value="${p.id}">${esc(p.q)}</option>`).join('');
