@@ -2,9 +2,9 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<title>AI Visibility & Growth Intelligence — Singapore Banking Sector</title>
+<title>AI Search Visibility & Commercial Intelligence — Singapore Banking</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="Public-data intelligence for Singapore banking, benchmarking AI visibility across ChatGPT, Claude, Gemini and Perplexity with a deeper commercial focus on wealth, premier and affluent customer journeys.">
+<meta name="description" content="Public-data AI Search Visibility and Commercial Intelligence for Singapore banking. Benchmark banks across ChatGPT, Claude, Gemini and Perplexity, analyse cited public sources, compare customer journeys, and identify commercial opportunities with a stronger focus on wealth, premier and affluent acquisition.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -142,9 +142,14 @@
 <div class="wrap">
   <header class="mast">
     <div>
-      <div class="eyebrow">AI Search · Competitive Intelligence · Wealth &amp; Customer Acquisition</div>
-      <h1>AI Visibility &amp; Growth Intelligence — Singapore Banking</h1>
-      <div class="sub">Public-data intelligence showing how banks perform across ChatGPT, Claude, Gemini and Perplexity, which competitors win visibility, and where content opportunities could strengthen customer acquisition — with deeper analysis across wealth, premier and affluent banking journeys.</div>
+      <div class="eyebrow">AI Search · Competitive Intelligence · Commercial Growth</div>
+      <h1>AI Search Visibility &amp; Commercial Intelligence — Singapore Banking</h1>
+      <div class="sub">
+        Public-data intelligence showing how Singapore banks perform across ChatGPT, Claude, Gemini and Perplexity,
+        which institutions win visibility, which public sources influence AI answers, and where commercial opportunities
+        exist across retail, cards, lending, international banking, wealth, premier, affluent, SME and corporate journeys.
+        Wealth, premier and affluent acquisition receive the strongest commercial emphasis.
+      </div>
       <div style="display:flex;flex-wrap:wrap;gap:7px;margin-top:10px">
         <span class="es"><span class="dot" style="background:var(--good)"></span><b>Observed AI responses</b></span>
         <span class="es"><span class="dot" style="background:var(--good)"></span><b>Public cited sources</b></span>
@@ -190,7 +195,7 @@ async function boot() {
 
   $('#asof').textContent = 'Snapshot ' + data.generatedAt.slice(0, 10);
   $('#scope').textContent =
-    `${data.promptCount} prompts · ${data.activeEngineIds.length} live engine${data.activeEngineIds.length > 1 ? 's' : ''} · ${cfg.brands.length} brands`;
+    `${data.promptCount} prompts · ${data.activeEngineIds.length} connected platform${data.activeEngineIds.length > 1 ? 's' : ''} · ${cfg.brands.length} banks`;
 
   renderApp();
 }
@@ -220,11 +225,11 @@ function renderSetup(kind, err) {
 function renderApp() {
   $('#app').innerHTML = `
   <nav class="tabs" role="tablist">
-    <button role="tab" aria-selected="true" data-v="dash">AI Visibility</button>
-    <button role="tab" aria-selected="false" data-v="cite">AI Search Evidence</button>
-    <button role="tab" aria-selected="false" data-v="bench">Competitive Intelligence</button>
-    <button role="tab" aria-selected="false" data-v="plan">Growth Opportunities</button>
-    <button role="tab" aria-selected="false" data-v="report">Executive Brief</button>
+    <button role="tab" aria-selected="true" data-v="dash">AI Search Visibility</button>
+    <button role="tab" aria-selected="false" data-v="cite">AI Evidence</button>
+    <button role="tab" aria-selected="false" data-v="bench">Competitor Benchmark</button>
+    <button role="tab" aria-selected="false" data-v="plan">Commercial Opportunities</button>
+    <button role="tab" aria-selected="false" data-v="report">Executive Intelligence</button>
   </nav>
 
   <section class="view on" id="v-dash">
@@ -232,32 +237,32 @@ function renderApp() {
     <div class="grid g4" id="kpis"></div>
     <div class="grid g2" style="margin-top:14px">
       <div class="panel">
-        <h2 class="sec">AI share of visibility by engine</h2>
-        <p class="note">Observed brand visibility across each connected AI engine. The highlighted segment shows the configured focus bank; use the split to see who is winning recommendation share by engine.</p>
+        <h2 class="sec">AI Search Visibility by Platform</h2>
+        <p class="note">Observed brand visibility across each connected AI platform. The highlighted segment shows the selected bank; use the split to see who is winning recommendation share by platform.</p>
         <div id="ribbons"></div><div class="legend" id="ribbonLegend"></div>
       </div>
       <div class="panel">
-        <h2 class="sec">AI visibility trend</h2>
+        <h2 class="sec">AI Search Visibility Trend</h2>
         <p class="note" id="trendNote"></p>
         <div class="toolbar" style="margin-bottom:10px"><select id="trendPick"></select></div>
         <div id="trend"></div>
       </div>
     </div>
     <div class="panel" style="margin-top:14px">
-      <h2 class="sec">Visibility score drivers</h2>
+      <h2 class="sec">AI Visibility Score Breakdown</h2>
       <p class="note">Weights: ${pct(WEIGHTS.frequency)} frequency, ${pct(WEIGHTS.prominence)} prominence, ${pct(WEIGHTS.shareOfVoice)} share of voice, ${pct(WEIGHTS.topTwo)} top-two rate. Defined in <code>scripts/score.mjs</code>.</p>
       <div id="compTable"></div>
     </div>
   </section>
 
   <section class="view" id="v-cite">
-    <h2 class="sec">Prompt-level AI recommendation matrix</h2>
-    <p class="note">Cell value is the focus bank&#39;s position in that engine&#39;s answer. A dash means it was not named; those are addressable visibility gaps. A dotted cell means that engine is not connected.</p>
+    <h2 class="sec">AI Recommendation Matrix</h2>
+    <p class="note">Cell value is the selected bank&#39;s position in that platform&#39;s answer. A dash means it was not named; those are addressable visibility gaps. A dotted cell means that platform is not connected.</p>
     <div class="toolbar"><select id="engFilter"></select></div>
     <div class="panel scroll"><div id="matrix"></div></div>
 
     <div class="panel" style="margin-top:14px">
-      <h2 class="sec">Public sources influencing AI answers</h2>
+      <h2 class="sec">AI Citation Intelligence</h2>
       <p class="note">Observed public URLs cited by search-grounded AI engines, grouped by domain. This shows whether visibility is being shaped by bank-owned content, competitor-owned content or third-party publishers.</p>
       <div class="toolbar"><select id="srcFilter">
         <option value="all">All sources</option>
@@ -277,32 +282,32 @@ function renderApp() {
   </section>
 
   <section class="view" id="v-bench">
-    <h2 class="sec">Singapore banking competitive benchmark</h2>
-    <p class="note">All configured Singapore banking brands ranked on observed AI visibility across connected engines. Wealth, premier and affluent journeys are treated as the priority commercial lens, not the only coverage area.</p>
+    <h2 class="sec">Singapore Banking Competitive Benchmark</h2>
+    <p class="note">All configured Singapore banks ranked on observed AI Search Visibility across connected platforms. The benchmark covers the wider banking market while prioritising wealth, premier and affluent customer journeys as the strongest commercial lens.</p>
     <div class="toolbar"><select id="tierFilter">
-      <option value="all">All Singapore banks</option>
-      <option value="local">Local banks only</option>
-      <option value="international">International banks only</option>
+      <option value="all">All Relevant Singapore Banks</option>
+      <option value="local">Local Banks</option>
+      <option value="international">International Banks</option>
     </select></div>
     <div class="panel"><div id="benchTable"></div></div>
 
     <div class="panel" style="margin-top:14px">
-      <h2 class="sec">Commercial intent leadership</h2>
-      <p class="note">Prompts grouped by customer intent. This shows where the focus bank leads, where competitors own the answer, and which journeys deserve deeper investigation. Wealth, premier and affluent intents should be prioritised when commercial value is higher.</p>
+      <h2 class="sec">Customer Journey Leadership</h2>
+      <p class="note">Prompts grouped by customer journey. This shows where the selected bank leads, where competitors own the answer, and which journeys deserve deeper investigation. Wealth, premier and affluent intents are prioritised when commercial value is higher.</p>
       <div id="segTable"></div>
     </div>
 
     <div class="panel" style="margin-top:14px">
-      <h2 class="sec">Head-to-head visibility gap</h2>
-      <p class="note">Prompts where a selected competitor is cited ahead of the focus bank. These are the clearest observable gaps to investigate for content, discoverability and acquisition opportunity.</p>
+      <h2 class="sec">Competitive Visibility Gap</h2>
+      <p class="note">Prompts where a selected competitor is cited ahead of the selected bank. These are the clearest observable gaps to investigate for content, discoverability and acquisition opportunity.</p>
       <div class="toolbar"><select id="gapPick"></select></div>
       <div id="gapTable"></div>
     </div>
   </section>
 
   <section class="view" id="v-plan">
-    <h2 class="sec">Growth opportunities</h2>
-    <p class="note">Priority opportunities derived from observed AI answers and cited public sources. Each card shows where the focus bank is losing visibility, who is taking the slot, and whether the answer space is open, mixed or competitor-owned. Wealth, premier and affluent journeys receive the strongest commercial emphasis.</p>
+    <h2 class="sec">Commercial Growth Opportunities</h2>
+    <p class="note">Priority commercial opportunities derived from observed AI answers and cited public sources. Each card shows where the selected bank is losing visibility, who is taking the slot, and whether the answer space is open, mixed or competitor-owned. Wealth, premier and affluent journeys receive the strongest commercial emphasis.</p>
     <div class="toolbar">
       <select id="planFilter">
         <option value="all">All gaps</option>
@@ -670,7 +675,7 @@ function paintSegments() {
 
   $('#segTable').innerHTML = `<table><thead><tr>
     <th>Segment</th><th class="num">Prompts</th>
-    <th class="num">Focus bank cited</th><th class="num">Avg position</th>
+    <th class="num">${esc(BRAND[cfg.subject]?.name ?? cfg.subject)} visibility</th><th class="num">Avg position</th>
     <th>Leads this segment</th><th>Verdict</th>
   </tr></thead><tbody>${
     rows.map(r => {
@@ -696,7 +701,7 @@ function paintSegments() {
       </tr>`;
     }).join('')
   }</tbody></table>
-  <p class="note" style="margin-top:12px;margin-bottom:0">Verdict compares raw citation counts within the segment, so a two-prompt segment is far less reliable than a four-prompt one. "Tied lead" means the focus bank matches the leader rather than beating it.</p>`;
+  <p class="note" style="margin-top:12px;margin-bottom:0">Verdict compares raw citation counts within the segment, so a two-prompt segment is far less reliable than a four-prompt one. "Tied lead" means the selected bank matches the leader rather than beating it.</p>`;
 }
 
 function paintEngines() {
@@ -724,15 +729,15 @@ function paintKpis() {
     liveEngines().some(e => (rankOf(p.id, e.id) ?? 0) > 0)).length;
 
   const cards = [
-    { lab: 'AI visibility score', val: fmt1(h.score), unit: '/100',
+    { lab: 'AI Search Visibility Score', val: fmt1(h.score), unit: '/100',
       d: d === null ? 'First snapshot, no trend yet' : `${d >= 0 ? '▲' : '▼'} ${fmt1(Math.abs(d))} vs ${prev.date}`,
       cls: d === null ? 'flat' : d >= 0 ? 'up' : 'down' },
-    { lab: 'Competitive rank', val: '#' + h.rank, unit: 'of ' + S.length,
+    { lab: 'Market Position', val: '#' + h.rank, unit: 'of ' + S.length,
       d: h.rank === 1 ? 'Leading the set' : `${fmt1(leader.score - h.score)} behind ${leader.name}`,
       cls: h.rank === 1 ? 'up' : 'flat' },
-    { lab: 'AI recommendation rate', val: pct(h.frequency), unit: '',
+    { lab: 'AI Recommendation Share', val: pct(h.frequency), unit: '',
       d: `${h.hits} of ${data.promptCount * data.activeEngineIds.length} answer slots`, cls: 'flat' },
-    { lab: 'Growth gaps', val: String(absent + partial), unit: 'prompts',
+    { lab: 'Commercial Opportunity Index', val: String(absent + partial), unit: 'prompts',
       d: `${absent} absent everywhere · ${partial} partial`, cls: absent ? 'down' : 'flat' }
   ];
   $('#kpis').innerHTML = cards.map(c => `<div class="panel kpi">
@@ -801,7 +806,7 @@ function paintTrend() {
       text-anchor="${i === 0 ? 'start' : i === n - 1 ? 'end' : 'middle'}">${history[i].date.slice(5)}</text>`).join('');
 
   $('#trend').innerHTML = `<svg viewBox="0 0 ${W} ${H}" width="100%" role="img"
-    aria-label="AI visibility score by snapshot date">${grid}${lines}${ticks}</svg>
+    aria-label="AI Search Visibility Score by snapshot date">${grid}${lines}${ticks}</svg>
     <div class="legend" style="margin-top:6px">${series.map(s =>
       `<span><i class="swatch" style="background:${s.b.colour}"></i>${s.b.name}</span>`).join('')}</div>`;
 }
@@ -809,7 +814,7 @@ function paintTrend() {
 function paintComp() {
   $('#compTable').innerHTML = `<table><thead><tr><th>Brand</th>
     <th class="num">Frequency</th><th class="num">Prominence</th><th class="num">Share of voice</th>
-    <th class="num">Top-two rate</th><th class="num">AI visibility score</th></tr></thead><tbody>${
+    <th class="num">Top-two rate</th><th class="num">AI Search Visibility Score</th></tr></thead><tbody>${
     S.map(r => `<tr class="${r.id === cfg.subject ? 'subject' : ''}">
       <td><span class="bankname">${r.name}</span></td>
       <td class="num">${pct(r.frequency)}</td><td class="num">${r.prominence.toFixed(2)}</td>
@@ -830,7 +835,7 @@ function paintMatrix() {
         const r = rankOf(p.id, e.id);
         if (r === undefined) return `<td class="cell"><span class="chip na" title="${e.name} not connected">n/a</span></td>`;
         const cls = r === null ? 'miss' : r === 1 ? 'r1' : r === 2 ? 'r2' : r === 3 ? 'r3' : 'rn';
-        return `<td class="cell"><span class="chip ${cls}" title="${e.name}: ${r === null ? 'answered, HSBC not named' : 'position ' + r}">${r === null ? '—' : r}</span></td>`;
+        return `<td class="cell"><span class="chip ${cls}" title="${e.name}: ${r === null ? `answered, ${BRAND[cfg.subject]?.name ?? cfg.subject} not named` : 'position ' + r}">${r === null ? '—' : r}</span></td>`;
       }).join('')}</tr>`).join('')
   }</tbody></table>
   <div class="legend">
@@ -870,7 +875,7 @@ function paintBench() {
   const max = Math.max(...rows.map(r => r.score)) || 1;
   $('#benchTable').innerHTML = `<table><thead><tr><th class="num">#</th><th>Brand</th>
     <th class="num">Cited</th><th class="num">Avg position</th><th class="num">Share of voice</th>
-    <th class="num">AI visibility score</th><th style="width:24%">vs leader</th></tr></thead><tbody>${
+    <th class="num">AI Search Visibility Score</th><th style="width:24%">vs leader</th></tr></thead><tbody>${
     rows.map(r => `<tr class="${r.id === cfg.subject ? 'subject' : ''}">
       <td class="num" style="color:#5B6B7E">${r.rank}</td>
       <td><span class="bankname">${r.name}</span><span class="tier">${r.tier}</span></td>
@@ -896,7 +901,7 @@ function paintGap() {
     return;
   }
   $('#gapTable').innerHTML = `<table><thead><tr><th>Prompt</th><th>Engine</th>
-    <th class="num">${BRAND[cid].name}</th><th class="num">Focus bank</th><th>Gap</th></tr></thead><tbody>${
+    <th class="num">${BRAND[cid].name}</th><th class="num">Selected Bank</th><th>Gap</th></tr></thead><tbody>${
     rows.map(r => `<tr><td class="qtext">${esc(r.p.q)}</td>
       <td><span class="dot" style="background:${r.e.colour};margin-right:6px"></span>${r.e.name}</td>
       <td class="num">${r.ci}</td>
@@ -966,32 +971,32 @@ function paintReport() {
   const strongest = byEngine[byEngine.length - 1];
 
   $('#reportBody').innerHTML = `
-    <h3>AI Visibility &amp; Growth Intelligence — Singapore Banking</h3>
+    <h3>AI Search Visibility &amp; Commercial Intelligence — Singapore Banking</h3>
     <div class="rmeta">Public-data snapshot · ${data.generatedAt.slice(0, 10)} ·
       ${data.promptCount} prompts × ${data.activeEngineIds.length} connected engine${data.activeEngineIds.length > 1 ? 's' : ''} × ${cfg.brands.length} banks ·
       all banking segments with a wealth, premier &amp; affluent commercial focus</div>
 
-    <h4>Commercial position</h4>
-    <p><strong>${esc(focusName)}</strong> scores <strong>${fmt1(focus.score)}/100</strong> for AI visibility and ranks
+    <h4>Commercial Position</h4>
+    <p><strong>${esc(focusName)}</strong> scores <strong>${fmt1(focus.score)}/100</strong> for AI Search Visibility and ranks
       <strong>#${focus.rank} of ${S.length}</strong> across the configured Singapore banking set${
       d === null ? '. This is the first snapshot, so there is no trend to read yet'
       : `, ${d >= 0 ? 'up' : 'down'} ${fmt1(Math.abs(d))} points since ${prev.date}`}.
       ${focus.rank === 1
         ? `${esc(focusName)} currently leads the set.`
         : `${esc(leader.name)} leads on ${fmt1(leader.score)}.`}
-      The focus bank appears in ${focus.hits} of ${data.promptCount * data.activeEngineIds.length} available answer slots
+      The selected bank appears in ${focus.hits} of ${data.promptCount * data.activeEngineIds.length} available answer slots
       (${pct(focus.frequency)}), with ${pct(focus.topTwo)} of its citations landing in the first two positions.</p>
 
-    <h4>Competitive position</h4>
+    <h4>Competitive Position</h4>
     <table><thead><tr><th class="num">#</th><th>Bank</th><th>Set</th>
-      <th class="num">Cited</th><th class="num">SOV</th><th class="num">AI visibility</th></tr></thead><tbody>${
+      <th class="num">Cited</th><th class="num">SOV</th><th class="num">AI Search Visibility</th></tr></thead><tbody>${
       S.map(r => `<tr class="${r.id === cfg.subject ? 'subject' : ''}">
         <td class="num">${r.rank}</td><td>${esc(r.name)}</td><td>${esc(r.tier)}</td>
         <td class="num">${r.hits}</td><td class="num">${pct(r.shareOfVoice)}</td>
         <td class="num"><strong>${fmt1(r.score)}</strong></td></tr>`).join('')
     }</tbody></table>
 
-    <h4>Commercial intent leadership</h4>
+    <h4>Customer Journey Leadership</h4>
     <table><thead><tr><th>Intent</th><th>Commercial lens</th>
       <th class="num">Prompts</th><th>Leader</th><th class="num">Focus-bank citations</th></tr></thead><tbody>${
       intentRows.map(r => `<tr>
@@ -1003,7 +1008,7 @@ function paintReport() {
       </tr>`).join('')
     }</tbody></table>
 
-    <h4>Commercial interpretation</h4>
+    <h4>Commercial Interpretation</h4>
     <ul>
       ${weakest && strongest && byEngine.length > 1 ? `<li><strong>${esc(weakest.e.name)}</strong> is currently the weakest engine for ${esc(focusName)}, citing it on
         ${weakest.hits} of ${data.promptCount} prompts versus ${strongest.hits} on <strong>${esc(strongest.e.name)}</strong>. This engine variance is a signal to investigate retrieval, source coverage and answer structure rather than assuming one universal AI ranking.</li>` : ''}
@@ -1013,16 +1018,16 @@ function paintReport() {
       <li>The platform covers the full banking journey, while wealth, premier, priority, private-bank and affluent intents are treated as the primary commercial lens for higher-value customer acquisition.</li>
     </ul>
 
-    <h4>Priority growth actions</h4>
+    <h4>Priority Commercial Actions</h4>
     <ul>
-      <li>Start with high-value wealth, premier and affluent prompts where the focus bank is absent or consistently outranked.</li>
+      <li>Start with high-value wealth, premier and affluent prompts where the selected bank is absent or consistently outranked.</li>
       <li>Use the public source evidence to identify whether the winning answer is being shaped by a competitor-owned page or by a third-party publisher; the content response is different for each.</li>
       <li>Run the content-analysis layer before recommending specific page changes. Any claim about missing FAQs, eligibility, fees, comparison content or conversion paths should be supported by the live page evidence rather than assumed.</li>
       <li>Read trends across repeated snapshots rather than treating one AI response as a stable market position.</li>
     </ul>
 
     <div class="foot">
-      Method: AI visibility score = ${pct(WEIGHTS.frequency)} citation frequency + ${pct(WEIGHTS.prominence)} answer prominence
+      Method: AI Search Visibility Score = ${pct(WEIGHTS.frequency)} citation frequency + ${pct(WEIGHTS.prominence)} answer prominence
       + ${pct(WEIGHTS.shareOfVoice)} normalised share of voice + ${pct(WEIGHTS.topTwo)} top-two recommendation rate.
       Brand citations are extracted from observed AI answers.<br>
       Provenance: visibility figures derive from API responses recorded on ${data.generatedAt.slice(0, 10)}
