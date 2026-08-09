@@ -69,59 +69,58 @@
     }
   ],
 
-  "prompts": [
-    {
-      "id": "p01",
-      "intent": "Discovery · expat banking",
-      "q": "best bank in Singapore for expats"
-    },
-    {
-      "id": "p02",
-      "intent": "International Banking · multi-currency",
-      "q": "which bank has the best multi-currency account in Singapore"
-    },
-    {
-      "id": "p03",
-      "intent": "Premier & Affluent · competitor comparison",
-      "q": "HSBC Premier vs DBS Treasures, which is better"
-    },
-    {
-      "id": "p04",
-      "intent": "Premier & Affluent · eligibility and minimum balance",
-      "q": "best priority banking in Singapore and the minimum balance required"
-    },
-    {
-      "id": "p05",
-      "intent": "Onboarding · non-resident account opening",
-      "q": "how do I open a Singapore bank account as a foreigner"
-    },
-    {
-      "id": "p06",
-      "intent": "Lending · cross-border property",
-      "q": "best bank for an overseas property loan from Singapore"
-    },
-    {
-      "id": "p07",
-      "intent": "International Banking · overseas transfers",
-      "q": "cheapest way to send money overseas from a Singapore bank"
-    },
-    {
-      "id": "p08",
-      "intent": "Everyday Banking · travel cards",
-      "q": "best credit card for travel in Singapore"
-    },
-    {
-      "id": "p09",
-      "intent": "Wealth & Investing · wealth management",
-      "q": "which Singapore bank is best for wealth management"
-    },
-    {
-      "id": "p10",
-      "intent": "International Banking · relocation",
-      "q": "best global account for someone relocating from Singapore to the UK"
-    }
-  ],
-
+ "prompts": [
+  {
+    "id": "p01",
+    "intent": "Wealth & Investing · bank selection",
+    "q": "which Singapore bank is best for wealth management"
+  },
+  {
+    "id": "p02",
+    "intent": "Premier & Affluent · comparison",
+    "q": "HSBC Premier vs DBS Treasures vs UOB Privilege Banking, which is better"
+  },
+  {
+    "id": "p03",
+    "intent": "Premier & Affluent · eligibility",
+    "q": "best priority banking in Singapore and the minimum balance required"
+  },
+  {
+    "id": "p04",
+    "intent": "Wealth & Investing · investment advice",
+    "q": "which Singapore bank offers the best investment advisory service for affluent customers"
+  },
+  {
+    "id": "p05",
+    "intent": "Wealth & Investing · portfolio solutions",
+    "q": "best bank in Singapore for investing a large cash balance"
+  },
+  {
+    "id": "p06",
+    "intent": "International Wealth · global banking",
+    "q": "best Singapore bank for wealthy customers who need international banking and investment services"
+  },
+  {
+    "id": "p07",
+    "intent": "International Banking · multi-currency",
+    "q": "which bank has the best multi-currency account in Singapore"
+  },
+  {
+    "id": "p08",
+    "intent": "Discovery · expat banking",
+    "q": "best bank in Singapore for expats"
+  },
+  {
+    "id": "p09",
+    "intent": "Lending · overseas property",
+    "q": "best bank for an overseas property loan from Singapore"
+  },
+  {
+    "id": "p10",
+    "intent": "International Banking · relocation",
+    "q": "best global account for someone relocating from Singapore to the UK"
+  }
+]
   "instruction": "Answer as you normally would for someone based in Singapore. Name specific banks and, where relevant, specific named products. Give a clear recommendation or comparison where appropriate. Keep the answer factual and concise, under 200 words.",
 
   "engines": [
