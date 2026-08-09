@@ -1,7 +1,8 @@
 {
   "subject": "hsbc",
   "market": "Singapore",
-  "title": "HSBC Singapore — AI visibility tracker",
+  "title": "AI Search Visibility & Commercial Intelligence — Singapore Banking",
+
   "brands": [
     {
       "id": "hsbc",
@@ -67,59 +68,62 @@
       "pattern": "\\bCIMB\\b"
     }
   ],
+
   "prompts": [
     {
       "id": "p01",
-      "intent": "Acquisition · expat",
+      "intent": "Discovery · expat banking",
       "q": "best bank in Singapore for expats"
     },
     {
       "id": "p02",
-      "intent": "Product · FX",
+      "intent": "International Banking · multi-currency",
       "q": "which bank has the best multi-currency account in Singapore"
     },
     {
       "id": "p03",
-      "intent": "Comparison · premier",
+      "intent": "Premier & Affluent · competitor comparison",
       "q": "HSBC Premier vs DBS Treasures, which is better"
     },
     {
       "id": "p04",
-      "intent": "Product · priority",
+      "intent": "Premier & Affluent · eligibility and minimum balance",
       "q": "best priority banking in Singapore and the minimum balance required"
     },
     {
       "id": "p05",
-      "intent": "Onboarding · non-resident",
+      "intent": "Onboarding · non-resident account opening",
       "q": "how do I open a Singapore bank account as a foreigner"
     },
     {
       "id": "p06",
-      "intent": "Product · cross-border lending",
+      "intent": "Lending · cross-border property",
       "q": "best bank for an overseas property loan from Singapore"
     },
     {
       "id": "p07",
-      "intent": "Product · remittance",
+      "intent": "International Banking · overseas transfers",
       "q": "cheapest way to send money overseas from a Singapore bank"
     },
     {
       "id": "p08",
-      "intent": "Product · cards",
+      "intent": "Everyday Banking · travel cards",
       "q": "best credit card for travel in Singapore"
     },
     {
       "id": "p09",
-      "intent": "Product · wealth",
+      "intent": "Wealth & Investing · wealth management",
       "q": "which Singapore bank is best for wealth management"
     },
     {
       "id": "p10",
-      "intent": "Acquisition · outbound",
+      "intent": "International Banking · relocation",
       "q": "best global account for someone relocating from Singapore to the UK"
     }
   ],
-  "instruction": "Answer as you normally would for someone based in Singapore. Name specific banks and, where relevant, specific named products. Keep it under 200 words.",
+
+  "instruction": "Answer as you normally would for someone based in Singapore. Name specific banks and, where relevant, specific named products. Give a clear recommendation or comparison where appropriate. Keep the answer factual and concise, under 200 words.",
+
   "engines": [
     {
       "id": "gemini",
@@ -130,7 +134,7 @@
       "grounded": true,
       "cost": "free tier",
       "minDelayMs": 7000,
-      "notes": "Free. google_search grounding. Rate limit ~10 req/min."
+      "notes": "Google Search grounding enabled. Rate limiting is controlled with minDelayMs."
     },
     {
       "id": "claude",
@@ -142,7 +146,7 @@
       "cost": "paid: tokens + per-search",
       "minDelayMs": 2000,
       "maxSearches": 3,
-      "notes": "web_search_20250305 server tool. Cap searches with maxSearches."
+      "notes": "Server-side web search enabled. maxSearches controls search usage per prompt."
     },
     {
       "id": "chatgpt",
@@ -151,9 +155,9 @@
       "secret": "OPENAI_API_KEY",
       "model": "gpt-5.6",
       "grounded": true,
-      "cost": "paid: tokens + per-search",
+      "cost": "paid: tokens + web search",
       "minDelayMs": 2000,
-      "notes": "Responses API /v1/responses with the web_search tool. Chat Completions rejects this tool."
+      "notes": "Uses the OpenAI Responses API with web_search. Token limits are controlled in scripts/audit.mjs."
     },
     {
       "id": "perplexity",
@@ -162,9 +166,9 @@
       "secret": "PERPLEXITY_API_KEY",
       "model": "sonar",
       "grounded": true,
-      "cost": "paid, cheapest of the three",
+      "cost": "paid",
       "minDelayMs": 1500,
-      "notes": "Sonar always searches; grounded flag is informational."
+      "notes": "Sonar uses web retrieval. The grounded flag is retained for consistent dashboard reporting."
     }
   ]
 }
