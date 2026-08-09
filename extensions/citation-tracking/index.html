@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <title>AI Search Visibility & Wealth Segment Growth Intelligence — Singapore Banking</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="Where AI is shaping affluent banking consideration, who is winning those decision moments, and where HSBC has opportunities to strengthen visibility. Based exclusively on observed public AI responses and publicly accessible cited sources. No HSBC first-party customer, traffic, lead, conversion, revenue or AUM data is used.">
+<meta name="description" content="Independent public-data prototype testing the hypothesis that AI is becoming an upstream consideration layer for affluent banking in Singapore. Uses observed public AI responses and cited sources only; no HSBC first-party data.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -146,7 +146,7 @@
 <div class="wrap">
   <header class="mast">
     <div>
-      <div class="eyebrow">PUBLIC AI INTELLIGENCE · WEALTH GROWTH · SINGAPORE</div>
+      <div class="eyebrow">INDEPENDENT OUTSIDE-IN PROTOTYPE · PUBLIC AI INTELLIGENCE · SINGAPORE</div>
       <h1>AI Wealth Growth Intelligence — Singapore Banking</h1>
       <div class="sub">
         Where AI is shaping affluent banking consideration, who is winning those decision moments,
@@ -158,10 +158,11 @@
         <span class="es"><span class="dot" style="background:var(--warn)"></span><b>Snapshot-based analysis</b></span>
         <span class="es"><b>Wealth-focused executive lens</b></span>
       </div>
-      <div style="margin-top:12px;font-size:11.5px;color:var(--muted);max-width:82ch">
-        <strong style="color:var(--text)">Public-data intelligence.</strong>
-        Based exclusively on observed public AI responses and publicly accessible cited sources.
-        No HSBC first-party customer, traffic, lead, conversion, revenue, deposit or AUM data is used.
+      <div style="margin-top:12px;font-size:11.5px;color:var(--muted);max-width:88ch">
+        <strong style="color:var(--text)">Independent prototype — not affiliated with or commissioned by HSBC.</strong>
+        Built exclusively from observed public AI responses and publicly accessible cited sources.
+        No HSBC first-party customer, web analytics, search, CRM, lead, conversion, revenue, deposit or AUM data is used.
+        Findings are directional signals and hypotheses for validation, not estimates of HSBC commercial performance.
       </div>
     </div>
     <div class="asof"><div id="asof">Loading…</div><div id="scope"></div></div>
@@ -236,7 +237,7 @@ function renderApp() {
     <button role="tab" aria-selected="false" data-v="cite">AI Evidence</button>
     <button role="tab" aria-selected="false" data-v="bench">Competitor Benchmark</button>
     <button role="tab" aria-selected="false" data-v="plan">Commercial Opportunities</button>
-    <button role="tab" aria-selected="false" data-v="report">Executive Intelligence</button>
+    <button role="tab" aria-selected="false" data-v="report">Strategic Hypothesis Brief</button>
   </nav>
 
   <section class="view on" id="v-dash">
@@ -265,6 +266,17 @@ function renderApp() {
         <div id="trend"></div>
       </div>
     </div>
+
+    <div class="panel" style="margin-top:14px">
+      <h2 class="sec">Why AI Visibility Differs by Platform</h2>
+      <p class="note">
+        Diagnostic view of observable platform differences: HSBC mention coverage, recommendation position,
+        top-two prominence and the mix of public sources retrieved by each AI platform. These are directional
+        associations in the recorded answers — not proof of how an AI platform's internal ranking algorithm works.
+      </p>
+      <div id="platformDrivers"></div>
+    </div>
+
     <div class="panel" style="margin-top:14px">
       <h2 class="sec">AI Visibility Score Breakdown</h2>
       <p class="note">Weights: ${pct(WEIGHTS.frequency)} frequency, ${pct(WEIGHTS.prominence)} prominence, ${pct(WEIGHTS.shareOfVoice)} share of voice, ${pct(WEIGHTS.topTwo)} top-two rate. Defined in <code>scripts/score.mjs</code>.</p>
@@ -309,14 +321,14 @@ function renderApp() {
     <div class="panel"><div id="benchTable"></div></div>
 
     <div class="panel" style="margin-top:14px">
-      <h2 class="sec">Customer Journey Leadership</h2>
-      <p class="note">Prompts grouped by customer journey. This shows where the selected bank leads, where competitors own the answer, and which journeys deserve deeper investigation. Wealth, premier and affluent intents are prioritised when commercial value is higher.</p>
+      <h2 class="sec">Observed Wealth Decision Signals</h2>
+      <p class="note">Prompts grouped by customer decision journey. This shows where HSBC is observed, where competitors appear more prominently, and which patterns may merit validation. These are outside-in signals rather than measures of actual HSBC customer behaviour.</p>
       <div id="segTable"></div>
     </div>
 
     <div class="panel" style="margin-top:14px">
-      <h2 class="sec">Competitive Visibility Gap</h2>
-      <p class="note">Select a competitor to see the prompts where that bank is cited ahead of the selected bank. These are the clearest observable gaps to investigate for content, discoverability and acquisition opportunity.</p>
+      <h2 class="sec">Observed Competitor Interception Signals</h2>
+      <p class="note">Select a competitor to see the recorded AI answers where that bank appears ahead of HSBC. Use these as hypotheses for investigating public content, source authority and discoverability — not as evidence of lost customers or revenue.</p>
       <div class="toolbar gap-compare-toolbar">
         <label for="gapPick">
           Compare <strong id="gapSubject">Selected Bank</strong> with
@@ -390,11 +402,239 @@ function rankOf(pid, eid, brandId = cfg.subject) {
 }
 const liveEngines = () => cfg.engines.filter(e => data.activeEngineIds.includes(e.id));
 
+/* ------------------------------------------------------ platform diagnostics
+   Explains observable differences between AI platforms using only recorded
+   answers and public source URLs. This does not infer proprietary algorithms.
+------------------------------------------------------------------------- */
+
+function platformDiagnostics(engineId) {
+  const engineRecords = data.records.filter(r => r.engineId === engineId);
+  const available = engineRecords.length;
+
+  const subjectRecords = engineRecords.filter(r =>
+    (r.cited ?? []).includes(cfg.subject)
+  );
+
+  const visibility = available ? subjectRecords.length / available : 0;
+
+  const positions = subjectRecords
+    .map(r => (r.cited ?? []).indexOf(cfg.subject) + 1)
+    .filter(n => n > 0);
+
+  const avgPosition = positions.length
+    ? positions.reduce((a, b) => a + b, 0) / positions.length
+    : null;
+
+  const topTwo = positions.length
+    ? positions.filter(p => p <= 2).length / positions.length
+    : 0;
+
+  const sourceRows = engineRecords.flatMap(r =>
+    (r.sources ?? []).map(url => {
+      const host = hostOf(url);
+      return {
+        url,
+        host,
+        owner: host ? ownerOf(host) : null,
+        promptId: r.promptId
+      };
+    })
+  );
+
+  const totalSources = sourceRows.length;
+  const hsbcOwned = sourceRows.filter(s => s.owner === cfg.subject).length;
+  const competitorOwned = sourceRows.filter(
+    s => s.owner && s.owner !== cfg.subject
+  ).length;
+  const thirdParty = sourceRows.filter(s => !s.owner).length;
+
+  const domains = {};
+  sourceRows.forEach(s => {
+    if (!s.host) return;
+    domains[s.host] = (domains[s.host] || 0) + 1;
+  });
+
+  const topDomains = Object.entries(domains)
+    .sort((a, b) => b[1] - a[1])
+    .slice(0, 3);
+
+  return {
+    available,
+    subjectHits: subjectRecords.length,
+    visibility,
+    avgPosition,
+    topTwo,
+    totalSources,
+    hsbcOwned,
+    competitorOwned,
+    thirdParty,
+    topDomains
+  };
+}
+
+function explainPlatformDriver(d) {
+  if (!d.available) {
+    return 'No recorded observations are available for this platform.';
+  }
+
+  const signals = [];
+
+  if (d.avgPosition !== null && d.avgPosition <= 2) {
+    signals.push('HSBC is usually prominent when it appears');
+  } else if (d.avgPosition !== null) {
+    signals.push('HSBC is mentioned but tends to appear below the first two positions');
+  }
+
+  if (d.totalSources) {
+    const ownShare = d.hsbcOwned / d.totalSources;
+    const competitorShare = d.competitorOwned / d.totalSources;
+    const thirdShare = d.thirdParty / d.totalSources;
+
+    if (ownShare >= 0.25) {
+      signals.push('HSBC-owned pages form a meaningful share of retrieved sources');
+    }
+
+    if (competitorShare > ownShare) {
+      signals.push('competitor-owned pages are retrieved more often than HSBC-owned pages');
+    }
+
+    if (thirdShare >= 0.5) {
+      signals.push('third-party publishers account for most retrieved sources');
+    }
+  } else {
+    signals.push('no source URLs were recorded, so source-selection effects cannot be assessed');
+  }
+
+  return signals.length
+    ? signals.join('; ') + '.'
+    : 'No single observable driver dominates; review prompt-level answers and sources.';
+}
+
+function platformDriverSummary() {
+  const rows = liveEngines().map(e => ({
+    e,
+    d: platformDiagnostics(e.id)
+  }));
+
+  if (!rows.length) return 'No connected AI platforms in this snapshot.';
+
+  if (rows.length === 1) {
+    const r = rows[0];
+    return `${r.e.name} shows ${pct(r.d.visibility)} HSBC mention coverage with ${
+      r.d.avgPosition === null ? 'no measurable average position' : `an average observed position of ${r.d.avgPosition.toFixed(1)}`
+    }. More platforms are needed for a cross-platform comparison.`;
+  }
+
+  const coverageValues = rows.map(r => r.d.visibility);
+  const sameCoverage = Math.max(...coverageValues) - Math.min(...coverageValues) < 0.001;
+
+  const prominenceRows = rows
+    .filter(r => r.d.avgPosition !== null)
+    .sort((a, b) => a.d.avgPosition - b.d.avgPosition);
+
+  if (sameCoverage && prominenceRows.length >= 2) {
+    const best = prominenceRows[0];
+    const worst = prominenceRows[prominenceRows.length - 1];
+
+    if (Math.abs(best.d.avgPosition - worst.d.avgPosition) >= 0.3) {
+      return `Same reach, different prominence: connected platforms show similar HSBC mention coverage, but ${best.e.name} places HSBC higher on average (${best.d.avgPosition.toFixed(1)}) than ${worst.e.name} (${worst.d.avgPosition.toFixed(1)}). Review the source mix and prompt-level evidence before attributing a cause.`;
+    }
+
+    return 'Connected platforms show similar HSBC mention coverage and similar average prominence. The main differences are likely at individual decision moments and in the public sources each platform retrieves.';
+  }
+
+  const strongest = [...rows].sort((a, b) => b.d.visibility - a.d.visibility)[0];
+  const weakest = [...rows].sort((a, b) => a.d.visibility - b.d.visibility)[0];
+
+  return `${strongest.e.name} shows the highest observed HSBC mention coverage (${pct(strongest.d.visibility)}) versus ${pct(weakest.d.visibility)} on ${weakest.e.name}. Use recommendation position and source mix below to diagnose the observable difference rather than treating it as a universal AI ranking.`;
+}
+
+function paintPlatformDrivers() {
+  const engines = liveEngines();
+
+  if (!engines.length) {
+    $('#platformDrivers').innerHTML =
+      '<p class="status">No connected AI platforms in this snapshot.</p>';
+    return;
+  }
+
+  const rows = engines.map(e => ({
+    e,
+    d: platformDiagnostics(e.id)
+  }));
+
+  $('#platformDrivers').innerHTML = `
+    <div style="padding:12px 14px;margin:2px 0 16px;border-left:3px solid var(--subject);background:var(--panel2)">
+      <div class="eyebrow" style="margin-bottom:5px">Observed signal</div>
+      <div style="font-size:13px;color:var(--text)">${esc(platformDriverSummary())}</div>
+    </div>
+
+    <div class="scroll">
+      <table>
+        <thead>
+          <tr>
+            <th>AI Platform</th>
+            <th class="num">HSBC Visibility</th>
+            <th class="num">Avg Position</th>
+            <th class="num">Top-2 Rate</th>
+            <th class="num">HSBC-owned Sources</th>
+            <th class="num">Competitor-owned</th>
+            <th class="num">Third-party</th>
+            <th>Observable Driver</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${rows.map(({ e, d }) => {
+            const ownPct = d.totalSources ? d.hsbcOwned / d.totalSources : null;
+            const competitorPct = d.totalSources ? d.competitorOwned / d.totalSources : null;
+            const thirdPct = d.totalSources ? d.thirdParty / d.totalSources : null;
+            const domains = d.topDomains.length
+              ? d.topDomains.map(([host]) => host).join(', ')
+              : 'No source URLs recorded';
+
+            return `
+              <tr>
+                <td>
+                  <span class="dot" style="background:${e.colour};margin-right:6px"></span>
+                  <strong>${esc(e.name)}</strong>
+                  <div class="status" style="margin-top:4px">Top sources: ${esc(domains)}</div>
+                </td>
+                <td class="num">${pct(d.visibility)}<div class="status">${d.subjectHits}/${d.available} answers</div></td>
+                <td class="num">${d.avgPosition === null ? '—' : d.avgPosition.toFixed(1)}</td>
+                <td class="num">${pct(d.topTwo)}</td>
+                <td class="num">${ownPct === null ? '—' : pct(ownPct)}</td>
+                <td class="num">${competitorPct === null ? '—' : pct(competitorPct)}</td>
+                <td class="num">${thirdPct === null ? '—' : pct(thirdPct)}</td>
+                <td style="max-width:310px">${esc(explainPlatformDriver(d))}</td>
+              </tr>`;
+          }).join('')}
+        </tbody>
+      </table>
+    </div>
+
+    <p class="note" style="margin-top:12px;margin-bottom:0">
+      Interpretation boundary: source mix and recommendation position can help explain observed platform variance,
+      but this dashboard cannot inspect or prove the proprietary ranking logic used inside ChatGPT, Claude, Gemini or Perplexity.
+    </p>
+  `;
+}
+
 /* -------------------------------------------------------------------- paint */
 function paint() {
-  paintEngines(); paintKpis(); paintRibbons(); paintTrend(); paintComp();
-  paintMatrix(); paintSources(); paintDetail();
-  paintBench(); paintSegments(); paintGap(); paintPlan(); paintReport();
+  paintEngines();
+  paintKpis();
+  paintRibbons();
+  paintTrend();
+  paintComp();
+  paintPlatformDrivers();
+  paintMatrix();
+  paintSources();
+  paintDetail();
+  paintBench();
+  paintSegments();
+  paintGap();
+  paintPlan();
+  paintReport();
 }
 
 /* ------------------------------------------------------------- action plan
@@ -955,8 +1195,9 @@ function paintReport() {
 
   const byEngine = liveEngines().map(e => ({
     e,
-    hits: cfg.prompts.filter(p => (rankOf(p.id, e.id) ?? 0) > 0).length
-  })).sort((a, b) => a.hits - b.hits);
+    hits: cfg.prompts.filter(p => (rankOf(p.id, e.id) ?? 0) > 0).length,
+    diagnostic: platformDiagnostics(e.id)
+  }));
 
   const intentRows = [];
   const grouped = new Map();
@@ -998,27 +1239,29 @@ function paintReport() {
   );
 
   const grounded = liveEngines().filter(e => e.grounded).map(e => e.name);
-  const weakest = byEngine[0];
-  const strongest = byEngine[byEngine.length - 1];
 
   $('#reportBody').innerHTML = `
-    <h3>AI Search Visibility &amp; Commercial Intelligence — Singapore Banking</h3>
-    <div class="rmeta">Public-data snapshot · ${data.generatedAt.slice(0, 10)} ·
+    <h3>AI Wealth Growth Intelligence — Singapore Banking</h3>
+    <div class="rmeta">Independent outside-in prototype · public-data snapshot · ${data.generatedAt.slice(0, 10)} ·
       ${data.promptCount} prompts × ${data.activeEngineIds.length} connected engine${data.activeEngineIds.length > 1 ? 's' : ''} × ${cfg.brands.length} banks ·
-      all banking segments with a wealth, premier &amp; affluent commercial focus</div>
+      no HSBC first-party customer, revenue, deposit or AUM data</div>
 
-    <h4>Commercial Position</h4>
-    <p><strong>${esc(focusName)}</strong> scores <strong>${fmt1(focus.score)}/100</strong> for AI Search Visibility and ranks
-      <strong>#${focus.rank} of ${S.length}</strong> across the configured Singapore banking set${
-      d === null ? '. This is the first snapshot, so there is no trend to read yet'
-      : `, ${d >= 0 ? 'up' : 'down'} ${fmt1(Math.abs(d))} points since ${prev.date}`}.
+    <h4>Strategic Hypothesis — AI as an Emerging Wealth Consideration Channel</h4>
+    <p><strong>Outside-in signal:</strong> Across this ${data.promptCount}-prompt, ${data.activeEngineIds.length}-platform snapshot,
+      <strong>${esc(focusName)}</strong> scores <strong>${fmt1(focus.score)}/100</strong> on the prototype AI Search Visibility measure and ranks
+      <strong>#${focus.rank} of ${S.length}</strong> within the configured Singapore banking benchmark${
+      d === null ? '. This is the first snapshot, so there is no directional trend yet'
+      : `, ${d >= 0 ? 'up' : 'down'} ${fmt1(Math.abs(d))} points versus ${prev.date}`}.
       ${focus.rank === 1
-        ? `${esc(focusName)} currently leads the set.`
-        : `${esc(leader.name)} leads on ${fmt1(leader.score)}.`}
-      The selected bank appears in ${focus.hits} of ${data.promptCount * data.activeEngineIds.length} available answer slots
-      (${pct(focus.frequency)}), with ${pct(focus.topTwo)} of its citations landing in the first two positions.</p>
+        ? `${esc(focusName)} leads this observed benchmark.`
+        : `${esc(leader.name)} leads this observed benchmark on ${fmt1(leader.score)}.`}
+      ${esc(focusName)} appears in ${focus.hits} of ${data.promptCount * data.activeEngineIds.length} recorded answer slots
+      (${pct(focus.frequency)}), with ${pct(focus.topTwo)} of those appearances in the first two positions.
+      These figures describe observed AI visibility, not HSBC commercial performance.</p>
+    <p><strong>Strategic question:</strong> Do the observed visibility gaps reflect normal AI-response variance,
+      or do they point to public-content, source-authority and digital-discoverability opportunities that merit validation with HSBC first-party data?</p>
 
-    <h4>Competitive Position</h4>
+    <h4>Observed Competitive Benchmark</h4>
     <table><thead><tr><th class="num">#</th><th>Bank</th><th>Set</th>
       <th class="num">Cited</th><th class="num">SOV</th><th class="num">AI Search Visibility</th></tr></thead><tbody>${
       S.map(r => `<tr class="${r.id === cfg.subject ? 'subject' : ''}">
@@ -1027,7 +1270,7 @@ function paintReport() {
         <td class="num"><strong>${fmt1(r.score)}</strong></td></tr>`).join('')
     }</tbody></table>
 
-    <h4>Customer Journey Leadership</h4>
+    <h4>Observed Wealth Decision Signals</h4>
     <table><thead><tr><th>Intent</th><th>Commercial lens</th>
       <th class="num">Prompts</th><th>Leader</th><th class="num">Focus-bank citations</th></tr></thead><tbody>${
       intentRows.map(r => `<tr>
@@ -1039,25 +1282,25 @@ function paintReport() {
       </tr>`).join('')
     }</tbody></table>
 
-    <h4>Commercial Interpretation</h4>
+    <h4>Strategic Hypotheses to Validate</h4>
     <ul>
-      ${weakest && strongest && byEngine.length > 1 ? `<li><strong>${esc(weakest.e.name)}</strong> is currently the weakest engine for ${esc(focusName)}, citing it on
-        ${weakest.hits} of ${data.promptCount} prompts versus ${strongest.hits} on <strong>${esc(strongest.e.name)}</strong>. This engine variance is a signal to investigate retrieval, source coverage and answer structure rather than assuming one universal AI ranking.</li>` : ''}
+      ${byEngine.length > 1 ? `<li><strong>H1 — Platform variance may be retrieval- and prominence-driven:</strong> ${esc(platformDriverSummary())} Validate whether source selection, recommendation position and prompt context consistently explain the pattern across repeated snapshots.</li>` : ''}
       <li>${absent.length
         ? `${absent.length} prompt${absent.length > 1 ? 's show' : ' shows'} no ${esc(focusName)} citation on any connected engine: ${absent.map(p => `"${esc(p.q)}"`).join('; ')}.`
         : `${esc(focusName)} is cited on at least one connected engine for every prompt in the set.`}</li>
-      <li>The platform covers the full banking journey, while wealth, premier, priority, private-bank and affluent intents are treated as the primary commercial lens for higher-value customer acquisition.</li>
+      <li><strong>H3 — Authority may not transfer consistently across the affluent journey:</strong> compare where HSBC is visible in advisory or Premier-related prompts with adjacent acquisition, international-wealth and consolidation decisions. The key question is whether public digital authority is concentrated in specific topics rather than carrying across the full decision journey.</li>
     </ul>
 
-    <h4>Priority Commercial Actions</h4>
+    <h4>What I Would Validate Next</h4>
     <ul>
-      <li>Start with high-value wealth, premier and affluent prompts where the selected bank is absent or consistently outranked.</li>
-      <li>Use the public source evidence to identify whether the winning answer is being shaped by a competitor-owned page or by a third-party publisher; the content response is different for each.</li>
-      <li>Run the content-analysis layer before recommending specific page changes. Any claim about missing FAQs, eligibility, fees, comparison content or conversion paths should be supported by the live page evidence rather than assumed.</li>
-      <li>Read trends across repeated snapshots rather than treating one AI response as a stable market position.</li>
+      <li><strong>Validate the highest-value observed gaps first:</strong> expand the wealth, Premier and international-wealth prompt set to test whether the pattern persists across repeated runs.</li>
+      <li><strong>Diagnose the public-source mechanism:</strong> identify whether competitor advantage is associated with competitor-owned pages, HSBC-owned content not being retrieved, or third-party publishers shaping the answer set.</li>
+      <li><strong>Only then form a content hypothesis:</strong> use the content-analysis layer to test whether eligibility, proposition clarity, comparison-ready facts, structured content or source authority are plausible drivers. Do not prescribe internal HSBC changes from public evidence alone.</li>
+      <li><strong>If working inside HSBC, connect first-party evidence:</strong> compare these outside-in signals with Search Console, web analytics, wealth enquiries, RM appointments, account openings and funded AUM before estimating commercial impact.</li>
     </ul>
 
     <div class="foot">
+      <strong>Boundary:</strong> Independent prototype, not affiliated with or commissioned by HSBC. Findings are based on public AI observations and public cited sources only. No HSBC first-party customer, conversion, revenue, deposit or AUM data is used. Signals are hypotheses for validation, not statements of internal commercial performance.<br>
       Method: AI Search Visibility Score = ${pct(WEIGHTS.frequency)} citation frequency + ${pct(WEIGHTS.prominence)} answer prominence
       + ${pct(WEIGHTS.shareOfVoice)} normalised share of voice + ${pct(WEIGHTS.topTwo)} top-two recommendation rate.
       Brand citations are extracted from observed AI answers.<br>
