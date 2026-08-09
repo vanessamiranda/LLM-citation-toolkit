@@ -1,4 +1,4 @@
-{
+ {
   "subject": "hsbc",
   "market": "Singapore",
   "title": "AI Search Visibility & Commercial Intelligence — Singapore Banking",
@@ -72,38 +72,38 @@
   "prompts": [
     {
       "id": "p01",
-      "intent": "Wealth & Investing · bank selection",
-      "q": "which Singapore bank is best for wealth management"
+      "intent": "Wealth Acquisition · acquire",
+      "q": "best bank in Singapore for someone with S$500k to S$1m to invest"
     },
     {
       "id": "p02",
-      "intent": "Premier & Affluent · competitor comparison",
-      "q": "HSBC Premier vs DBS Treasures vs UOB Privilege Banking, which is better"
+      "intent": "Premier Banking · qualify",
+      "q": "best premier or priority banking in Singapore for affluent customers"
     },
     {
       "id": "p03",
-      "intent": "Premier & Affluent · eligibility",
-      "q": "best priority banking in Singapore and the minimum balance required"
+      "intent": "Premier Banking · compare",
+      "q": "HSBC Premier vs DBS Treasures vs UOB Privilege Banking, which is better"
     },
     {
       "id": "p04",
-      "intent": "Wealth & Investing · investment advisory",
-      "q": "which Singapore bank offers the best investment advisory service for affluent customers"
+      "intent": "Investment Advisory · invest",
+      "q": "best Singapore bank for investing S$500k across funds, bonds and other investments"
     },
     {
       "id": "p05",
-      "intent": "Wealth & Investing · portfolio solutions",
-      "q": "best bank in Singapore for investing a large cash balance"
+      "intent": "International Wealth · internationalise",
+      "q": "best bank in Singapore for wealthy customers with assets and banking needs across Singapore and the UK"
     },
     {
       "id": "p06",
-      "intent": "International Wealth · global wealth",
-      "q": "best Singapore bank for affluent customers who need international banking and investment services"
+      "intent": "Wealth Consolidation · consolidate",
+      "q": "which Singapore bank should I use to consolidate my banking and investments if I have S$1m in investable assets"
     },
 
     {
       "id": "p07",
-      "intent": "General Banking · expat banking",
+      "intent": "General Banking · expat",
       "q": "best bank in Singapore for expats"
     },
     {
@@ -123,7 +123,7 @@
     }
   ],
 
-  "instruction": "Answer as you normally would for someone based in Singapore. Name specific banks and, where relevant, specific named products or banking propositions. Give a clear recommendation or comparison where appropriate. Do not favour HSBC or any other bank simply because it appears in the question. Base the answer on the user's stated need. Keep the answer factual, concise and under 200 words.",
+  "instruction": "Answer as you normally would for someone based in Singapore. Name specific banks and, where relevant, specific named products or banking propositions. Give a clear recommendation or comparison where appropriate. Do not favour HSBC or any other bank simply because it appears in the question. Base the answer on the user's stated need and available evidence. Keep the answer factual, concise and under 200 words.",
 
   "engines": [
     {
