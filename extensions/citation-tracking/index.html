@@ -2,9 +2,9 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<title>AI Search Visibility & Wealth Segment Growth Intelligence — Singapore Banking</title>
+<title>AI Wealth Growth Growth Intelligence — Singapore Banking</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="Independent public-data prototype testing the hypothesis that AI is becoming an upstream consideration layer for affluent banking in Singapore. Uses observed public AI responses and cited sources only; no HSBC first-party data.">
+<meta name="description" content="Independent public-data prototype testing whether AI is becoming an upstream consideration layer for affluent banking in Singapore. Shows where HSBC appears in observed AI decision journeys, where competitors appear instead, and what should be validated with first-party data.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -140,6 +140,22 @@
     section.view.on{display:block!important;padding:0}
     .report{padding:0}
   }
+
+  .ceo-thesis{margin:18px 0 14px;padding:20px 22px;border:1px solid var(--rule);border-left:4px solid var(--subject);background:linear-gradient(180deg,var(--panel),var(--panel2))}
+  .ceo-thesis .label{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);margin-bottom:7px}
+  .ceo-thesis .headline{font-family:var(--disp);font-size:22px;font-weight:700;line-height:1.25;letter-spacing:-.01em}
+  .ceo-thesis .copy{font-size:13px;color:var(--muted);margin-top:8px;max-width:92ch}
+  .ceo-questions{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:14px 0}
+  .ceo-q{background:var(--panel);border:1px solid var(--rule);padding:14px}
+  .ceo-q .q{font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--dim)}
+  .ceo-q .a{font-family:var(--disp);font-size:15px;font-weight:600;margin-top:6px;line-height:1.3}
+  .ceo-q .n{font-size:11.5px;color:var(--muted);margin-top:5px}
+  .decision-path{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:12px}
+  .decision-step{padding:8px 10px;border:1px solid var(--rule);background:var(--panel2);font-family:var(--mono);font-size:11px}
+  .decision-arrow{color:var(--dim);font-family:var(--mono)}
+  @media(max-width:900px){.ceo-questions{grid-template-columns:repeat(2,1fr)}}
+  @media(max-width:560px){.ceo-questions{grid-template-columns:1fr}}
+
 </style>
 </head>
 <body>
@@ -148,24 +164,32 @@
     <div>
       <div class="eyebrow">INDEPENDENT OUTSIDE-IN PROTOTYPE · PUBLIC AI INTELLIGENCE · SINGAPORE</div>
       <h1>AI Wealth Growth Intelligence — Singapore Banking</h1>
+
       <div class="sub">
-        Where AI is shaping affluent banking consideration, who is winning those decision moments,
-        and where HSBC has opportunities to strengthen visibility.
+        Strategic hypothesis: AI is becoming an upstream consideration layer for affluent banking.
+        This prototype tests where HSBC Singapore enters the observed AI consideration set,
+        where competitors appear instead, and which public sources may be shaping those recommendations.
       </div>
+
       <div style="display:flex;flex-wrap:wrap;gap:7px;margin-top:10px">
         <span class="es"><span class="dot" style="background:var(--good)"></span><b>Observed AI responses</b></span>
         <span class="es"><span class="dot" style="background:var(--good)"></span><b>Public cited sources</b></span>
         <span class="es"><span class="dot" style="background:var(--warn)"></span><b>Snapshot-based analysis</b></span>
         <span class="es"><b>Wealth-focused executive lens</b></span>
       </div>
-      <div style="margin-top:12px;font-size:11.5px;color:var(--muted);max-width:88ch">
+
+      <div style="margin-top:12px;font-size:11.5px;color:var(--muted);max-width:92ch">
         <strong style="color:var(--text)">Independent prototype — not affiliated with or commissioned by HSBC.</strong>
         Built exclusively from observed public AI responses and publicly accessible cited sources.
-        No HSBC first-party customer, web analytics, search, CRM, lead, conversion, revenue, deposit or AUM data is used.
+        No HSBC first-party customer, web analytics, Search Console, CRM, lead, conversion, revenue, deposit or AUM data is used.
         Findings are directional signals and hypotheses for validation, not estimates of HSBC commercial performance.
       </div>
     </div>
-    <div class="asof"><div id="asof">Loading…</div><div id="scope"></div></div>
+
+    <div class="asof">
+      <div id="asof">Loading…</div>
+      <div id="scope"></div>
+    </div>
   </header>
 
   <div id="app"></div>
@@ -233,30 +257,64 @@ function renderSetup(kind, err) {
 function renderApp() {
   $('#app').innerHTML = `
   <nav class="tabs" role="tablist">
-    <button role="tab" aria-selected="true" data-v="dash">Wealth Overview</button>
-    <button role="tab" aria-selected="false" data-v="cite">AI Evidence</button>
-    <button role="tab" aria-selected="false" data-v="bench">Competitor Benchmark</button>
-    <button role="tab" aria-selected="false" data-v="plan">Commercial Opportunities</button>
+    <button role="tab" aria-selected="true" data-v="dash">Strategic Overview</button>
+    <button role="tab" aria-selected="false" data-v="cite">Evidence & Sources</button>
+    <button role="tab" aria-selected="false" data-v="bench">Wealth Battlegrounds</button>
+    <button role="tab" aria-selected="false" data-v="plan">Hypotheses to Validate</button>
     <button role="tab" aria-selected="false" data-v="report">Strategic Hypothesis Brief</button>
   </nav>
 
   <section class="view on" id="v-dash">
-    <div class="panel" style="margin-bottom:14px;border-left:3px solid var(--subject)">
-      <div class="eyebrow" style="margin-bottom:7px">Executive lens</div>
-      <div style="font-family:var(--disp);font-size:18px;font-weight:600;line-height:1.35">
-        Is AI helping HSBC win the next affluent customer — or directing that customer toward a competitor?
+    <div class="ceo-thesis">
+      <div class="label">Strategic hypothesis</div>
+      <div class="headline">
+        AI may be becoming a new front door to affluent banking consideration — before customers ever reach a bank-owned channel.
       </div>
-      <p class="note" style="margin-top:8px;margin-bottom:0">
-        This view uses public AI observations as a directional commercial signal. It does not measure actual customer acquisition,
-        wealth leads, funded relationships, revenue, deposits or AUM.
-      </p>
+      <div class="copy">
+        The question is not whether HSBC has a high AI score. The question is whether HSBC is consistently present
+        when affluent customers ask AI who to bank with, where to invest, how to compare Premier propositions,
+        and how to manage wealth internationally.
+      </div>
+
+      <div class="decision-path" aria-label="Affluent AI decision journey">
+        <span class="decision-step">Acquire</span><span class="decision-arrow">→</span>
+        <span class="decision-step">Qualify</span><span class="decision-arrow">→</span>
+        <span class="decision-step">Compare</span><span class="decision-arrow">→</span>
+        <span class="decision-step">Invest</span><span class="decision-arrow">→</span>
+        <span class="decision-step">Internationalise</span><span class="decision-arrow">→</span>
+        <span class="decision-step">Consolidate</span>
+      </div>
     </div>
+
+    <div class="ceo-questions">
+      <div class="ceo-q">
+        <div class="q">What changed?</div>
+        <div class="a">AI is emerging as another consideration layer.</div>
+        <div class="n">Affluent prospects can encounter recommendations before reaching bank-owned channels.</div>
+      </div>
+      <div class="ceo-q">
+        <div class="q">Why should HSBC care?</div>
+        <div class="a">Competitors can enter the consideration set earlier.</div>
+        <div class="n">Observed AI answers can surface alternative banks and third-party sources at key decision moments.</div>
+      </div>
+      <div class="ceo-q">
+        <div class="q">What is the opportunity?</div>
+        <div class="a">Find where HSBC is absent, lower-ranked or under-supported by public sources.</div>
+        <div class="n">Prioritise the highest-value wealth moments for deeper validation.</div>
+      </div>
+      <div class="ceo-q">
+        <div class="q">What would I validate inside HSBC?</div>
+        <div class="a">Whether AI visibility correlates with real customer behaviour.</div>
+        <div class="n">Compare with search, traffic, wealth enquiries, RM appointments, account openings and funded AUM.</div>
+      </div>
+    </div>
+
     <div class="es-row" id="engineState"></div>
     <div class="grid g4" id="kpis"></div>
     <div class="grid g2" style="margin-top:14px">
       <div class="panel">
-        <h2 class="sec">AI Search Visibility by Platform</h2>
-        <p class="note">Observed brand visibility across each connected AI platform. The highlighted segment shows the selected bank; use the split to see who is winning recommendation share by platform.</p>
+        <h2 class="sec">Observed AI Visibility by Platform</h2>
+        <p class="note">Observed public AI visibility across each connected platform. Use this as a directional benchmark only; it does not measure HSBC customer acquisition or commercial performance.</p>
         <div id="ribbons"></div><div class="legend" id="ribbonLegend"></div>
       </div>
       <div class="panel">
@@ -278,7 +336,7 @@ function renderApp() {
     </div>
 
     <div class="panel" style="margin-top:14px">
-      <h2 class="sec">AI Visibility Score Breakdown</h2>
+      <h2 class="sec">Prototype Visibility Score Breakdown</h2>
       <p class="note">Weights: ${pct(WEIGHTS.frequency)} frequency, ${pct(WEIGHTS.prominence)} prominence, ${pct(WEIGHTS.shareOfVoice)} share of voice, ${pct(WEIGHTS.topTwo)} top-two rate. Defined in <code>scripts/score.mjs</code>.</p>
       <div id="compTable"></div>
     </div>
@@ -1282,6 +1340,13 @@ function paintReport() {
       </tr>`).join('')
     }</tbody></table>
 
+    <div style="margin:18px 0 22px;padding:14px 16px;border-left:3px solid #E8112D;background:#F8F9FB">
+      <strong>Executive takeaway:</strong>
+      The prototype is not intended to prove that AI is causing customer or revenue loss.
+      Its purpose is to identify observable decision moments where HSBC is strong, where competitors appear more prominently,
+      and where first-party validation would be most valuable.
+    </div>
+
     <h4>Strategic Hypotheses to Validate</h4>
     <ul>
       ${byEngine.length > 1 ? `<li><strong>H1 — Platform variance may be retrieval- and prominence-driven:</strong> ${esc(platformDriverSummary())} Validate whether source selection, recommendation position and prompt context consistently explain the pattern across repeated snapshots.</li>` : ''}
@@ -1297,6 +1362,14 @@ function paintReport() {
       <li><strong>Diagnose the public-source mechanism:</strong> identify whether competitor advantage is associated with competitor-owned pages, HSBC-owned content not being retrieved, or third-party publishers shaping the answer set.</li>
       <li><strong>Only then form a content hypothesis:</strong> use the content-analysis layer to test whether eligibility, proposition clarity, comparison-ready facts, structured content or source authority are plausible drivers. Do not prescribe internal HSBC changes from public evidence alone.</li>
       <li><strong>If working inside HSBC, connect first-party evidence:</strong> compare these outside-in signals with Search Console, web analytics, wealth enquiries, RM appointments, account openings and funded AUM before estimating commercial impact.</li>
+    </ul>
+
+    <h4>If I Had Internal Access</h4>
+    <ul>
+      <li>Validate whether the outside-in AI visibility signals correlate with HSBC Search Console demand, referral traffic and organic entry paths.</li>
+      <li>Compare high-value AI decision moments with wealth enquiries, RM appointments, account openings and funded AUM.</li>
+      <li>Test whether public-source gaps correspond to known content, proposition or authority gaps across HSBC-owned and third-party surfaces.</li>
+      <li>Build a closed measurement loop: outside-in AI signal → first-party validation → intervention → repeated AI observation → commercial outcome.</li>
     </ul>
 
     <div class="foot">
