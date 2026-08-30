@@ -314,5 +314,36 @@
    "boc": 0,
    "cimb": 0
   }
+ },
+ {
+  "date": "2026-08-30",
+  "engines": [
+   "claude"
+  ],
+  "grounded": [
+   "claude"
+  ],
+  "scores": {
+   "dbs": 89.33,
+   "ocbc": 77.28,
+   "scb": 58.17,
+   "uob": 52.11,
+   "hsbc": 47,
+   "citi": 39.94,
+   "maybank": 6.22,
+   "cimb": 6.22,
+   "boc": 0
+  },
+  "hits": {
+   "dbs": 9,
+   "ocbc": 8,
+   "scb": 6,
+   "uob": 5,
+   "hsbc": 3,
+   "citi": 2,
+   "maybank": 1,
+   "cimb": 1,
+   "boc": 0
+  }
  }
 ]

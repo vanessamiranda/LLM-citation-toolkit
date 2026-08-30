@@ -1,10 +1,10 @@
 {
- "generatedAt": "2026-08-29T08:40:44.097Z",
+ "generatedAt": "2026-08-30T02:12:38.607Z",
  "market": "Singapore",
  "subject": "hsbc",
  "promptCount": 10,
  "activeEngineIds": [
-  "chatgpt"
+  "claude"
  ],
  "engines": [
   {
@@ -33,12 +33,12 @@
    "minDelayMs": 2000,
    "maxSearches": 3,
    "notes": "Server-side web search enabled. maxSearches controls search usage per prompt.",
-   "ran": false,
-   "prompts": 0,
-   "failed": 10,
-   "promptsWithSources": 0,
-   "groundingVerified": false,
-   "reason": "Anthropic 401: {\"type\":\"error\",\"error\":{\"type\":\"authentication_error\",\"message\":\"API key is invalid.\"},\"request_id\":null}"
+   "ran": true,
+   "prompts": 10,
+   "failed": 0,
+   "promptsWithSources": 10,
+   "groundingVerified": true,
+   "reason": null
   },
   {
    "id": "chatgpt",
@@ -49,12 +49,12 @@
    "cost": "paid: tokens + web search",
    "minDelayMs": 2000,
    "notes": "Uses the OpenAI Responses API with web_search. Token limits are controlled in scripts/audit.mjs.",
-   "ran": true,
-   "prompts": 9,
-   "failed": 1,
-   "promptsWithSources": 9,
-   "groundingVerified": true,
-   "reason": null
+   "ran": false,
+   "prompts": 0,
+   "failed": 10,
+   "promptsWithSources": 0,
+   "groundingVerified": false,
+   "reason": "OpenAI 429: {\n  \"error\": {\n    \"message\": \"You have no credits remaining. Add credits to continue using the API at https://platform.openai.com/settings/organization/billing/.\",\n    \"type\": \"insufficient_quota\",\n "
   },
   {
    "id": "perplexity",
@@ -72,180 +72,226 @@
  "records": [
   {
    "promptId": "p01",
-   "engineId": "chatgpt",
+   "engineId": "claude",
    "grounded": true,
    "cited": [
-    "dbs",
+    "scb",
     "ocbc",
-    "citi",
-    "scb"
+    "dbs"
    ],
    "sources": [
-    "https://www.dbs.com.sg/treasures/promotion/mgm?pid=sg-tre-latestpromotions-mgm-btnlearnmore&utm_source=openai",
-    "https://www.ocbc.com/personal-banking/premier/en.page?utm_source=openai",
-    "https://www.citibank.com.sg/citi-gold/stp-selector/index.htm?utm_source=openai",
-    "https://www.sc.com/sg/important-information/priority-banking-services-and-privileges-international-terms-and-condition/?utm_source=openai",
-    "https://www.dbs.com.sg/treasures/promotion/deposits-inv-ins-promo?utm_source=openai"
+    "https://www.dbs.com.sg/private-banking/default.page",
+    "https://growbeansprout.com/priority-banking-singapore-benefits-guide",
+    "https://www.stashaway.sg/r/best-singapore-priority-banking-account",
+    "https://www.bankofsingapore.com/homepage.html",
+    "https://wealthmanagement.sg/private-banking-singapore/",
+    "https://bizmend.com/blog/top-private-banks-in-singapore/",
+    "https://top10privatebanks.com/singapore",
+    "https://www.bugiscredit.sg/financial-services/best-private-banking-singapore/"
    ],
-   "answer": "**Best all-round choice: DBS Treasures.** Its S$350,000 AUM threshold fits comfortably, while its **Wealth Management Account** integrates investments, portfolio reporting and multicurrency holdings within digibank. It is particularly convenient if DBS is already your main bank. ([dbs.com.sg](https://www.dbs.com.sg/treasures/promotion/mgm?pid=sg-tre-latestpromotions-mgm-btnlearnmore&utm_source=openai))\n\n**Alternatives:**\n\n- **OCBC Premier Banking** — also requires S$350,000. A strong local-bank alternative, especially for customers already using OCBC. Its higher **Premier Private Client** tier starts at S$1.5 million and requires Accredited Investor status, so it is outside your range. ([ocb",
-   "queriedAt": "2026-08-29T08:37:34.773Z"
+   "answer": "I'll search for information about the best banks in Singapore for high-net-worth individuals with that investment range.\nBased on your investment range of S$500k–S$1m, you're positioned between **priority banking** and entry-level private banking:\n\n**Best options:**\n\n1. **\nStandard Chartered Priority Banking\n** – \nRequires S$200,000 in deposits/investments\n, so you easily qualify. Strong investment and lifestyle package with dedicated service.\n\n2. **\nBank of Singapore, Julius Baer, or LGT\n** – \nAll provide genuinely personalized service at that tier without being overwhelmed by UHNW-only minimums\n. \nBank of Singapore is OCBC's dedicated private-banking subsidiary with Greater China + ASEAN +",
+   "queriedAt": "2026-08-30T02:10:36.694Z"
   },
   {
    "promptId": "p02",
-   "engineId": "chatgpt",
+   "engineId": "claude",
    "grounded": true,
    "cited": [
     "dbs",
-    "uob",
-    "ocbc",
+    "hsbc",
     "scb",
-    "hsbc"
+    "ocbc",
+    "uob",
+    "cimb",
+    "maybank"
    ],
    "sources": [
-    "https://www.dbs.com.sg/treasures/deposits/bank-with-ease/dbs-iwealth?pid=sg-tre-pweb-why-us-others-why-us-textlink-digibank&utm_source=openai",
-    "https://www.uob.com.sg/privilegebanking/terms-and-conditions.page?utm_source=openai",
-    "https://www.ocbc.com/premier-banking/our-solutions/regional-benefits/regional-premier?utm_source=openai",
-    "https://www.sc.com/sg/important-information/priority-banking-services-and-privileges-international-terms-and-condition/?utm_source=openai",
-    "https://www.hsbc.com.sg/content/dam/hsbc/sg/documents/premier/privileges/premier-membership-plan-promotion-tnc.pdf?utm_source=openai"
+    "https://www.singsaver.com.sg/banking/blog/priority-banking-singapore-guide",
+    "https://growbeansprout.com/priority-banking-singapore-benefits-guide",
+    "https://www.stashaway.sg/r/best-singapore-priority-banking-account",
+    "https://www.euromoney.com/article/50q3450d9hk4wg4cc0go4c0k0/private-banking/private-banking-awards-national-winners-2026-singapore/",
+    "https://wealthmanagement.sg/private-banking-singapore/",
+    "https://bizmend.com/blog/top-private-banks-in-singapore/",
+    "https://www.bugiscredit.sg/financial-services/best-private-banking-singapore/",
+    "https://kaizenaire.com/best-of-singapore/singapores-elite-premier-banking-services-for-luxurious-wealth-management/"
    ],
-   "answer": "**Best overall: DBS Treasures** — strong digital banking through DBS digibank, broad self-directed and advised investment access, and convenient everyday banking. Entry generally requires **S$350,000 AUM**; DBS currently describes Treasures as available to Accredited Investors. ([dbs.com.sg](https://www.dbs.com.sg/treasures/deposits/bank-with-ease/dbs-iwealth?pid=sg-tre-pweb-why-us-others-why-us-textlink-digibank&utm_source=openai))\n\n**Other good choices:**\n\n- **UOB Privilege Banking — best for ASEAN needs.** Requires **S$350,000 AUM** and offers a dedicated adviser, regional banking support and fee-free withdrawals at UOB ATMs across the region. ([uob.com.sg](https://www.uob.com.sg/privileg",
-   "queriedAt": "2026-08-29T08:37:58.319Z"
+   "answer": "## Priority Banking (S$200k–S$350k minimum)\n\nFor affluent customers, \nDBS Treasures, HSBC Premier, and Standard Chartered Priority Banking usually require S$200,000 to S$350,000 in total relationship balance (TRB)\n, offering \naccess to relationship managers, priority queues, and preferential interest rates without the multi-million-dollar thresholds of private banking, plus global banking access, insurance products, and lifestyle perks like airport lounge privileges\n.\n\n**Top options:**\n- \nDBS Treasures, OCBC Premier Banking and UOB Privilege Banking require S$350,000\n. \nDBS Treasures includes access to four centres and the DBS Lifestyle Privileges Programme, which includes curated travel and",
+   "queriedAt": "2026-08-30T02:10:47.895Z"
   },
   {
    "promptId": "p03",
-   "engineId": "chatgpt",
+   "engineId": "claude",
    "grounded": true,
    "cited": [
-    "dbs",
     "hsbc",
+    "dbs",
     "uob"
    ],
    "sources": [
-    "https://www.dbs.com.sg/treasures/investments/product-suite/digital-platform/wma?pid=sg-tre-pweb-wealth-feed-investments-invest-gold-textlink-wma%5C&utm_source=openai",
-    "https://www.hsbc.com.sg/en-sg/accounts/products/premier/?utm_source=openai",
-    "https://www.uob.com.sg/privilegebanking/terms-and-conditions.page?utm_source=openai"
+    "https://www.stashaway.sg/r/best-singapore-priority-banking-account",
+    "https://growbeansprout.com/priority-banking-singapore-benefits-guide",
+    "https://www.singsaver.com.sg/banking/blog/priority-banking-singapore-guide",
+    "https://www.singsaver.com.sg/banking/comparison/priority-banking",
+    "https://wiki.private.law/en/dbs-treasures",
+    "https://www.easyglobalbanking.com/singapore-banking/singapore-bank-credit-ratings/",
+    "https://kaizenaire.com/best-of-singapore/singapores-elite-premier-banking-services-for-luxurious-wealth-management/",
+    "https://www.cbinsights.com/company/uob"
    ],
-   "answer": "**Best overall for most Singapore-based users: DBS Treasures.**\n\n- **DBS Treasures** — Best for local everyday banking and digital wealth management. Requires **S$350,000** in deposits/investments. DBS digibank integrates banking, equities, funds, FX and portfolio monitoring particularly well. ([dbs.com.sg](https://www.dbs.com.sg/treasures/investments/product-suite/digital-platform/wma?pid=sg-tre-pweb-wealth-feed-investments-invest-gold-textlink-wma%5C&utm_source=openai))\n- **HSBC Premier** — Best for frequent travellers, expatriates or families with overseas banking needs. Its lower **S$200,000** relationship-balance threshold, multi-currency **Everyday Global Account**, cross-border accoun",
-   "queriedAt": "2026-08-29T08:38:13.554Z"
+   "answer": "I'll search for current information on these three premium banking offerings in Singapore.\nBased on current offerings, here's how these programs compare:\n\n**Entry Requirements:**\n\nHSBC Premier requires S$200,000 in Total Relationship Balance (TRB), a monthly salary of S$15,000, or an S$800,000 mortgage\n, making it the lowest threshold. \nDBS Treasures and UOB Privilege Banking both require S$350,000\n.\n\n**Best for Different Needs:**\n\n\nDBS Treasures focuses on tech-driven, advisory-supported ecosystem with market-leading research and AI-powered tools, while UOB Privilege Banking leans more into bespoke relationship management and curated lifestyle experiences. Both require S$350,000 minimum AUM",
+   "queriedAt": "2026-08-30T02:10:59.617Z"
+  },
+  {
+   "promptId": "p04",
+   "engineId": "claude",
+   "grounded": true,
+   "cited": [
+    "dbs",
+    "ocbc",
+    "scb"
+   ],
+   "sources": [
+    "https://www.stashaway.sg/r/best-safe-low-risk-investments-singapore",
+    "https://www.kilde.sg/investing/best-investment-options-in-singapore",
+    "https://www.singsaver.com.sg/investment/blog/best-ways-to-invest-money",
+    "https://www.stashaway.sg/r/best-bond-etfs-singapore",
+    "https://drwealth.com/singapore-savings-bonds/",
+    "https://www.mas.gov.sg/bonds-and-bills/singapore-savings-bonds",
+    "https://www.syfe.com/private-wealth",
+    "https://www.boyden.com/media/35-year-old-bankers-earning-s500k-sought-in-singapore-28459605/"
+   ],
+   "answer": "I'll search for current information about Singapore banks and their investment offerings for this amount.\nFor S$500k, you're likely between retail and private banking tiers. Here's what works best:\n\n**Best Option for Self-Directed Investors:**\n\nDBS has a service tier for clients with investible assets of S$350,000\n, and you can also access their fund and bond offerings through regular banking. \nDBS and OCBC offer RSPs (Regular Savings Plans) that allow you to invest fixed amounts monthly into selected ETFs\n. This gives you access to funds and ETFs at low cost.\n\n**Alternative: Priority/Wealth Banking**\n\nStandard Chartered Priority starts from S$200,000\n, giving you enhanced service and potent",
+   "queriedAt": "2026-08-30T02:11:11.012Z"
   },
   {
    "promptId": "p05",
-   "engineId": "chatgpt",
+   "engineId": "claude",
    "grounded": true,
    "cited": [
-    "hsbc",
+    "ocbc",
     "scb",
+    "citi",
     "dbs"
    ],
    "sources": [
-    "https://www.hsbc.com.sg/en-sg/accounts/products/premier/?utm_source=openai",
-    "https://www.sc.com/sg/priority/priority-private/?utm_source=openai",
-    "https://www.dbs.com.sg/treasures-private-client/loans/home-loans/overseas-property-financing?utm_source=openai"
+    "https://wise.com/gb/blog/banks-in-singapore",
+    "https://www.bankofsingapore.com/homepage.html",
+    "https://www.dbs.com.sg/private-banking/default.page",
+    "https://growbeansprout.com/priority-banking-singapore-benefits-guide",
+    "https://www.sc.com/en/wealth-retail-banking/private-banking/",
+    "https://top10privatebanks.com/singapore",
+    "https://www.easyglobalbanking.com/alternative-banking-hubs/best-private-banks-hnwis-switzerland-singapore-usa-uk/",
+    "https://gulfnews.com/amp/story/business%2Fmarkets%2Fbank-of-singapore-hires-private-bankers-for-mideast-wealth-1.2143639"
    ],
-   "answer": "**Best overall: HSBC Premier.** For a Singapore-based client needing genuine day-to-day banking and wealth services in both Singapore and the UK, it offers the strongest integration: linked accounts through **Global View**, near-instant fee-free **Global Transfers**, international account opening and recognition of Premier status in both countries. Singapore eligibility is generally S$200,000 total relationship balance; HSBC UK accepts qualifying overseas Premier status. Pair it with Singapore’s **Everyday Global Account** and a UK **Premier Bank Account**. ([hsbc.com.sg](https://www.hsbc.com.sg/en-sg/accounts/products/premier/?utm_source=openai))\n\n**Alternatives:**\n\n- **Standard Chartered P",
-   "queriedAt": "2026-08-29T08:38:56.795Z"
+   "answer": "I'll search for information about the best banks in Singapore for wealthy customers with international banking needs.\nBased on your cross-border needs, here are the top options:\n\n**Bank of Singapore** is the standout choice. \nAs OCBC's private banking subsidiary and one of the fastest growing private banks in Asia serving high-net-worth individuals, it\n offers seamless Singapore-UK coverage. Crucially, \nBank of Singapore operates as a UK Branch, positioning clients to connect with opportunities and business partners across Asia and beyond.\n\n\n**Standard Chartered** is a strong alternative. \nWith integrated wealth management and private banking capabilities across leading advisory centres in S",
+   "queriedAt": "2026-08-30T02:11:20.637Z"
   },
   {
    "promptId": "p06",
-   "engineId": "chatgpt",
+   "engineId": "claude",
    "grounded": true,
    "cited": [
     "dbs",
     "ocbc",
-    "uob",
-    "citi",
     "scb"
    ],
    "sources": [
-    "https://www.dbs.com.sg/treasures/mobile/dl/dbs-iwealth-digibank-mobile.html?pid=sg-pb-pweb-deposits-iwealth-digibank-app-qr-code&utm_source=openai",
-    "https://www.ocbc.com/personal-banking/premier-private-client/client-referral-programme-terms-and-conditions.page?utm_source=openai",
-    "https://www.uob.com.sg/privilegebanking/index.page?adobe_mc=MCMID%3D39995287686061652664648767407832685880%7CMCORGID%3D116168F454E6DA2A0A4C98A6%2540AdobeOrg%7CTS%3D1755993601&adobe_mc=MCMID%3D53358493784186094640990814905405683999%7CMCORGID%3D116168F454E6DA2A0A4C98A6%2540AdobeOrg%7CTS%3D1756080001&utm_source=openai",
-    "https://www.citibank.com.sg/wealth-management/citigold-private-client?lid=SGENCBLOCATLHereFSTCT&utm_source=openai",
-    "https://www.sc.com/sg/save/current-accounts/wealth-saver/?utm_source=openai"
+    "https://wealthmanagement.sg/wealth-management-faq/",
+    "https://wealthmanagement.sg/dbs-private-banking/",
+    "https://www.shkoh.com.sg/post/private-banks-in-singapore-a-list-of-wealth-management-institutions-in-singapore/",
+    "https://wealthmanagement.sg/private-banking-singapore-minimums/",
+    "https://wealthmanagement.sg/private-banking-singapore/",
+    "https://wealthmanagement.sg/what-is-private-banking-singapore/",
+    "https://en.wikipedia.org/wiki/Trust_Bank_(Singapore)",
+    "https://en.wikipedia.org/wiki/Standard_Chartered_Singapore"
    ],
-   "answer": "**Best all-round choice: DBS Treasures.** With S$1m, you comfortably meet its S$350,000 investible-assets threshold. DBS offers the strongest one-app consolidation: everyday banking, multi-currency balances, fixed deposits, funds, bonds, structured products and online equities across eight markets through **DBS digibank/Online Equity Trading**. Singapore-share commission is 0.12% with no minimum. ([dbs.com.sg](https://www.dbs.com.sg/treasures/mobile/dl/dbs-iwealth-digibank-mobile.html?pid=sg-pb-pweb-deposits-iwealth-digibank-app-qr-code&utm_source=openai))\n\n**Alternatives:**\n\n- **OCBC Premier Banking** — also starts at S$350,000. Consider it if you already use OCBC extensively or value its i",
-   "queriedAt": "2026-08-29T08:39:21.765Z"
+   "answer": "I'll search for current information on Singapore banks offering private banking and wealth management services for the S$1 million range.\nFor S$1 million in investable assets, you sit at the entry point for **private banking** in Singapore. Here are your best options:\n\n**Top Recommendation: DBS Private Bank**\n\n\nDBS Private Bank has one of the lowest minimums at S$1 million\n, and \nDBS is best for Asian market expertise and lower minimums\n. It's Singapore's largest private bank with the broadest Singapore-domestic client base.\n\n**Alternative: Bank of Singapore**\n\n\nBank of Singapore secures this year's award as the country's best private bank for high-net-worth (HNW) individuals, reflecting a s",
+   "queriedAt": "2026-08-30T02:11:30.990Z"
   },
   {
    "promptId": "p07",
-   "engineId": "chatgpt",
+   "engineId": "claude",
    "grounded": true,
    "cited": [
     "dbs",
-    "scb",
-    "uob",
     "ocbc",
-    "hsbc"
-   ],
-   "sources": [
-    "https://www.dbs.com.sg/personal/deposits/for-foreigners/new-to-singapore?pid=sg-dbs-pweb-nav-article-how-to-settle-down-quickly-as-an-foreigner-textlink-sa%5C&utm_source=openai",
-    "https://www.sc.com/sg/save/mca/?utm_source=openai",
-    "https://www.uob.com.sg/personal/customer-service/accounts.page?utm_source=openai",
-    "https://www.ocbc.com/personal-banking/deposits/360-savings-account?pid=sg%3Aen%3Aothers%3Aaccounts%3A360Account%3AEvergreen%3AMay17%3Ainternal%3AFAQ-page%3Aredirect%3A%3A%3A%3A&utm_source=openai",
-    "https://www.hsbc.com.sg/en-sg/accounts/products/premier/?utm_source=openai"
-   ],
-   "answer": "**Best overall: DBS.** For most expats living and working in Singapore, **DBS My Account** is the easiest starting point: no initial deposit, minimum balance or service fee, plus SGD and 12 foreign currencies. **DBS Remit** offers zero-fee, usually same-day transfers to 50+ destinations. If crediting salary and using other DBS products, consider **DBS Multiplier** for bonus interest. ([dbs.com.sg](https://www.dbs.com.sg/personal/deposits/for-foreigners/new-to-singapore?pid=sg-dbs-pweb-nav-article-how-to-settle-down-quickly-as-an-foreigner-textlink-sa%5C&utm_source=openai))\n\n**Alternatives:**\n\n- **Standard Chartered Bonus$aver** — best for frequent foreign-currency spending. It supports SGD p",
-   "queriedAt": "2026-08-29T08:39:37.107Z"
-  },
-  {
-   "promptId": "p08",
-   "engineId": "chatgpt",
-   "grounded": true,
-   "cited": [
-    "uob",
-    "dbs",
-    "hsbc",
-    "ocbc",
-    "citi"
-   ],
-   "sources": [
-    "https://www.uob.com.sg/personal/save/foreign-currency-accounts/fxplus-account.page?pid=CD07Q2SAVE26&vid=na",
-    "https://www.dbs.com.sg/personal/deposits/savings-accounts/my-account?pid=sg-pweb-dbs-deposit-new-to-singapore-txtlink-my-account&utm_source=openai",
-    "https://www.hsbc.com.sg/accounts/products/everyday-global/?cid=SGH%3AJC%3AW0%3AINTL%3A01%3A2001%3A1700277%3AAcq_INTL_PWS_INTL&hidden_type=PWS1700277&promo=PWS1700277",
-    "https://www.ocbc.com/personal-banking/deposits/multi-currency-global-savings-account.page",
-    "https://www.citibank.com.sg/personal-banking/deposits/foreign-currency-account/global-currency-account?icid=SGBHUISENWELTCANB02&lid=SGENCBGGNMITLCreditInsureInsurance&utm_source=openai",
-    "https://www.sdic.org.sg/api/235/20240801%20Annex%20D%20C.pdf?utm_source=openai"
-   ],
-   "answer": "**Best overall: UOB FX+ Account**  \nIt supports 10 foreign currencies, claims no FX mark-up for conversions in UOB TMRW, and charges no FX fee on overseas debit-card spending—even when paying directly from SGD. There is no minimum balance or fall-below fee, but it must be linked to a **UOB One Account**. ([uob.com.sg](https://www.uob.com.sg/personal/save/foreign-currency-accounts/fxplus-account.page?pid=CD07Q2SAVE26&vid=na))\n\n**Best simple, low-commitment option: DBS My Account**  \nHolds SGD plus 12 foreign currencies, with no minimum balance, initial deposit or service charge. Its linked DBS Visa Debit Card spends directly from available foreign-currency balances without conversion fees. ([",
-   "queriedAt": "2026-08-29T08:39:58.861Z"
-  },
-  {
-   "promptId": "p09",
-   "engineId": "chatgpt",
-   "grounded": true,
-   "cited": [
     "uob",
     "hsbc",
-    "citi",
-    "dbs"
-   ],
-   "sources": [
-    "https://www.uob.com.sg/personal/cards/index.page?filter=travel&utm_source=openai",
-    "https://www.hsbc.com.sg/credit-cards/products/travelone/?utm_source=openai",
-    "https://www1.citibank.com.sg/credit-cards/travel/premiermiles-card?ecid=CONADSGDB2ENFXGVF983&icid=SGBKURPENBFEECAOR07&lid=SGENCGGCGMITLLifeInsurance&utm_source=openai",
-    "https://www.dbs.com.sg/personal/cards/credit-cards/dbs-altitude-cards?pid=sg-dbs-pweb-sitemap-textlink-dbs-altitude-card-visa&utm_source=openai"
-   ],
-   "answer": "**Best overall: UOB PRVI Miles Visa/Mastercard.** It offers 1.4 miles/S$1 locally, 2.4 overseas, 3 miles in Indonesia, Malaysia, Thailand and Vietnam, plus four annual lounge visits and travel insurance. The annual fee is S$261.60. ([uob.com.sg](https://www.uob.com.sg/personal/cards/index.page?filter=travel&utm_source=openai))\n\n**Better choices for specific priorities:**\n\n- **Lowest-cost overseas spending: UOB EVOL.** No annual fee, 0% FX fees and up to 1% overseas cashback until 31 December 2026. Choose local-currency billing—not SGD dynamic currency conversion. ([uob.com.sg](https://www.uob.com.sg/personal/cards/index.page?filter=travel&utm_source=openai))\n- **Flexible airline/hotel transf",
-   "queriedAt": "2026-08-29T08:40:23.256Z"
-  },
-  {
-   "promptId": "p10",
-   "engineId": "chatgpt",
-   "grounded": true,
-   "cited": [
-    "dbs",
-    "ocbc",
     "scb"
    ],
    "sources": [
-    "https://wise.com/sg/pricing/send-money?utm_source=openai",
-    "https://www.instarem.com/en-sg/?utm_source=openai",
-    "https://www.dbs.com.sg/personal/deposits/digital-services/dbs-remit.page?utm_source=openai",
-    "https://www.ocbc.com/personal-banking/digital-banking/overseas-funds-transfer.page?utm_source=openai",
-    "https://www.sc.com/sg/pricing-guide/?utm_source=openai"
+    "https://wise.com/gb/blog/banks-in-singapore",
+    "https://www.expatica.com/sg/finance/banking/banks-in-singapore-2172812/",
+    "https://statrys.com/sg/guides/banking/top-banks",
+    "https://accountopening.com.sg/best-banks-in-singapore-for-foreigners-private-premier-banking/",
+    "https://expatmovingtosingapore.com/expat-friendly-bank-accounts-in-singapore/",
+    "https://www.sebsauerborn.com/the-brief/singapore-banks-compared",
+    "https://ondemandint.com/blog/5-best-banks-in-singapore-for-foreigners-compared/",
+    "https://www.instarem.com/blog/how-to-open-a-bank-account-in-singapore-for-foreigners/"
    ],
-   "answer": "**Cheapest in most cases:** fund **Wise** from your Singapore bank via PayNow/bank transfer. Wise uses the mid-market exchange rate and shows its fee upfront (from about 0.19%, varying by currency). ([wise.com](https://wise.com/sg/pricing/send-money?utm_source=openai))\n\nAlso compare **Instarem**—it can be cheaper on selected Asian routes or with first-transfer promotions, but rates and fees vary by amount and destination. ([instarem.com](https://www.instarem.com/en-sg/?utm_source=openai))\n\n**If you prefer transferring directly through a bank:**\n\n- **DBS/POSB – DBS Remit:** S$0 transfer fee to 50+ destinations when sending the destination’s local currency; intermediary-bank fees may still app",
-   "queriedAt": "2026-08-29T08:40:42.095Z"
+   "answer": "I'll search for the best banks in Singapore for expats to give you current information.\nBased on current information, there's no single \"best\" bank for all expats—it depends on your needs:\n\n## Top Choices:\n\n**DBS** is the most popular choice. \nAccounts can be opened in-branch or partially online, and the digibank mobile app supports 12 currencies with competitive foreign exchange rates.\n \nIt's recognised as the safest bank in Asia.\n\n\n**OCBC** is particularly expat-friendly. \nOCBC allows remote account opening for select non-residents.\n \nOCBC often approves expats faster than competitors for credit cards.\n Their **360 Account** offers \na personal savings account with a tiered bonus-interest s",
+   "queriedAt": "2026-08-30T02:11:41.269Z"
+  },
+  {
+   "promptId": "p08",
+   "engineId": "claude",
+   "grounded": true,
+   "cited": [
+    "dbs",
+    "uob",
+    "ocbc"
+   ],
+   "sources": [
+    "https://www.moneysmart.sg/digital-multi-currency-account",
+    "https://aspireapp.com/blog/expand-your-business-with-multi-currency-account",
+    "https://www.moneysmart.sg/savings-account/multi-currency-savings-account",
+    "https://www.worldfirst.com/sg/blog/international-transactions/multi-currency-account-singapore/",
+    "https://www.airwallex.com/en-sg/blog/best-multi-currency-account",
+    "https://www.worldfirst.com/sg/blog/international-transactions/best-foreign-currency-accounts-in-singapore/",
+    "https://globallinkconsulting.sg/en/article/bank-account-opening/bank-account-opening-in-singapore/multi-currency-accounts-in-singapore",
+    "https://marcorepublic.com/best-multi-currency-accounts-in-singapore-2026-top-options-for-businesses/"
+   ],
+   "answer": "I'll search for information about the best multi-currency accounts available in Singapore.\nBased on current information, the answer depends on your needs:\n\n**For individuals**: \nDBS Multi-Currency Account is widely recognised as the most convenient bank multi-currency account, letting you hold SGD plus 12 foreign currencies with no minimum balance or monthly service fee for your first account.\n \nUOB Global Currency Account and OCBC Global Savings Account provide strong solutions for holding and transferring major currencies, especially USD and AUD.\n\n\n**For digital options**: \nYouTrip account supports up to 10 different currencies which include Singapore Dollar (SGD), United States Dollar (US",
+   "queriedAt": "2026-08-30T02:11:49.528Z"
+  },
+  {
+   "promptId": "p09",
+   "engineId": "claude",
+   "grounded": true,
+   "cited": [
+    "citi",
+    "uob",
+    "ocbc"
+   ],
+   "sources": [
+    "https://wise.com/sg/blog/credit-card-for-travel-booking",
+    "https://www.singsaver.com.sg/credit-card/comparison/best-travel-credit-cards",
+    "https://aspireapp.com/blog/best-travel-credit-cards-in-singapore",
+    "https://www.you.co/sg/blog/best-singapore-credit-card/",
+    "https://www.mexc.com/news/622307",
+    "https://mysingaporediary.com/best-travel-credit-card-singapore-2026-compare-miles-fees-and-top-picks/"
+   ],
+   "answer": "The best choice depends on your spending patterns. Here are the top options:\n\n**\nCiti PremierMiles is the go-to miles card for most Singaporeans, earning 1.2 miles per dollar locally and 2.2 mpd overseas, with Citi Miles that never expire\n.** \nIt offers 11 airline and hotel transfer partners, one of the broadest networks among Singapore miles cards.\n\n\n**\nUOB PRVI Miles earns 1.4 mpd locally and up to 3 mpd on general overseas spend\n,** making it best for high-spend frequent travellers.\n\nFor **low foreign transaction fees**, \nYouTrip, a multi-currency card, charges 0% on overseas spend, versus the ~3.25% most traditional credit cards charge.\n\n\n**\nOCBC 90°N excels for flight bookings, while Kr",
+   "queriedAt": "2026-08-30T02:11:58.619Z"
+  },
+  {
+   "promptId": "p10",
+   "engineId": "claude",
+   "grounded": true,
+   "cited": [
+    "dbs"
+   ],
+   "sources": [
+    "https://www.airwallex.com/sg/blog/best-ways-to-send-money-internationally",
+    "https://www.worldfirst.com/uk/blog/international-transactions/cheapest-way-to-send-to-money-to-singapore/",
+    "https://www.airwallex.com/en-sg/blog/best-international-money-transfer",
+    "https://www.airwallex.com/sg/blog/how-to-transfer-money-to-an-international-bank-account",
+    "https://www.monito.com/send-money-to/singapore",
+    "https://statrys.com/blog/send-money-from-singapore",
+    "https://exiap.sg/international-money-transfers/cheapest-way-to-send-money-abroad",
+    "https://wise.com/sg/send-money/cheapest-way-to-send-money-abroad"
+   ],
+   "answer": "## Best Cheapest Options\n\nFor the cheapest way to send money overseas from Singapore, you have two main approaches:\n\n**Option 1: Fintech/Online Providers (Cheapest Overall)**\n\n\nAirwallex offers S$0 transfer fees to send funds to 120+ countries via local payment rails\n, with \ncompetitive exchange rates at just 0.4%–0.6% above interbank\n. Other competitive options include \nWise and Remitly, which offer competitive fees and faster processing than banks\n.\n\n**Option 2: Bank Services with Lower Fees**\n\nIf you prefer staying with your bank, \nDBS Remit covers 50+ destinations in 19 currencies with S$0 transfer fees\n, though \nwhile DBS advertises zero fees, DBS still applies a markup to the exchange ",
+   "queriedAt": "2026-08-30T02:12:08.737Z"
   }
  ]
 }
