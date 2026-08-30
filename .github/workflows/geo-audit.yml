@@ -6,16 +6,17 @@ name: Citation tracking audit
 
 on:
   schedule:
-    # Mondays 01:00 UTC = 09:00 Singapore. Keep the day and hour fixed:
-    # snapshots taken on different weekdays add noise you cannot separate
-    # from real movement.
+    # Mondays 01:00 UTC = 09:00 Singapore.
+    # Keep the day and hour fixed so weekly snapshots are comparable.
     - cron: "0 1 * * 1"
-  workflow_dispatch: {}
 
-# Scoped to the extension so this never fights the existing Python/Astro CI.
+  workflow_dispatch:
+
+# Required because the workflow commits generated audit data back to main.
 permissions:
   contents: write
 
+# Prevent two citation audits from running at the same time.
 concurrency:
   group: citation-tracking-audit
   cancel-in-progress: false
@@ -24,10 +25,15 @@ jobs:
   audit:
     runs-on: ubuntu-latest
     timeout-minutes: 25
-    steps:
-      - uses: actions/checkout@v4
 
-      - uses: actions/setup-node@v4
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
         with:
           node-version: "20"
 
@@ -42,15 +48,21 @@ jobs:
 
       - name: Commit snapshot
         run: |
-          git config user.name  "citation-tracking-bot"
+          git config user.name "citation-tracking-bot"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          # Stage only the extension's data directory. Nothing else in the
-          # fork is ever touched, so upstream syncs stay clean.
+
+          # Stage only generated citation-tracking data.
           git add extensions/citation-tracking/data/
+
           if git diff --staged --quiet; then
             echo "No change in results, nothing to commit."
           else
             git commit -m "chore(citation-tracking): snapshot $(date -u +%Y-%m-%d)"
+
+            # main may have changed during the 6+ minute audit.
+            # Rebase the generated snapshot onto the latest remote main
+            # before pushing, avoiding the non-fast-forward "fetch first" error.
             git pull --rebase origin main
+
             git push origin main
           fi
