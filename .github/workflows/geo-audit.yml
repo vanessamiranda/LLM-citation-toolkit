@@ -1,6 +1,3 @@
-# Place at repo root: .github/workflows/geo-audit.yml
-# GitHub requires workflows live here, not inside the extension folder.
-# Everything it touches, however, stays inside extensions/citation-tracking.
 
 name: Citation tracking audit
 
@@ -56,13 +53,14 @@ jobs:
 
           if git diff --staged --quiet; then
             echo "No change in results, nothing to commit."
-          else
-            git commit -m "chore(citation-tracking): snapshot $(date -u +%Y-%m-%d)"
-
-            # main may have changed during the 6+ minute audit.
-            # Rebase the generated snapshot onto the latest remote main
-            # before pushing, avoiding the non-fast-forward "fetch first" error.
-            git pull --rebase origin main
-
-            git push origin main
+            exit 0
           fi
+
+          git commit -m "chore(citation-tracking): snapshot $(date -u +%Y-%m-%d)"
+
+          # main may have changed during the audit.
+          # Fetch the latest remote main and replay this snapshot on top.
+          git fetch origin main
+          git rebase origin/main
+
+          git push origin HEAD:main
