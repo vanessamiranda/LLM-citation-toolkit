@@ -1,10 +1,10 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
 <title>Outside-In AI Wealth Intelligence — Singapore Banking</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="Independent public-data prototype aligned to HSBC Singapore’s announced AI and Wealth direction: testing the AI-mediated consideration moments that can occur before customers enter a bank-owned wealth journey. No HSBC first-party data is used.">
+<meta name="description" content="Independent public-data prototype testing AI-mediated consideration moments before customers enter a bank-owned wealth journey. No bank first-party data is used.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -180,9 +180,7 @@
       <h1>Outside-In AI Wealth Intelligence — Singapore Banking</h1>
 
       <div class="sub">
-        HSBC is publicly investing in AI to enhance the wealth journey. This independent prototype explores the complementary
-        outside-in question: before an affluent customer enters a bank-owned journey, which banks enter the consideration set
-        when that customer asks public AI platforms for guidance?
+        This independent prototype explores an outside-in question: before an affluent customer enters a bank-owned journey, which banks enter the consideration set when that customer asks public AI platforms for guidance?
       </div>
 
       <div style="display:flex;flex-wrap:wrap;gap:7px;margin-top:10px">
@@ -193,10 +191,8 @@
       </div>
 
       <div style="margin-top:12px;font-size:11.5px;color:var(--muted);max-width:94ch">
-        <strong style="color:var(--text)">Independent prototype — not affiliated with or commissioned by HSBC.</strong>
-        Built only from observed public AI responses and publicly accessible sources. No HSBC first-party customer,
-        web analytics, Search Console, CRM, lead, conversion, revenue, deposit or AUM data is used.
-        Findings are directional hypotheses for validation, not statements of HSBC commercial performance.
+        <strong style="color:var(--text)">Independent prototype — not affiliated with or commissioned by any bank.</strong>
+        Built only from observed public AI responses and publicly accessible sources. No bank first-party customer, web analytics, Search Console, CRM, lead, conversion, revenue, deposit or AUM data is used. Findings are directional hypotheses for validation, not statements of commercial performance.
       </div>
     </div>
 
@@ -218,6 +214,12 @@ const pct = n => (n * 100).toFixed(0) + '%';
 const esc = s => String(s).replace(/[<>&]/g, c => ({ '<': '&lt;', '>': '&gt;', '&': '&amp;' }[c]));
 
 let cfg, data, history = [], BRAND, ENG, S;
+let selectedBankId = null;
+
+const focusBankId = () => selectedBankId || cfg?.subject;
+const focusBank = () => BRAND?.[focusBankId()];
+const focusBankName = () => focusBank()?.name ?? focusBankId();
+const focusBankColour = () => focusBank()?.colour ?? 'var(--subject)';
 
 /* ------------------------------------------------------------------- loading */
 async function boot() {
@@ -238,6 +240,8 @@ async function boot() {
   BRAND = Object.fromEntries(cfg.brands.map(b => [b.id, b]));
   ENG = Object.fromEntries(data.engines.map(e => [e.id, e]));
   S = computeScores(data.records, cfg.brands, data.promptCount, data.activeEngineIds);
+  selectedBankId = cfg.subject;
+  document.documentElement.style.setProperty('--subject', focusBankColour());
 
   $('#asof').textContent = 'Snapshot ' + data.generatedAt.slice(0, 10);
   $('#scope').textContent =
@@ -280,11 +284,8 @@ function renderApp() {
 
   <section class="view on" id="v-dash">
     <div class="ceo-thesis">
-      <div class="label">Strategic hypothesis aligned to HSBC's public AI × Wealth direction</div>
-      <div class="headline">
-        HSBC is building AI into the wealth journey. The complementary competitive question is whether HSBC also wins
-        the public AI-mediated moments that can happen before that journey begins.
-      </div>
+      <div class="label" id="strategicLabel">Outside-in AI × Wealth strategic hypothesis</div>
+      <div class="headline" id="strategicHeadline"></div>
       <div class="copy">
         Singapore affluent and high-net-worth investors are already using AI heavily for financial research while still
         valuing human adviser validation at the point of decision. This prototype examines that upstream discovery layer:
@@ -318,8 +319,8 @@ function renderApp() {
     <div class="ceo-questions">
       <div class="ceo-q">
         <div class="q">Strategic question</div>
-        <div class="a">Does HSBC win the AI-mediated consideration moments before customers enter HSBC's wealth journey?</div>
-        <div class="n">This is adjacent to — not a substitute for — HSBC's announced AI-enabled wealth capabilities.</div>
+        <div class="a" id="strategicQuestion"></div>
+        <div class="n" id="strategicQuestionNote">This outside-in signal is not a substitute for bank-owned customer, commercial or first-party data.</div>
       </div>
       <div class="ceo-q">
         <div class="q">What this measures</div>
@@ -332,7 +333,7 @@ function renderApp() {
         <div class="n">A prioritisation signal for deeper content, authority and proposition investigation.</div>
       </div>
       <div class="ceo-q">
-        <div class="q">What I would validate inside HSBC</div>
+        <div class="q" id="validateLabel">What I would validate inside the selected bank</div>
         <div class="a">Whether outside-in AI signals correlate with actual wealth acquisition behaviour.</div>
         <div class="n">Search demand, visits, enquiries, RM appointments, account openings, funded relationships and AUM.</div>
       </div>
@@ -350,12 +351,17 @@ function renderApp() {
       </div>
     </div>
 
+    <div class="toolbar" style="margin:0 0 16px">
+      <label for="bankFilter" style="font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--dim)">Analyse bank</label>
+      <select id="bankFilter" aria-label="Select bank to analyse"></select>
+      <span class="status" id="bankFilterStatus"></span>
+    </div>
     <div class="es-row" id="engineState"></div>
     <div class="grid g4" id="kpis"></div>
     <div class="grid g2" style="margin-top:14px">
       <div class="panel">
         <h2 class="sec">Outside-In AI Visibility by Platform</h2>
-        <p class="note">Observed public AI visibility across each connected platform. Use this as a directional benchmark only; it does not measure HSBC customer acquisition or commercial performance.</p>
+        <p class="note" id="platformVisibilityNote"></p>
         <div id="ribbons"></div><div class="legend" id="ribbonLegend"></div>
       </div>
       <div class="panel">
@@ -368,11 +374,7 @@ function renderApp() {
 
     <div class="panel" style="margin-top:14px">
       <h2 class="sec">Why AI Visibility Differs by Platform</h2>
-      <p class="note">
-        Diagnostic view of observable platform differences: HSBC mention coverage, recommendation position,
-        top-two prominence and the mix of public sources retrieved by each AI platform. These are directional
-        associations in the recorded answers — not proof of how an AI platform's internal ranking algorithm works.
-      </p>
+      <p class="note" id="platformDriverNote"></p>
       <div id="platformDrivers"></div>
     </div>
 
@@ -394,7 +396,7 @@ function renderApp() {
       <p class="note">Observed public URLs cited by search-grounded AI engines, grouped by domain. This shows whether visibility is being shaped by bank-owned content, competitor-owned content or third-party publishers.</p>
       <div class="toolbar"><select id="srcFilter">
         <option value="all">All sources</option>
-        <option value="own">Our own site only</option>
+        <option value="own">Selected bank site only</option>
         <option value="competitor">Competitor sites only</option>
         <option value="third">Third-party sites only</option>
       </select></div>
@@ -421,13 +423,13 @@ function renderApp() {
 
     <div class="panel" style="margin-top:14px">
       <h2 class="sec">Observed Wealth Decision Signals</h2>
-      <p class="note">Prompts grouped by customer decision journey. This shows where HSBC is observed, where competitors appear more prominently, and which patterns may merit validation. These are outside-in signals rather than measures of actual HSBC customer behaviour.</p>
+      <p class="note" id="segmentNote"></p>
       <div id="segTable"></div>
     </div>
 
     <div class="panel" style="margin-top:14px">
       <h2 class="sec">Observed Competitor Interception Signals</h2>
-      <p class="note">Select a competitor to see the recorded AI answers where that bank appears ahead of HSBC. Use these as hypotheses for investigating public content, source authority and discoverability — not as evidence of lost customers or revenue.</p>
+      <p class="note" id="gapNote"></p>
       <div class="toolbar gap-compare-toolbar">
         <label for="gapPick">
           Compare <strong id="gapSubject">Selected Bank</strong> with
@@ -461,22 +463,24 @@ function renderApp() {
     <div class="report" id="reportBody"></div>
   </section>`;
 
-  const subjectBank = cfg.brands.find(b => b.id === cfg.subject);
-  const others = cfg.brands.filter(b => b.id !== cfg.subject);
-
-  $('#trendPick').innerHTML = others
-    .map(b => `<option value="${b.id}">Benchmark against ${esc(b.name)}</option>`)
-    .join('')
-    + `<option value="${cfg.subject}">${esc(subjectBank?.name ?? cfg.subject)} only</option>`;
-
-  $('#gapSubject').textContent = subjectBank?.name ?? cfg.subject;
-
-  $('#gapPick').innerHTML = others
-    .map(b => `<option value="${b.id}">${esc(b.name)}</option>`)
+  $('#bankFilter').innerHTML = cfg.brands
+    .map(b => `<option value="${b.id}" ${b.id === focusBankId() ? 'selected' : ''}>${esc(b.name)}</option>`)
     .join('');
+
   $('#engFilter').innerHTML = `<option value="all">All engines</option>`
     + cfg.engines.map(e => `<option value="${e.id}">${e.name} only</option>`).join('');
   $('#promptPick').innerHTML = cfg.prompts.map(p => `<option value="${p.id}">${esc(p.q)}</option>`).join('');
+
+  rebuildBankDependentFilters();
+  paintDynamicCopy();
+
+  $('#bankFilter').addEventListener('change', e => {
+    selectedBankId = e.target.value;
+    document.documentElement.style.setProperty('--subject', focusBankColour());
+    rebuildBankDependentFilters();
+    paintDynamicCopy();
+    paint();
+  });
 
   ['trendPick', 'engFilter', 'promptPick', 'tierFilter', 'gapPick', 'srcFilter', 'planFilter'].forEach(id =>
     $('#' + id).addEventListener('change', paint));
@@ -492,8 +496,42 @@ function renderApp() {
 }
 
 /* ------------------------------------------------------------------ helpers */
+function rebuildBankDependentFilters() {
+  const focusId = focusBankId();
+  const bank = focusBank();
+  const others = cfg.brands.filter(b => b.id !== focusId);
+
+  const previousTrend = $('#trendPick')?.value;
+  const previousGap = $('#gapPick')?.value;
+
+  $('#trendPick').innerHTML =
+    `<option value="${focusId}">${esc(bank?.name ?? focusId)} only</option>` +
+    others.map(b => `<option value="${b.id}">Benchmark against ${esc(b.name)}</option>`).join('');
+
+  if (previousTrend && (previousTrend === focusId || others.some(b => b.id === previousTrend))) {
+    $('#trendPick').value = previousTrend;
+  }
+
+  $('#gapSubject').textContent = bank?.name ?? focusId;
+  $('#gapPick').innerHTML = others.map(b => `<option value="${b.id}">${esc(b.name)}</option>`).join('');
+  if (previousGap && others.some(b => b.id === previousGap)) $('#gapPick').value = previousGap;
+
+  $('#bankFilterStatus').textContent = `Viewing ${bank?.name ?? focusId}`;
+}
+
+function paintDynamicCopy() {
+  const name = focusBankName();
+  $('#strategicHeadline').textContent = `${name}: does the bank win the public AI-mediated consideration moments before customers enter its owned wealth journey?`;
+  $('#strategicQuestion').textContent = `Does ${name} win the AI-mediated consideration moments before customers enter the bank's wealth journey?`;
+  $('#validateLabel').textContent = `What I would validate inside ${name}`;
+  $('#platformVisibilityNote').textContent = `Observed public AI visibility across each connected platform for ${name}. Use this as a directional benchmark only; it does not measure customer acquisition or commercial performance.`;
+  $('#platformDriverNote').textContent = `Diagnostic view of observable platform differences for ${name}: mention coverage, recommendation position, top-two prominence and the mix of public sources retrieved by each AI platform. These are directional associations in the recorded answers — not proof of proprietary ranking logic.`;
+  $('#segmentNote').textContent = `Prompts grouped by customer decision journey. This shows where ${name} is observed, where competitors appear more prominently, and which patterns may merit validation. These are outside-in signals rather than measures of actual customer behaviour.`;
+  $('#gapNote').textContent = `Select a competitor to see the recorded AI answers where that bank appears ahead of ${name}. Use these as hypotheses for investigating public content, source authority and discoverability — not as evidence of lost customers or revenue.`;
+}
+
 const rec = (pid, eid) => data.records.find(r => r.promptId === pid && r.engineId === eid);
-function rankOf(pid, eid, brandId = cfg.subject) {
+function rankOf(pid, eid, brandId = focusBankId()) {
   const r = rec(pid, eid);
   if (!r) return undefined;                     // engine not connected / prompt failed
   const i = r.cited.indexOf(brandId);
@@ -511,13 +549,13 @@ function platformDiagnostics(engineId) {
   const available = engineRecords.length;
 
   const subjectRecords = engineRecords.filter(r =>
-    (r.cited ?? []).includes(cfg.subject)
+    (r.cited ?? []).includes(focusBankId())
   );
 
   const visibility = available ? subjectRecords.length / available : 0;
 
   const positions = subjectRecords
-    .map(r => (r.cited ?? []).indexOf(cfg.subject) + 1)
+    .map(r => (r.cited ?? []).indexOf(focusBankId()) + 1)
     .filter(n => n > 0);
 
   const avgPosition = positions.length
@@ -541,9 +579,9 @@ function platformDiagnostics(engineId) {
   );
 
   const totalSources = sourceRows.length;
-  const hsbcOwned = sourceRows.filter(s => s.owner === cfg.subject).length;
+  const ownOwned = sourceRows.filter(s => s.owner === focusBankId()).length;
   const competitorOwned = sourceRows.filter(
-    s => s.owner && s.owner !== cfg.subject
+    s => s.owner && s.owner !== focusBankId()
   ).length;
   const thirdParty = sourceRows.filter(s => !s.owner).length;
 
@@ -564,7 +602,7 @@ function platformDiagnostics(engineId) {
     avgPosition,
     topTwo,
     totalSources,
-    hsbcOwned,
+    ownOwned,
     competitorOwned,
     thirdParty,
     topDomains
@@ -579,22 +617,22 @@ function explainPlatformDriver(d) {
   const signals = [];
 
   if (d.avgPosition !== null && d.avgPosition <= 2) {
-    signals.push('HSBC is usually prominent when it appears');
+    signals.push(`${focusBankName()} is usually prominent when it appears`);
   } else if (d.avgPosition !== null) {
-    signals.push('HSBC is mentioned but tends to appear below the first two positions');
+    signals.push(`${focusBankName()} is mentioned but tends to appear below the first two positions`);
   }
 
   if (d.totalSources) {
-    const ownShare = d.hsbcOwned / d.totalSources;
+    const ownShare = d.ownOwned / d.totalSources;
     const competitorShare = d.competitorOwned / d.totalSources;
     const thirdShare = d.thirdParty / d.totalSources;
 
     if (ownShare >= 0.25) {
-      signals.push('HSBC-owned pages form a meaningful share of retrieved sources');
+      signals.push(`${focusBankName()}-owned pages form a meaningful share of retrieved sources`);
     }
 
     if (competitorShare > ownShare) {
-      signals.push('competitor-owned pages are retrieved more often than HSBC-owned pages');
+      signals.push(`competitor-owned pages are retrieved more often than ${focusBankName()}-owned pages`);
     }
 
     if (thirdShare >= 0.5) {
@@ -619,7 +657,7 @@ function platformDriverSummary() {
 
   if (rows.length === 1) {
     const r = rows[0];
-    return `${r.e.name} shows ${pct(r.d.visibility)} HSBC mention coverage with ${
+    return `${r.e.name} shows ${pct(r.d.visibility)} ${focusBankName()} mention coverage with ${
       r.d.avgPosition === null ? 'no measurable average position' : `an average observed position of ${r.d.avgPosition.toFixed(1)}`
     }. More platforms are needed for a cross-platform comparison.`;
   }
@@ -636,16 +674,16 @@ function platformDriverSummary() {
     const worst = prominenceRows[prominenceRows.length - 1];
 
     if (Math.abs(best.d.avgPosition - worst.d.avgPosition) >= 0.3) {
-      return `Same reach, different prominence: connected platforms show similar HSBC mention coverage, but ${best.e.name} places HSBC higher on average (${best.d.avgPosition.toFixed(1)}) than ${worst.e.name} (${worst.d.avgPosition.toFixed(1)}). Review the source mix and prompt-level evidence before attributing a cause.`;
+      return `Same reach, different prominence: connected platforms show similar ${focusBankName()} mention coverage, but ${best.e.name} places ${focusBankName()} higher on average (${best.d.avgPosition.toFixed(1)}) than ${worst.e.name} (${worst.d.avgPosition.toFixed(1)}). Review the source mix and prompt-level evidence before attributing a cause.`;
     }
 
-    return 'Connected platforms show similar HSBC mention coverage and similar average prominence. The main differences are likely at individual decision moments and in the public sources each platform retrieves.';
+    return 'Connected platforms show similar ${focusBankName()} mention coverage and similar average prominence. The main differences are likely at individual decision moments and in the public sources each platform retrieves.';
   }
 
   const strongest = [...rows].sort((a, b) => b.d.visibility - a.d.visibility)[0];
   const weakest = [...rows].sort((a, b) => a.d.visibility - b.d.visibility)[0];
 
-  return `${strongest.e.name} shows the highest observed HSBC mention coverage (${pct(strongest.d.visibility)}) versus ${pct(weakest.d.visibility)} on ${weakest.e.name}. Use recommendation position and source mix below to diagnose the observable difference rather than treating it as a universal AI ranking.`;
+  return `${strongest.e.name} shows the highest observed ${focusBankName()} mention coverage (${pct(strongest.d.visibility)}) versus ${pct(weakest.d.visibility)} on ${weakest.e.name}. Use recommendation position and source mix below to diagnose the observable difference rather than treating it as a universal AI ranking.`;
 }
 
 function paintPlatformDrivers() {
@@ -673,10 +711,10 @@ function paintPlatformDrivers() {
         <thead>
           <tr>
             <th>AI Platform</th>
-            <th class="num">HSBC Visibility</th>
+            <th class="num">${esc(focusBankName())} Visibility</th>
             <th class="num">Avg Position</th>
             <th class="num">Top-2 Rate</th>
-            <th class="num">HSBC-owned Sources</th>
+            <th class="num">${esc(focusBankName())}-owned Sources</th>
             <th class="num">Competitor-owned</th>
             <th class="num">Third-party</th>
             <th>Observable Driver</th>
@@ -684,7 +722,7 @@ function paintPlatformDrivers() {
         </thead>
         <tbody>
           ${rows.map(({ e, d }) => {
-            const ownPct = d.totalSources ? d.hsbcOwned / d.totalSources : null;
+            const ownPct = d.totalSources ? d.ownOwned / d.totalSources : null;
             const competitorPct = d.totalSources ? d.competitorOwned / d.totalSources : null;
             const thirdPct = d.totalSources ? d.thirdParty / d.totalSources : null;
             const domains = d.topDomains.length
@@ -786,7 +824,7 @@ function buildPlan() {
       const r = rec(p.id, e.id);
       if (!r) continue;
       r.cited.slice(0, 3).forEach((id, i) => {
-        if (id === cfg.subject) return;
+        if (id === focusBankId()) return;
         rivals[id] = (rivals[id] || 0) + (3 - i);
       });
     }
@@ -801,7 +839,7 @@ function buildPlan() {
         if (host) srcs.push({ url: u, host, owner: ownerOf(host) });
       });
     }
-    const comp = srcs.filter(s => s.owner && s.owner !== cfg.subject).length;
+    const comp = srcs.filter(s => s.owner && s.owner !== focusBankId()).length;
     const third = srcs.filter(s => !s.owner).length;
 
     let winnability;
@@ -835,7 +873,7 @@ function paintPlan() {
   if (!rows.length) {
     $('#planCards').innerHTML = `<div class="panel"><p class="status" style="color:var(--good)">${
       all.length ? 'No gaps match this filter.'
-      : `${BRAND[cfg.subject]?.name ?? cfg.subject} is cited in the top three on every prompt and every live engine in this snapshot. Nothing to action.`}</p></div>`;
+      : `${BRAND[focusBankId()]?.name ?? focusBankId()} is cited in the top three on every prompt and every live engine in this snapshot. Nothing to action.`}</p></div>`;
     return;
   }
 
@@ -854,8 +892,8 @@ function paintPlan() {
 
     const srcList = r.srcs.length
       ? r.srcs.map(s => {
-          const tag = s.owner === cfg.subject ? 'ours' : s.owner ? esc(BRAND[s.owner]?.name ?? s.owner) : 'third party';
-          const colour = s.owner === cfg.subject ? BRAND[cfg.subject].colour : s.owner ? 'var(--warn)' : 'var(--dim)';
+          const tag = s.owner === focusBankId() ? 'selected bank' : s.owner ? esc(BRAND[s.owner]?.name ?? s.owner) : 'third party';
+          const colour = s.owner === focusBankId() ? BRAND[focusBankId()].colour : s.owner ? 'var(--warn)' : 'var(--dim)';
           return `<div style="margin-bottom:5px"><span class="dot" style="background:${colour};margin-right:7px"></span>
             <a href="${esc(s.url)}" target="_blank" rel="noopener" style="color:var(--muted);font-family:var(--mono);font-size:11.5px">${esc(s.host)}</a>
             <span style="color:#5B6B7E;font-family:var(--mono);font-size:10.5px"> · ${tag}</span></div>`;
@@ -911,6 +949,7 @@ const BRAND_DOMAINS = {
   hsbc:    ['hsbc'],
   dbs:     ['dbs.com', 'posb'],
   ocbc:    ['ocbc'],
+  bos:     ['bankofsingapore'],
   uob:     ['uob'],
   scb:     ['sc.com', 'standardchartered'],
   citi:    ['citibank', 'citi.com', 'citigroup'],
@@ -952,7 +991,7 @@ function paintSources() {
   let rows = [...tally.values()].sort((a, b) => b.prompts.size - a.prompts.size || b.hits - a.hits);
 
   const klass = r =>
-    r.owner === cfg.subject ? 'own' : r.owner ? 'competitor' : 'third';
+    r.owner === focusBankId() ? 'own' : r.owner ? 'competitor' : 'third';
   if (filter !== 'all') rows = rows.filter(r => klass(r) === filter);
 
   if (!rows.length) {
@@ -971,7 +1010,7 @@ function paintSources() {
 
   $('#srcTable').innerHTML = `
     <div class="legend" style="margin-top:0;margin-bottom:14px;padding-top:0;border-top:0">
-      <span><i class="swatch" style="background:${BRAND[cfg.subject].colour}"></i>Our site ${pct(split.own / total)}</span>
+      <span><i class="swatch" style="background:${BRAND[focusBankId()].colour}"></i>${esc(focusBankName())} site ${pct(split.own / total)}</span>
       <span><i class="swatch" style="background:var(--warn)"></i>Competitor sites ${pct(split.competitor / total)}</span>
       <span><i class="swatch" style="background:var(--dim)"></i>Third-party ${pct(split.third / total)}</span>
     </div>
@@ -981,10 +1020,10 @@ function paintSources() {
     </tr></thead><tbody>${
       rows.map(r => {
         const k = klass(r);
-        const label = k === 'own' ? 'Ours'
+        const label = k === 'own' ? focusBankName()
           : k === 'competitor' ? BRAND[r.owner].name
           : 'Third party';
-        const colour = k === 'own' ? BRAND[cfg.subject].colour
+        const colour = k === 'own' ? BRAND[focusBankId()].colour
           : k === 'competitor' ? (BRAND[r.owner]?.colour ?? 'var(--warn)')
           : 'var(--dim)';
         return `<tr class="${k === 'own' ? 'subject' : ''}">
@@ -1022,7 +1061,7 @@ function paintSegments() {
       seg.slots += 1;
       r.cited.forEach((id, i) => {
         seg.counts[id] = (seg.counts[id] || 0) + 1;
-        if (id === cfg.subject) { seg.subjHits += 1; seg.subjPos += i + 1; }
+        if (id === focusBankId()) { seg.subjHits += 1; seg.subjPos += i + 1; }
       });
     }
   }
@@ -1031,8 +1070,8 @@ function paintSegments() {
     const ranked = Object.entries(seg.counts).sort((a, b) => b[1] - a[1]);
     const topCount = ranked.length ? ranked[0][1] : 0;
     const leaders = ranked.filter(([, c]) => c === topCount).map(([id]) => id);
-    const subjCount = seg.counts[cfg.subject] || 0;
-    const weLead = leaders.includes(cfg.subject);
+    const subjCount = seg.counts[focusBankId()] || 0;
+    const weLead = leaders.includes(focusBankId());
     const outright = weLead && leaders.length === 1;
     return {
       ...seg,
@@ -1045,7 +1084,7 @@ function paintSegments() {
 
   $('#segTable').innerHTML = `<table><thead><tr>
     <th>Segment</th><th class="num">Prompts</th>
-    <th class="num">${esc(BRAND[cfg.subject]?.name ?? cfg.subject)} visibility</th><th class="num">Avg position</th>
+    <th class="num">${esc(BRAND[focusBankId()]?.name ?? focusBankId())} visibility</th><th class="num">Avg position</th>
     <th>Leads this segment</th><th>Verdict</th>
   </tr></thead><tbody>${
     rows.map(r => {
@@ -1088,10 +1127,10 @@ function paintEngines() {
 }
 
 function paintKpis() {
-  const h = S.find(x => x.id === cfg.subject);
+  const h = S.find(x => x.id === focusBankId());
   const leader = S[0];
   const prev = history.length > 1 ? history[history.length - 2] : null;
-  const d = prev ? h.score - (prev.scores[cfg.subject] ?? h.score) : null;
+  const d = prev ? h.score - (prev.scores[focusBankId()] ?? h.score) : null;
 
   const absent = cfg.prompts.filter(p => liveEngines().every(e => rankOf(p.id, e.id) === null)).length;
   const partial = cfg.prompts.filter(p =>
@@ -1125,12 +1164,12 @@ function paintRibbons() {
       <span class="dot" style="background:${e.colour}"></span>${e.name}</div>
       <div class="ribbon"></div></div>`;
     const order = cfg.brands.filter(b => counts[b.id])
-      .sort((a, b) => a.id === cfg.subject ? -1 : b.id === cfg.subject ? 1 : counts[b.id] - counts[a.id]);
+      .sort((a, b) => a.id === focusBankId() ? -1 : b.id === focusBankId() ? 1 : counts[b.id] - counts[a.id]);
     let cum = 0, anchor = 0;
     const segs = order.map(b => {
       const w = counts[b.id] / total * 100; cum += w;
-      if (b.id === cfg.subject) anchor = cum;
-      return `<div class="seg ${b.id === cfg.subject ? 'subject' : ''}" style="width:${w}%;background:${b.colour}"
+      if (b.id === focusBankId()) anchor = cum;
+      return `<div class="seg ${b.id === focusBankId() ? 'subject' : ''}" style="width:${w}%;background:${b.colour}"
         title="${b.name}: ${counts[b.id]} citations, ${w.toFixed(1)}%"></div>`;
     }).join('');
     return `<div class="ribbon-row"><div class="ribbon-lab">
@@ -1150,7 +1189,7 @@ function paintTrend() {
     return;
   }
   note.textContent = `${history.length} weekly snapshots, oldest ${history[0].date}.`;
-  const ids = other === cfg.subject ? [cfg.subject] : [cfg.subject, other];
+  const ids = other === focusBankId() ? [focusBankId()] : [focusBankId(), other];
   const series = ids.map(id => ({ b: BRAND[id], pts: history.map(h => h.scores[id] ?? null) }));
 
   const W = 440, H = 190, PADL = 30, PADB = 24;
@@ -1185,7 +1224,7 @@ function paintComp() {
   $('#compTable').innerHTML = `<table><thead><tr><th>Brand</th>
     <th class="num">Frequency</th><th class="num">Prominence</th><th class="num">Share of voice</th>
     <th class="num">Top-two rate</th><th class="num">AI Search Visibility Score</th></tr></thead><tbody>${
-    S.map(r => `<tr class="${r.id === cfg.subject ? 'subject' : ''}">
+    S.map(r => `<tr class="${r.id === focusBankId() ? 'subject' : ''}">
       <td><span class="bankname">${r.name}</span></td>
       <td class="num">${pct(r.frequency)}</td><td class="num">${r.prominence.toFixed(2)}</td>
       <td class="num">${pct(r.shareOfVoice)}</td><td class="num">${pct(r.topTwo)}</td>
@@ -1205,7 +1244,7 @@ function paintMatrix() {
         const r = rankOf(p.id, e.id);
         if (r === undefined) return `<td class="cell"><span class="chip na" title="${e.name} not connected">n/a</span></td>`;
         const cls = r === null ? 'miss' : r === 1 ? 'r1' : r === 2 ? 'r2' : r === 3 ? 'r3' : 'rn';
-        return `<td class="cell"><span class="chip ${cls}" title="${e.name}: ${r === null ? `answered, ${BRAND[cfg.subject]?.name ?? cfg.subject} not named` : 'position ' + r}">${r === null ? '—' : r}</span></td>`;
+        return `<td class="cell"><span class="chip ${cls}" title="${e.name}: ${r === null ? `answered, ${BRAND[focusBankId()]?.name ?? focusBankId()} not named` : 'position ' + r}">${r === null ? '—' : r}</span></td>`;
       }).join('')}</tr>`).join('')
   }</tbody></table>
   <div class="legend">
@@ -1229,7 +1268,7 @@ function paintDetail() {
         ${r ? '' : '<span style="color:#5B6B7E;font-size:10px">not connected</span>'}</div>`;
     if (!r) { html += `</div>`; continue; }
     html += `<div style="display:flex;flex-wrap:wrap;gap:6px">${
-      r.cited.length ? r.cited.map((id, i) => `<span class="chip ${id === cfg.subject ? 'r1' : ''}">${i + 1}. ${BRAND[id]?.name ?? id}</span>`).join('')
+      r.cited.length ? r.cited.map((id, i) => `<span class="chip ${id === focusBankId() ? 'r1' : ''}">${i + 1}. ${BRAND[id]?.name ?? id}</span>`).join('')
         : '<span class="status">No brands named in this answer.</span>'}</div>
       <div class="answer">${esc(r.answer)}</div>
       ${r.sources?.length ? `<div class="srcs">Sources: ${r.sources.map(u =>
@@ -1246,7 +1285,7 @@ function paintBench() {
   $('#benchTable').innerHTML = `<table><thead><tr><th class="num">#</th><th>Brand</th>
     <th class="num">Cited</th><th class="num">Avg position</th><th class="num">Share of voice</th>
     <th class="num">AI Search Visibility Score</th><th style="width:24%">vs leader</th></tr></thead><tbody>${
-    rows.map(r => `<tr class="${r.id === cfg.subject ? 'subject' : ''}">
+    rows.map(r => `<tr class="${r.id === focusBankId() ? 'subject' : ''}">
       <td class="num" style="color:#5B6B7E">${r.rank}</td>
       <td><span class="bankname">${r.name}</span><span class="tier">${r.tier}</span></td>
       <td class="num">${r.hits}</td>
@@ -1263,11 +1302,11 @@ function paintGap() {
   const rows = [];
   for (const p of cfg.prompts) for (const e of liveEngines()) {
     const r = rec(p.id, e.id); if (!r) continue;
-    const ci = r.cited.indexOf(cid), hi = r.cited.indexOf(cfg.subject);
+    const ci = r.cited.indexOf(cid), hi = r.cited.indexOf(focusBankId());
     if (ci > -1 && (hi < 0 || ci < hi)) rows.push({ p, e, ci: ci + 1, hi: hi < 0 ? null : hi + 1 });
   }
   if (!rows.length) {
-    $('#gapTable').innerHTML = `<p class="status" style="color:var(--good)">${BRAND[cfg.subject]?.name ?? cfg.subject} matches or beats ${BRAND[cid].name} on every prompt and live engine in this snapshot.</p>`;
+    $('#gapTable').innerHTML = `<p class="status" style="color:var(--good)">${BRAND[focusBankId()]?.name ?? focusBankId()} matches or beats ${BRAND[cid].name} on every prompt and live engine in this snapshot.</p>`;
     return;
   }
   $('#gapTable').innerHTML = `<table><thead><tr><th>Prompt</th><th>Engine</th>
@@ -1282,11 +1321,11 @@ function paintGap() {
 }
 
 function paintReport() {
-  const focus = S.find(x => x.id === cfg.subject);
+  const focus = S.find(x => x.id === focusBankId());
   const leader = S[0];
-  const focusName = BRAND[cfg.subject]?.name ?? cfg.subject;
+  const focusName = BRAND[focusBankId()]?.name ?? focusBankId();
   const prev = history.length > 1 ? history[history.length - 2] : null;
-  const d = prev ? focus.score - (prev.scores[cfg.subject] ?? focus.score) : null;
+  const d = prev ? focus.score - (prev.scores[focusBankId()] ?? focus.score) : null;
 
   const absent = cfg.prompts.filter(p =>
     liveEngines().every(e => rankOf(p.id, e.id) === null)
@@ -1319,7 +1358,7 @@ function paintReport() {
     const ranked = Object.entries(counts).sort((a, b) => b[1] - a[1]);
     const leaderId = ranked[0]?.[0] ?? null;
     const leaderCount = ranked[0]?.[1] ?? 0;
-    const focusCount = counts[cfg.subject] || 0;
+    const focusCount = counts[focusBankId()] || 0;
     const wealthPriority = /wealth|premier|priority|private|affluent/i.test(intent);
     intentRows.push({
       intent,
@@ -1340,13 +1379,13 @@ function paintReport() {
   const grounded = liveEngines().filter(e => e.grounded).map(e => e.name);
 
   $('#reportBody').innerHTML = `
-    <h3>Outside-In AI Wealth Intelligence — Singapore Banking</h3>
+    <h3>Outside-In AI Wealth Intelligence — ${esc(focusName)}</h3>
     <div class="rmeta">Independent outside-in prototype · public-data snapshot · ${data.generatedAt.slice(0, 10)} ·
       ${data.promptCount} prompts × ${data.activeEngineIds.length} connected engine${data.activeEngineIds.length > 1 ? 's' : ''} × ${cfg.brands.length} banks ·
-      no HSBC first-party customer, revenue, deposit or AUM data</div>
+      no selected-bank first-party customer, revenue, deposit or AUM data</div>
 
     <h4>Strategic Hypothesis — The Layer Before the AI-Enabled Wealth Journey</h4>
-    <p><strong>Public strategy context:</strong> HSBC has announced a Global AI Centre of Excellence in Singapore whose initial priorities include enhancing customer conversations across the wealth journey. HSBC is also expanding Singapore wealth capacity. This prototype does not assess those internal capabilities; it examines a complementary outside-in question — what happens when an affluent prospect asks a public AI assistant for banking or investment guidance before entering HSBC-owned channels?</p>
+    <p><strong>Outside-in strategy context:</strong> This prototype does not assess the selected bank's internal AI, customer, adviser or commercial capabilities. It examines a complementary outside-in question — what happens when an affluent prospect asks a public AI assistant for banking or investment guidance before entering ${esc(focusName)}-owned channels?</p>
     <p><strong>Outside-in signal:</strong> Across this ${data.promptCount}-prompt, ${data.activeEngineIds.length}-platform snapshot,
       <strong>${esc(focusName)}</strong> scores <strong>${fmt1(focus.score)}/100</strong> on the prototype AI Search Visibility measure and ranks
       <strong>#${focus.rank} of ${S.length}</strong> within the configured Singapore banking benchmark${
@@ -1357,14 +1396,14 @@ function paintReport() {
         : `${esc(leader.name)} leads this observed benchmark on ${fmt1(leader.score)}.`}
       ${esc(focusName)} appears in ${focus.hits} of ${data.promptCount * data.activeEngineIds.length} recorded answer slots
       (${pct(focus.frequency)}), with ${pct(focus.topTwo)} of those appearances in the first two positions.
-      These figures describe observed AI visibility, not HSBC commercial performance.</p>
+      These figures describe observed AI visibility, not selected-bank commercial performance.</p>
     <p><strong>Strategic question:</strong> Do the observed visibility gaps reflect normal AI-response variance,
-      or do they point to public-content, source-authority and digital-discoverability opportunities that merit validation with HSBC first-party data?</p>
+      or do they point to public-content, source-authority and digital-discoverability opportunities that merit validation with selected-bank first-party data?</p>
 
     <h4>Observed Competitive Benchmark</h4>
     <table><thead><tr><th class="num">#</th><th>Bank</th><th>Set</th>
       <th class="num">Cited</th><th class="num">SOV</th><th class="num">AI Search Visibility</th></tr></thead><tbody>${
-      S.map(r => `<tr class="${r.id === cfg.subject ? 'subject' : ''}">
+      S.map(r => `<tr class="${r.id === focusBankId() ? 'subject' : ''}">
         <td class="num">${r.rank}</td><td>${esc(r.name)}</td><td>${esc(r.tier)}</td>
         <td class="num">${r.hits}</td><td class="num">${pct(r.shareOfVoice)}</td>
         <td class="num"><strong>${fmt1(r.score)}</strong></td></tr>`).join('')
@@ -1385,8 +1424,7 @@ function paintReport() {
     <div style="margin:18px 0 22px;padding:14px 16px;border-left:3px solid #E8112D;background:#F8F9FB">
       <strong>Executive takeaway:</strong>
       The prototype does not attempt to prove that public AI is causing customer or revenue loss.
-      It tests an adjacent strategic question to HSBC's AI-enabled wealth agenda: whether the bank is consistently present
-      in public AI-mediated consideration before prospects enter HSBC-owned journeys, and where first-party validation would be most valuable.
+      It tests whether the selected bank is consistently present in public AI-mediated consideration before prospects enter bank-owned journeys, and where first-party validation would be most valuable.
     </div>
 
     <h4>Strategic Hypotheses to Validate</h4>
@@ -1395,15 +1433,15 @@ function paintReport() {
       <li>${absent.length
         ? `${absent.length} prompt${absent.length > 1 ? 's show' : ' shows'} no ${esc(focusName)} citation on any connected engine: ${absent.map(p => `"${esc(p.q)}"`).join('; ')}.`
         : `${esc(focusName)} is cited on at least one connected engine for every prompt in the set.`}</li>
-      <li><strong>H3 — Authority may not transfer consistently across the affluent journey:</strong> compare where HSBC is visible in advisory or Premier-related prompts with adjacent acquisition, international-wealth and consolidation decisions. The key question is whether public digital authority is concentrated in specific topics rather than carrying across the full decision journey.</li>
+      <li><strong>H3 — Authority may not transfer consistently across the affluent journey:</strong> compare where the selected bank is visible in advisory or Premier-related prompts with adjacent acquisition, international-wealth and consolidation decisions. The key question is whether public digital authority is concentrated in specific topics rather than carrying across the full decision journey.</li>
     </ul>
 
     <h4>What I Would Validate Next</h4>
     <ul>
       <li><strong>Validate the highest-value observed gaps first:</strong> expand the wealth, Premier and international-wealth prompt set to test whether the pattern persists across repeated runs.</li>
-      <li><strong>Diagnose the public-source mechanism:</strong> identify whether competitor advantage is associated with competitor-owned pages, HSBC-owned content not being retrieved, or third-party publishers shaping the answer set.</li>
-      <li><strong>Only then form a content hypothesis:</strong> use the content-analysis layer to test whether eligibility, proposition clarity, comparison-ready facts, structured content or source authority are plausible drivers. Do not prescribe internal HSBC changes from public evidence alone.</li>
-      <li><strong>If working inside HSBC, connect first-party evidence:</strong> compare these outside-in signals with Search Console, web analytics, wealth enquiries, RM appointments, account openings and funded AUM before estimating commercial impact.</li>
+      <li><strong>Diagnose the public-source mechanism:</strong> identify whether competitor advantage is associated with competitor-owned pages, selected-bank-owned content not being retrieved, or third-party publishers shaping the answer set.</li>
+      <li><strong>Only then form a content hypothesis:</strong> use the content-analysis layer to test whether eligibility, proposition clarity, comparison-ready facts, structured content or source authority are plausible drivers. Do not prescribe internal bank changes from public evidence alone.</li>
+      <li><strong>If working inside the selected bank, connect first-party evidence:</strong> compare these outside-in signals with Search Console, web analytics, wealth enquiries, RM appointments, account openings and funded AUM before estimating commercial impact.</li>
     </ul>
 
     <h4>How I Would Extend This Inside an AI Centre of Excellence</h4>
@@ -1416,7 +1454,7 @@ function paintReport() {
     </ul>
 
     <div class="foot">
-      <strong>Boundary:</strong> Independent outside-in prototype, not affiliated with or commissioned by HSBC. Findings are based on public AI observations and public cited sources only. No HSBC first-party customer, conversion, revenue, deposit or AUM data is used. Signals are hypotheses for validation, not statements of internal commercial performance.<br>
+      <strong>Boundary:</strong> Independent outside-in prototype, not affiliated with or commissioned by any bank. Findings are based on public AI observations and public cited sources only. No selected-bank first-party customer, conversion, revenue, deposit or AUM data is used. Signals are hypotheses for validation, not statements of internal commercial performance.<br>
       Method: AI Search Visibility Score = ${pct(WEIGHTS.frequency)} citation frequency + ${pct(WEIGHTS.prominence)} answer prominence
       + ${pct(WEIGHTS.shareOfVoice)} normalised share of voice + ${pct(WEIGHTS.topTwo)} top-two recommendation rate.
       Brand citations are extracted from observed AI answers.<br>
