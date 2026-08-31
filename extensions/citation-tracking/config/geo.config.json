@@ -1,4 +1,4 @@
- {
+{
   "subject": "hsbc",
   "market": "Singapore",
   "title": "AI Search Visibility & Commercial Intelligence — Singapore Banking",
@@ -8,6 +8,7 @@
       "id": "hsbc",
       "name": "HSBC Singapore",
       "tier": "international",
+      "segment": "universal-wealth",
       "colour": "#E8112D",
       "pattern": "\\bHSBC\\b"
     },
@@ -15,6 +16,7 @@
       "id": "dbs",
       "name": "DBS",
       "tier": "local",
+      "segment": "universal-wealth",
       "colour": "#D1443C",
       "pattern": "\\bDBS\\b|\\bPOSB\\b"
     },
@@ -22,13 +24,23 @@
       "id": "ocbc",
       "name": "OCBC",
       "tier": "local",
+      "segment": "universal-wealth",
       "colour": "#C9722F",
       "pattern": "\\bOCBC\\b|Oversea-Chinese Banking"
+    },
+    {
+      "id": "bos",
+      "name": "Bank of Singapore",
+      "tier": "local",
+      "segment": "private-wealth",
+      "colour": "#9B7A52",
+      "pattern": "\\bBank of Singapore\\b"
     },
     {
       "id": "uob",
       "name": "UOB",
       "tier": "local",
+      "segment": "universal-wealth",
       "colour": "#3F7FC1",
       "pattern": "\\bUOB\\b|United Overseas Bank"
     },
@@ -36,6 +48,7 @@
       "id": "scb",
       "name": "Standard Chartered",
       "tier": "international",
+      "segment": "universal-wealth",
       "colour": "#2E9E8F",
       "pattern": "Standard\\s*Chartered|\\bStanChart\\b"
     },
@@ -43,6 +56,7 @@
       "id": "citi",
       "name": "Citibank Singapore",
       "tier": "international",
+      "segment": "universal-wealth",
       "colour": "#4B6FC4",
       "pattern": "\\bCiti(?:bank|group)?\\b"
     },
@@ -50,6 +64,7 @@
       "id": "maybank",
       "name": "Maybank Singapore",
       "tier": "international",
+      "segment": "universal",
       "colour": "#B0912F",
       "pattern": "\\bMaybank\\b"
     },
@@ -57,6 +72,7 @@
       "id": "boc",
       "name": "Bank of China Singapore",
       "tier": "international",
+      "segment": "universal",
       "colour": "#8A5FA8",
       "pattern": "Bank of China|\\bBOC\\b"
     },
@@ -64,65 +80,76 @@
       "id": "cimb",
       "name": "CIMB Singapore",
       "tier": "international",
+      "segment": "universal",
       "colour": "#5F8A6A",
       "pattern": "\\bCIMB\\b"
     }
   ],
 
- "prompts": [
-  {
-    "id": "p01",
-    "intent": "Wealth Acquisition · acquire",
-    "q": "best bank in Singapore for someone with S$500k to S$1m to invest"
-  },
-  {
-    "id": "p02",
-    "intent": "Premier Banking · qualify",
-    "q": "best premier or priority banking in Singapore for affluent customers"
-  },
-  {
-    "id": "p03",
-    "intent": "Premier Banking · compare",
-    "q": "HSBC Premier vs DBS Treasures vs UOB Privilege Banking, which is better"
-  },
-  {
-    "id": "p04",
-    "intent": "Investment Advisory · invest",
-    "q": "best Singapore bank for investing S$500k across funds, bonds and other investments"
-  },
-  {
-    "id": "p05",
-    "intent": "International Wealth · internationalise",
-    "q": "best bank in Singapore for wealthy customers with assets and banking needs across Singapore and the UK"
-  },
-  {
-    "id": "p06",
-    "intent": "Wealth Consolidation · consolidate",
-    "q": "which Singapore bank should I use to consolidate my banking and investments if I have S$1m in investable assets"
-  },
-  {
-    "id": "p07",
-    "intent": "General Banking · expat",
-    "q": "best bank in Singapore for expats"
-  },
-  {
-    "id": "p08",
-    "intent": "General Banking · multi-currency",
-    "q": "which bank has the best multi-currency account in Singapore"
-  },
-  {
-    "id": "p09",
-    "intent": "General Banking · travel cards",
-    "q": "best credit card for travel in Singapore"
-  },
-  {
-    "id": "p10",
-    "intent": "General Banking · international transfers",
-    "q": "cheapest way to send money overseas from a Singapore bank"
-  }
-],
+  "prompts": [
+    {
+      "id": "p01",
+      "segment": "wealth",
+      "intent": "Wealth Acquisition · acquire",
+      "q": "best bank in Singapore for someone with S$500k to S$1m to invest"
+    },
+    {
+      "id": "p02",
+      "segment": "wealth",
+      "intent": "Premier Banking · qualify",
+      "q": "best premier or priority banking in Singapore for affluent customers"
+    },
+    {
+      "id": "p03",
+      "segment": "wealth",
+      "intent": "Premier Banking · compare",
+      "q": "HSBC Premier vs DBS Treasures vs UOB Privilege Banking vs OCBC Premier Banking, which is better for an affluent customer in Singapore"
+    },
+    {
+      "id": "p04",
+      "segment": "wealth",
+      "intent": "Investment Advisory · invest",
+      "q": "best Singapore bank for investing S$500k across funds, bonds and other investments"
+    },
+    {
+      "id": "p05",
+      "segment": "wealth",
+      "intent": "International Wealth · internationalise",
+      "q": "best bank in Singapore for wealthy customers with assets and banking needs across Singapore and the UK"
+    },
+    {
+      "id": "p06",
+      "segment": "wealth",
+      "intent": "Wealth Consolidation · consolidate",
+      "q": "which Singapore bank should I use to consolidate my banking and investments if I have S$1m in investable assets"
+    },
+    {
+      "id": "p07",
+      "segment": "private-wealth",
+      "intent": "Private Banking · compare",
+      "q": "best private bank in Singapore for a high-net-worth investor comparing HSBC Global Private Banking, DBS Private Bank, Bank of Singapore and UOB Private Bank"
+    },
+    {
+      "id": "p08",
+      "segment": "general-banking",
+      "intent": "General Banking · expat",
+      "q": "best bank in Singapore for expats"
+    },
+    {
+      "id": "p09",
+      "segment": "general-banking",
+      "intent": "General Banking · multi-currency",
+      "q": "which bank has the best multi-currency account in Singapore"
+    },
+    {
+      "id": "p10",
+      "segment": "general-banking",
+      "intent": "General Banking · international transfers",
+      "q": "cheapest way to send money overseas from a Singapore bank"
+    }
+  ],
 
-  "instruction": "Answer as you normally would for someone based in Singapore. Name specific banks and, where relevant, specific named products or banking propositions. Give a clear recommendation or comparison where appropriate. Do not favour HSBC or any other bank simply because it appears in the question. Base the answer on the user's stated need and available evidence. Keep the answer factual, concise and under 200 words.",
+  "instruction": "Answer as you normally would for someone based in Singapore. Name specific banks and, where relevant, specific named products, premier banking propositions, wealth-management services or private-banking propositions. Give a clear recommendation or comparison where appropriate. Consider all relevant Singapore banks rather than limiting the answer to banks named in the question. Do not favour HSBC or any other bank simply because it appears in the question. Base the answer on the user's stated need and available public evidence. Keep the answer factual, concise and under 200 words.",
 
   "engines": [
     {
