@@ -481,5 +481,40 @@
    "cimb": 1,
    "boc": 0
   }
+ },
+ {
+  "date": "2026-09-21",
+  "engines": [
+   "claude",
+   "chatgpt"
+  ],
+  "grounded": [
+   "claude",
+   "chatgpt"
+  ],
+  "scores": {
+   "dbs": 91.68,
+   "ocbc": 73.37,
+   "uob": 55.59,
+   "hsbc": 55.45,
+   "bos": 51.92,
+   "scb": 49.94,
+   "citi": 27.48,
+   "maybank": 13.61,
+   "boc": 0,
+   "cimb": 0
+  },
+  "hits": {
+   "dbs": 19,
+   "ocbc": 17,
+   "uob": 14,
+   "hsbc": 13,
+   "bos": 9,
+   "scb": 11,
+   "citi": 6,
+   "maybank": 2,
+   "boc": 0,
+   "cimb": 0
+  }
  }
 ]
